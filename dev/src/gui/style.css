@@ -1,0 +1,128 @@
+@import url("../../res/icons/icomoon-v1.0/style.css");
+
+:root {
+    --NEON-BLUE-BASE: 38 217 225;
+
+    --BACKGROUND: rgb(4, 6, 13);
+    --NEON-BLUE: rgb(var(--NEON-BLUE-BASE));
+    --NEON-ORANGE: rgb(233 126 32);
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.Maximize {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.GUI {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 74% 24%;
+    justify-content: space-evenly;
+    align-items: center;
+
+    overflow: hidden;
+
+    color: var(--NEON-BLUE);
+    font-variant: small-caps;
+    text-transform: capitalize;
+    font-size: 100%;
+    font-family: Verdana, sans-serif;
+
+    background-color: var(--BACKGROUND);
+}
+
+.Visualization, .Evaluation {
+    height: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    align-content: space-evenly;
+}
+.Visualization {
+    grid-auto-rows: 88% 8%;
+}
+.Evaluation {
+    grid-auto-rows: 8% 88%;
+}
+
+.Sci-Fi-Border {
+    background-clip: padding-box;
+    outline-offset: -5px;
+    outline: rgba(38, 217, 225, 0.3) solid 1px;
+    background-color: transparent;
+    border-inline-start: 5px solid;
+    border-block-start: 5px solid;
+    border-inline-end: 5px solid;
+    border-block-end: 5px solid;
+    border-image-slice: 1;
+
+    filter: drop-shadow(rgba(38, 217, 255, 0.5) 0px 0px 3px);
+    /* backdrop-filter: blur(5px); */
+}
+.Visualization .Sci-Fi-Border {
+    border-image-source: linear-gradient(165deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
+}
+.Evaluation .Sci-Fi-Border {
+    border-image-source: linear-gradient(130deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
+}
+
+.Visualization .Controls,
+.Evaluation .Menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: default;
+}
+
+button.Icon {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    font-size: 2rem;
+    color: var(--NEON-BLUE);
+    cursor: pointer;
+}
+button.Icon.Active {
+    color: var(--NEON-ORANGE);
+}
+button.Icon:hover {
+    color: var(--NEON-ORANGE);
+}
+
+.Icon.Play {
+    font-size: 2.4rem;
+}
+.Icon.Fullscreen {
+    font-size: 1.5rem;
+}
+
+.Controls span {
+    font-size: 1.5rem;
+    text-transform: lowercase;
+}
+.Controls .SpeedFactor::before {
+    content: "x";
+}
+
+/* TODO must be veritcal scrollable, NOT horizontal */
+.PanelGroup {
+    position: relative;
+}
+.Panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+}
+.Panel.Active {
+    display: block;
+}

@@ -1,0 +1,222 @@
+<html><head>
+    <style>
+      
+      :root {
+        --NEON-BLUE-BASE: 38 217 225; 
+        --BACKGROUND: rgb(4, 6, 13);
+        --NEON-BLUE: rgb(var(--NEON-BLUE-BASE));
+        --NEON-ORANGE: rgb(233 126 32);
+      }
+      
+      body {
+        overflow: hidden;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      
+      .Maximize {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      
+      .Background {
+        background-image: url();
+      }
+    
+      .Main {
+        overflow: hidden;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 70% 20%;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: var(--BACKGROUND);
+        color: var(--NEON-BLUE);
+        font-variant: small-caps;
+        text-transform: capitalize;
+        font-size: 100%;
+        font-family: Verdana, sans-serif;
+      }
+
+      .Left, .Right {
+        height: 100%;
+        display: grid;
+        grid-auto-flow: row;
+        align-content: space-evenly;
+      }
+      .Left {
+        grid-auto-rows: 85% 5%;
+      }
+      .Right {
+        grid-auto-rows: 10% 80%;
+      }
+
+      .Sci-Fi-Border {
+        background-clip: padding-box;
+        outline-offset: -5px;
+        outline: rgba(38, 217, 225, 0.3) solid 1px;
+        background-color: transparent;
+        border-inline-start: 5px solid;
+        border-block-start: 5px solid;
+        border-inline-end: 5px solid;
+        border-block-end: 5px solid;
+        border-image-slice: 1;
+        /*filter: drop-shadow(rgba(38, 217, 255, 0.5) 0px 0px 3px);*/
+        backdrop-filter: blur(5px);
+      }
+      .Left .Sci-Fi-Border {
+        border-image-source: linear-gradient(165deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
+      }
+      .Right .Sci-Fi-Border {
+        border-image-source: linear-gradient(130deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
+      }
+      
+      .Simulation {
+        position: relative;
+      }
+      .Simulation canvas {
+        background-color: transparent; /* necessary? */
+      }
+      
+      .Controls, .TabsHeader, .SliderBox {
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+      
+      .Controls {
+        justify-content: flex-start;
+        gap: 2rem;
+        padding-left: 2rem;
+      }
+      
+      .Text {
+        margin: 0;
+        font-size: 1.5rem;
+        text-shadow: 0 0 1px var(--NEON-BLUE);
+        cursor: default;
+      }
+      
+      .SliderBox {
+        gap: 1rem;
+      }
+      
+      .Slider {
+        outline: none;
+        -moz-appearance: none;
+        height: 23px;
+        background-color: transparent;
+        border: none;
+      }
+      .Slider::-moz-range-track {
+        height: 1px;
+        background-color: var(--NEON-BLUE);
+      }
+      .Slider::-moz-range-progress {
+        background-color: var(--NEON-ORANGE);
+        height: 1px;
+      }
+      .Slider::-moz-range-thumb {
+        height: 20px;
+        width: 20px;
+        border-radius: 0;
+        outline: var(--NEON-BLUE) solid 1px;
+        background-color: var(--BACKGROUND);
+        border: none;
+        cursor: pointer;
+      }
+      .Slider::-moz-range-thumb:hover {
+        outline-width: 2px;
+        background-color: var(--NEON-BLUE);
+      }
+      
+      .Tab, .Tab .Inner {
+        clip-path: polygon(0px 0px, calc(100% - 12px) 0%, 100% calc(0% + 12px), 100% 100%, calc(0% + 12px) 100%, 0% calc(100% - 12px));
+      }
+      .Tab {
+        cursor: pointer;
+        width: 9vw;
+        font-size: 1.5em;
+        opacity: 0.5;
+        background-color: var(--NEON-BLUE);
+        display: grid;
+        place-content: center;
+        height: 4vh;
+      }
+      .Tab.Active {
+        opacity: 1;
+        cursor: default;
+      }
+      .Tab:not(.Active):hover {
+        opacity: 1;
+      }
+      .Tab .Inner {
+        height: calc(4vh - 6px);
+        width: calc(8vw - 6px);
+        background-color: var(--BACKGROUND);
+        text-align: center;
+      }
+      .Tab.Active .Inner {
+        background-color: var(--NEON-BLUE);
+        color: var(--BACKGROUND);
+      }
+      .Right .Tab {
+        font-weight: bold;
+        width: 7vw;
+        height: 5vh;
+      }
+      .Right .Tab .Inner {
+        width: calc(7vw - 6px);
+        height: calc(5vh - 6px);
+        line-height: 4vh;
+      }
+      
+    </style>
+  </head>
+  <body>body&gt;
+    <div class="Background Maximize"></div>
+    <div class="Main Maximize">
+      <div class="Left">
+        <div class="Simulation Sci-Fi-Border">
+          <canvas class="Maximize"></canvas>
+        </div>
+        
+      <div class="Controls Sci-Fi-Border">
+  <div class="Tab">
+    <div class="Inner">Start</div>
+  </div>
+  <div class="Text">29:34</div>
+  <div class="Tab">
+    <div class="Inner">Slow Down</div>
+  </div>
+  <div class="Tab">
+    <div class="Inner">Speed up</div>
+  </div>
+  <div class="Text">4x</div>
+  <div class="Tab">
+    <div class="Inner">Finish</div>
+  </div>
+</div></div>
+      <div class="Right">
+        <div class="TabsHeader Sci-Fi-Border">
+  <div class="Tab Active">
+    <div class="Inner">Options</div>
+  </div>
+  <div class="Tab">
+    <div class="Inner">Charts</div>
+  </div>
+</div>
+        <div class="TabsBody Sci-Fi-Border">
+          <div class="Options"><div class="Option"></div></div>
+          <div class="Charts"></div>
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>

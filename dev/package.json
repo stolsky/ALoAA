@@ -1,0 +1,23 @@
+{
+  "name": "aloaa",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^12.1.0",
+    "eslint": "^8.30.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-security": "^1.5.0"
+  },
+  "dependencies": {
+    "@pixi/math-extras": "^7.0.5",
+    "d3": "^7.7.0",
+    "pixi.js": "^7.0.5"
+  }
+}
