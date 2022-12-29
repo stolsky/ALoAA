@@ -1,41 +1,12 @@
-import { getRendererContainer, updateOutputTimePassed } from "./gui/components.js";
+import Simulation from "./simulation/Simulation.js";
+
+import { updateOutputTimePassed } from "./gui/components.js";
 import * as Renderer from "./pixi-adapter/renderer.js";
-import Resource from "./simulation/core/Resource.js";
-import Value from "./simulation/core/Value.js";
-import Simulation from "./simulation/simulation.js";
-import { random } from "./utilities/random.js";
+import updateBarChart from "./charts/bar.js";
+
+import "./setup.js";
 
 // https://jsdoc.app/
-
-const world = Simulation.getWorldAttributes();
-Renderer.createRenderer(getRendererContainer());
-
-const maxNumberOfMaterial = 100;
-// TODO calculate presentational size from mass: for start use: sqrt(x) * 4
-// research: https://www.desmos.com/calculator
-const resourceStartMass = 20;
-for (let i = 0; i < maxNumberOfMaterial; i = i + 1) {
-    const resource = new Resource({
-        x: random(resourceStartMass, world.width - resourceStartMass),
-        y: random(resourceStartMass, world.height - resourceStartMass),
-        type: Resource.Type.ANORGANIC,
-        mass: new Value({ min: 0, now: resourceStartMass, max: 100 })
-    });
-    Simulation.addResource(resource);
-    Renderer.addElement(resource);
-}
-
-// TODO add agents
-
-// TODO call initial render
-
-// TODO call chart to display amount of resources (per type) and agents
-
-// TODO mouse functionality
-// research: https://pixijs.io/examples/#/demos-advanced/star-warp.js
-
-// TODO add movement
-// research: https://pixijs.io/examples/#/demos-advanced/collision-detection.js
 
 const updateTimer = (deltaTime) => {
     let time = Simulation.timePassed;
@@ -44,14 +15,36 @@ const updateTimer = (deltaTime) => {
     updateOutputTimePassed(time);
 };
 
-const updateResources = (deltaTime) => {
+const updateEntities = (entities) => {
+    entities.forEach((entity) => {
+        entity.update();
+    });
+};
 
+const renderEntities = (entities) => {
+    entities.forEach((entity) => {
+        entity.render();
+    });
+};
+
+const updateCharts = () => {
+    updateBarChart();
 };
 
 Renderer.loop((deltaTime) => {
 
     updateTimer(deltaTime);
 
-    updateResources(deltaTime);
+    const resources = Simulation.getResources();
+    const agents = Simulation.getAgents();
+
+    for (let i = 0; i < Simulation.speedFactor; i = i + 1) {
+        updateEntities(resources);
+        updateEntities(agents);
+    }
+
+    renderEntities(resources);
+    renderEntities(agents);
+    updateCharts();
 
 });

@@ -4,9 +4,8 @@ import {
     xoshiro128ss
 } from "../../src/utilities/prng.js";
 
-import {
+import random, {
     gauss,
-    random,
     setSeed
 } from "../../src/utilities/random.js";
 

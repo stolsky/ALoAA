@@ -42,6 +42,8 @@ const Value = class {
         this.#now = Value.MAX;
         this.#max = Value.MAX;
 
+        Object.seal(this);
+
         this.minimum = min;
         this.maximum = max;
         this.current = now;

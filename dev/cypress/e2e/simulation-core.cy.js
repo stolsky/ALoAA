@@ -46,6 +46,42 @@ describe("Test Value class", () => {
             expect(value.current).to.equal(Value.MAX);
             expect(value.maximum).to.equal(Value.MAX);
         });
+
+        it("Attributes from omitted parameters should be filled with corresponding default values", () => {
+            const min = 0;
+            const now = 20;
+            const max = 100;
+
+            const value1 = new Value({ min, now });
+            expect(value1.minimum).to.equal(min);
+            expect(value1.current).to.equal(now);
+            expect(value1.maximum).to.equal(Value.MAX);
+
+            const value2 = new Value({ now, max });
+            expect(value2.minimum).to.equal(Value.MIN);
+            expect(value2.current).to.equal(now);
+            expect(value2.maximum).to.equal(max);
+
+            const value3 = new Value({ min, max });
+            expect(value3.minimum).to.equal(min);
+            expect(value3.current).to.equal(max);
+            expect(value3.maximum).to.equal(max);
+
+            const value4 = new Value({ min });
+            expect(value4.minimum).to.equal(min);
+            expect(value4.current).to.equal(Value.MAX);
+            expect(value4.maximum).to.equal(Value.MAX);
+
+            const value5 = new Value({ now });
+            expect(value5.minimum).to.equal(Value.MIN);
+            expect(value5.current).to.equal(now);
+            expect(value5.maximum).to.equal(Value.MAX);
+
+            const value6 = new Value({ max });
+            expect(value6.minimum).to.equal(Value.MIN);
+            expect(value6.current).to.equal(max);
+            expect(value6.maximum).to.equal(max);
+        });
     });
 
     describe("Setting the attributes after instantiation", () => {
@@ -116,15 +152,15 @@ describe("Test Behaviour class", () => {
         const description = "How many seconds the agents has already survived.";
         const behaviour = new Behaviour({ id, type, name, description });
 
-        expect(behaviour).to.have.property("getId");
-        expect(behaviour).to.have.property("getType");
-        expect(behaviour).to.have.property("getName");
-        expect(behaviour).to.have.property("getDescription");
+        expect(behaviour).to.have.property("id");
+        expect(behaviour).to.have.property("type");
+        expect(behaviour).to.have.property("name");
+        expect(behaviour).to.have.property("description");
 
-        expect(behaviour.getId()).to.equal(id);
-        expect(behaviour.getType()).to.equal(type);
-        expect(behaviour.getName()).to.equal(name);
-        expect(behaviour.getDescription()).to.equal(description);
+        expect(behaviour.id).to.equal(id);
+        expect(behaviour.type).to.equal(type);
+        expect(behaviour.name).to.equal(name);
+        expect(behaviour.description).to.equal(description);
     });
 
     it("Parameter \"id\" is required. If omitted an error is thrown", () => {
@@ -142,39 +178,37 @@ describe("Test Trait class", () => {
             const name = "Speed";
             const description = "How fast an agent can move";
             const value = { min: 0, now: 20, max: 100 };
-            const base = 50;
 
-            const trait = new Trait({ id, name, description, value, base });
+            const trait = new Trait({ id, name, description, value });
 
-            expect(trait).to.have.property("getId");
-            expect(trait).to.have.property("getType");
-            expect(trait).to.have.property("getName");
-            expect(trait).to.have.property("getDescription");
+            expect(trait).to.have.property("id");
+            expect(trait).to.have.property("type");
+            expect(trait).to.have.property("name");
+            expect(trait).to.have.property("description");
             expect(trait).to.have.property("getValue");
 
-            expect(trait.getId()).to.equal(id);
-            expect(trait.getType()).to.equal(Behaviour.Type.TRAIT);
-            expect(trait.getName()).to.equal(name);
-            expect(trait.getDescription()).to.equal(description);
+            expect(trait.id).to.equal(id);
+            expect(trait.type).to.equal(Behaviour.Type.TRAIT);
+            expect(trait.name).to.equal(name);
+            expect(trait.description).to.equal(description);
 
-            expect(trait.getValue()).to.equal(value.now * base);
+            expect(trait.getValue()).to.equal(value.now);
         });
 
         it("With without parameters (except for id)", () => {
             const id = "speed";
             const trait = new Trait({ id });
 
-            expect(trait).to.have.property("getId");
-            expect(trait).to.have.property("getType");
-            expect(trait).to.have.property("getName");
-            expect(trait).to.have.property("getDescription");
+            expect(trait).to.have.property("id");
+            expect(trait).to.have.property("type");
+            expect(trait).to.have.property("name");
+            expect(trait).to.have.property("description");
             expect(trait).to.have.property("getValue");
 
-            expect(trait.getId()).to.equal(id);
-            expect(trait.getType()).to.equal(Behaviour.Type.TRAIT);
-            expect(trait.getName()).to.equal("");
-            expect(trait.getDescription()).to.equal("");
-
+            expect(trait.id).to.equal(id);
+            expect(trait.type).to.equal(Behaviour.Type.TRAIT);
+            expect(trait.name).to.equal("");
+            expect(trait.description).to.equal("");
             expect(trait.getValue()).to.equal(Value.MAX * Trait.BASE_DEFAULT);
         });
 
@@ -187,16 +221,16 @@ describe("Test Trait class", () => {
 
             const trait = new Trait({ id, name, description, value, base });
 
-            expect(trait).to.have.property("getId");
-            expect(trait).to.have.property("getType");
-            expect(trait).to.have.property("getName");
-            expect(trait).to.have.property("getDescription");
+            expect(trait).to.have.property("id");
+            expect(trait).to.have.property("type");
+            expect(trait).to.have.property("name");
+            expect(trait).to.have.property("description");
             expect(trait).to.have.property("getValue");
 
-            expect(trait.getId()).to.equal(id);
-            expect(trait.getType()).to.equal(Behaviour.Type.TRAIT);
-            expect(trait.getName()).to.equal("");
-            expect(trait.getDescription()).to.equal("");
+            expect(trait.id).to.equal(id);
+            expect(trait.type).to.equal(Behaviour.Type.TRAIT);
+            expect(trait.name).to.equal("");
+            expect(trait.description).to.equal("");
 
             expect(trait.getValue()).to.equal(Value.MAX * Trait.BASE_DEFAULT);
         });
@@ -217,19 +251,18 @@ describe("Test Bar class", () => {
 
             const bar = new Bar({ id, name, description, value, rate });
 
-            expect(bar).to.have.property("getId");
-            expect(bar).to.have.property("getType");
-            expect(bar).to.have.property("getName");
-            expect(bar).to.have.property("getDescription");
+            expect(bar).to.have.property("id");
+            expect(bar).to.have.property("type");
+            expect(bar).to.have.property("name");
+            expect(bar).to.have.property("description");
             expect(bar).to.have.property("getValue");
             expect(bar).to.have.property("increase");
             expect(bar).to.have.property("decrease");
 
-            expect(bar.getId()).to.equal(id);
-            expect(bar.getType()).to.equal(Behaviour.Type.BAR);
-            expect(bar.getName()).to.equal(name);
-            expect(bar.getDescription()).to.equal(description);
-
+            expect(bar.id).to.equal(id);
+            expect(bar.type).to.equal(Behaviour.Type.BAR);
+            expect(bar.name).to.equal(name);
+            expect(bar.description).to.equal(description);
             expect(bar.getValue()).to.equal(value.now);
         });
 
@@ -237,19 +270,18 @@ describe("Test Bar class", () => {
             const id = "age";
             const bar = new Bar({ id });
 
-            expect(bar).to.have.property("getId");
-            expect(bar).to.have.property("getType");
-            expect(bar).to.have.property("getName");
-            expect(bar).to.have.property("getDescription");
+            expect(bar).to.have.property("id");
+            expect(bar).to.have.property("type");
+            expect(bar).to.have.property("name");
+            expect(bar).to.have.property("description");
             expect(bar).to.have.property("getValue");
             expect(bar).to.have.property("increase");
             expect(bar).to.have.property("decrease");
 
-            expect(bar.getId()).to.equal(id);
-            expect(bar.getType()).to.equal(Behaviour.Type.BAR);
-            expect(bar.getName()).to.equal("");
-            expect(bar.getDescription()).to.equal("");
-
+            expect(bar.id).to.equal(id);
+            expect(bar.type).to.equal(Behaviour.Type.BAR);
+            expect(bar.name).to.equal("");
+            expect(bar.description).to.equal("");
             expect(bar.getValue()).to.equal(Value.MAX);
         });
 
@@ -262,19 +294,18 @@ describe("Test Bar class", () => {
 
             const bar = new Bar({ id, name, description, value, rate });
 
-            expect(bar).to.have.property("getId");
-            expect(bar).to.have.property("getType");
-            expect(bar).to.have.property("getName");
-            expect(bar).to.have.property("getDescription");
+            expect(bar).to.have.property("id");
+            expect(bar).to.have.property("type");
+            expect(bar).to.have.property("name");
+            expect(bar).to.have.property("description");
             expect(bar).to.have.property("getValue");
             expect(bar).to.have.property("increase");
             expect(bar).to.have.property("decrease");
 
-            expect(bar.getId()).to.equal(id);
-            expect(bar.getType()).to.equal(Behaviour.Type.BAR);
-            expect(bar.getName()).to.equal("");
-            expect(bar.getDescription()).to.equal("");
-
+            expect(bar.id).to.equal(id);
+            expect(bar.type).to.equal(Behaviour.Type.BAR);
+            expect(bar.name).to.equal("");
+            expect(bar.description).to.equal("");
             expect(bar.getValue()).to.equal(Value.MAX);
         });
 

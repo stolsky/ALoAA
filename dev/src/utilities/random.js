@@ -93,6 +93,5 @@ setSeed();
 export default random;
 export {
     gauss,
-    random,
     setSeed
 };

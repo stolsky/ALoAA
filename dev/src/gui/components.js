@@ -1,7 +1,7 @@
 import { create } from "./utilities.js";
 import { play as runLoop, pause as stopLoop } from "../pixi-adapter/renderer.js";
-import Simulation from "../simulation/simulation.js";
-import Configuration from "../simulation/configuration.js";
+import Simulation from "../simulation/Simulation.js";
+import Configuration from "../simulation/Configuration.js";
 import { formatTime } from "../utilities/math.js";
 
 const renderer = create("div", "Renderer Sci-Fi-Border");
@@ -34,13 +34,13 @@ buttonPause.addEventListener("click", () => {
 
 buttonFastForward.addEventListener("click", () => {
     // TODO combine speed setting methods
-    const speed = Simulation.speedFactor * Configuration.speedMultiplier;
+    const speed = Simulation.speedFactor * Configuration.speedMultiplier.current;
     Simulation.speedFactor = speed;
     outputSpeedFactor.textContent = speed;
 });
 
 buttonSlowDown.addEventListener("click", () => {
-    const speed = Simulation.speedFactor / Configuration.speedMultiplier;
+    const speed = Simulation.speedFactor / Configuration.speedMultiplier.current;
     Simulation.speedFactor = speed;
     outputSpeedFactor.textContent = speed;
 });
@@ -96,6 +96,8 @@ gui.append(
 
 document.body.appendChild(gui);
 
+const getChartsPanel = () => chartsPanel;
+
 const getRendererContainer = () => renderer;
 
 const updateOutputTimePassed = () => {
@@ -105,6 +107,7 @@ const updateOutputTimePassed = () => {
 };
 
 export {
+    getChartsPanel,
     getRendererContainer,
     updateOutputTimePassed
 };

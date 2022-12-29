@@ -1,11 +1,12 @@
-import Configuration from "./configuration.js";
+import Configuration from "./Configuration.js";
 import Resource from "./core/Resource.js";
+import Agent from "./core/Agent.js";
 
 const Simulation = new (class {
 
     #World = {
-        width: 1024,
-        height: 768
+        width: 1001, // 1024,
+        height: 591 // 768
     };
 
     #timePassed = 0;
@@ -34,7 +35,7 @@ const Simulation = new (class {
 
     set speedFactor(value) {
         if (Number.isFinite(value)) {
-            if (value < Configuration.speedMultiplierMax && value > Configuration.speedMultiplierMin) {
+            if (value < Configuration.speedMultiplier.maximum && value > Configuration.speedMultiplier.minimum) {
                 this.#speedFactor = value;
             }
         }
@@ -54,10 +55,16 @@ const Simulation = new (class {
         return this.#World;
     }
 
-    addResource(resource) {
-        if (resource instanceof Resource) {
-            this.#resources.push(resource);
+    addEntity(entity) {
+        if (entity instanceof Resource) {
+            this.#resources.push(entity);
+        } else if (entity instanceof Agent) {
+            this.#agents.push(entity);
         }
+    }
+
+    getAgents() {
+        return this.#agents;
     }
 
     getResources() {
