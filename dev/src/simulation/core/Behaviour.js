@@ -13,14 +13,6 @@ const Behaviour = class {
 
     static Type = createEnum("NONE", "BAR", "TRAIT", "ABILITY");
 
-    #id;
-
-    #type;
-
-    #name;
-
-    #description;
-
     /**
      *
      * @param {{ id: string, type: Behaviour.Type, name: string, description: string }} param0
@@ -28,31 +20,17 @@ const Behaviour = class {
     constructor({ id, type, name, description } = {}) {
 
         if (typeof id === "string" && id.length > 0) {
-            this.#id = id;
+            this.id = id;
         } else {
             throw new Error("Missing parameter. \"id\" is required");
         }
 
-        this.#type = (Behaviour.Type.has(type)) ? type : Behaviour.Type.NONE;
+        this.type = (Behaviour.Type.has(type)) ? type : Behaviour.Type.NONE;
 
-        this.#name = (typeof name === "string" && name.length > 0) ? name : "";
-        this.#description = (typeof name === "string" && description.length > 0) ? description : "";
-    }
+        this.name = (typeof name === "string" && name.length > 0) ? name : "";
+        this.description = (typeof name === "string" && description.length > 0) ? description : "";
 
-    getDescription() {
-        return this.#description;
-    }
-
-    getId() {
-        return this.#id;
-    }
-
-    getName() {
-        return this.#name;
-    }
-
-    getType() {
-        return this.#type;
+        Object.freeze(this);
     }
 
 };

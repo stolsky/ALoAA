@@ -1,6 +1,5 @@
 import Value from "./Value.js";
 import Behaviour from "./Behaviour.js";
-import { round } from "../../utilities/math.js";
 
 const Bar = class extends Behaviour {
 
@@ -24,17 +23,12 @@ const Bar = class extends Behaviour {
 
         this.#value = new Value(value);
         this.#rate = new Value(rate || { min: 0, now: Bar.RATE_DEFAULT, max: Bar.RATE_DEFAULT });
+
+        Object.seal(this);
     }
 
-    /**
-     * Before setting the value, method {@link round} is used to avoid floating point inaccuracies.
-     *
-     * @param {number} newValue
-     */
-    increase(newValue) {
-        if (Number.isFinite(newValue)) {
-            this.#value.current = round(this.#value.current + newValue * this.#rate.current);
-        }
+    increase() {
+        this.#value.current = this.#value.current + this.#rate.current;
     }
 
     /**
@@ -44,15 +38,8 @@ const Bar = class extends Behaviour {
      *
      * @param {number} newValue
      */
-    decrease(newValue) {
-        if (Number.isFinite(newValue)) {
-            let modifier = this.#rate.maximum - this.#rate.current;
-            if (modifier === 0) {
-                modifier = Bar.RATE_DEFAULT;
-            }
-            console.log(newValue, this.#value.current, modifier);
-            this.#value.current = round(this.#value.current - newValue * modifier);
-        }
+    decrease() {
+        this.#value.current = this.#value.current - this.#rate.current;
     }
 
     // TODO mutate value and rate

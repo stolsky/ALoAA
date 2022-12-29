@@ -1,31 +1,44 @@
-import createEnum from "../../utilities/Enum.js";
 import Entity from "./Entity.js";
+import Bar from "./Bar.js";
+import Value from "./Value.js";
 
 const Resource = class extends Entity {
 
-    static Type = createEnum("NONE", "ANORGANIC", "ORGANIC1", "ORGANIC2");
-
-    #type;
+    #decomposition;
 
     /**
      *
-     * @param {{ x: number, y: number, type: Resource.Type, mass: Value}} param0
+     * @param {{ x: number, y: number, type: Resource.Type, mass: Bar}} param0
      */
-    constructor({ x, y, mass, type }) {
-        super({ x, y, type: Entity.Type.RESOURCE, mass });
+    constructor({ x, y, type, mass, decomposition }) {
+        super({ x, y, type, mass });
+        super.calculateColor();
 
-        this.#type = (Resource.Type.has(type)) ? type : Resource.Type.NONE;
+        // decomposition describes the degree of decomposition from the organic to the anorganic state
+        // as soon as it reaches 100, it changes from organic to anorganic
+        this.#decomposition = (decomposition instanceof Bar) ? decomposition : new Bar({
+            id: "Decomposition",
+            value: new Value({ min: 0, now: 0, max: 100 })
+        });
     }
 
-    update(deltaTime) {
+    update() {
+        // TODO add decay method
+    }
+
+    render() {
 
     }
 
     draw(context) {
-        context.lineStyle(2, 0xFEEB77, 1);
-        context.beginFill(0x650A5A);
-        context.drawRect(this.position.x, this.position.y, 50, 50);
+        context.lineStyle(2, this.color, 1);
+        context.beginFill();
+        context.drawRect(this.position.x, this.position.y, this.pixelSize, this.pixelSize);
         context.endFill();
+    }
+
+    getDecompositionDegree() {
+        return this.#decomposition;
     }
 
 };
