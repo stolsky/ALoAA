@@ -1,8 +1,14 @@
 /* globals PIXI */
 
 import Entity from "../simulation/core/Entity.js";
+import addDrag from "./drag.js";
+import addZoom from "./zoom.js";
 
-let app = null;
+let app = new PIXI.Application();
+let follow = null;
+
+// TODO improve information presentation
+const logger = (message) => console.log(message);
 
 /** Convenience method for adding an element to the main scene graph
  *
@@ -12,7 +18,14 @@ const addElement = (element) => {
     if (element instanceof Entity) {
         const graphic = new PIXI.Graphics();
         element.draw(graphic);
-        if (app instanceof PIXI.Application && graphic instanceof PIXI.Graphics) {
+        if (graphic instanceof PIXI.Graphics) {
+            graphic.interactive = true;
+            graphic.cursor = "pointer";
+            graphic.on("pointerdown", () => {
+                // logger(JSON.stringify(element.position));
+                // TODO release dragging -> right mouse click? -> disable default right click menu
+                follow = graphic;
+            });
             app.stage.addChild(graphic);
         }
     }
@@ -21,45 +34,43 @@ const addElement = (element) => {
 // check out https://www.pixijselementals.com/#recipe-scene-manager
 /**
  * @param {HTMLDivElement} parentContainer
- * @param {number} width
- * @param {number} height
+ * @param {number} worldWidth
+ * @param {number} worldHeight
  */
-const createRenderer = (parentContainer, width, height) => {
+const createRenderer = (parentContainer) => {
 
     if (parentContainer instanceof HTMLDivElement) {
-        app = new PIXI.Application({ resizeTo: parentContainer, autoStart: false });
-
-        // resize if width and height are specified else engine uses (parent container size)
-        if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
-            app.stage.width = width;
-            app.stage.height = height;
-        } else {
-            app.stage.width = parentContainer.clientWidth;
-            app.stage.height = parentContainer.clientHeight;
-        }
-
+        app = new PIXI.Application({ resizeTo: parentContainer, autoResize: true, resolution: devicePixelRatio, autoStart: false });
         parentContainer.appendChild(app.view);
+
+        // TODO store drag object and prevent dragging if following
+        addDrag(app);
+        addZoom(app);
     }
 
 };
 
 const loop = (method) => {
     if (app instanceof PIXI.Application && method instanceof Function) {
-        app.ticker.add(() => method(app.ticker.deltaMS));
+        app.ticker.add(() => {
+            method(app.ticker.deltaMS);
+            if (follow) {
+                app.stage.pivot.x = follow.position.x;
+                app.stage.pivot.y = follow.position.y;
+                app.stage.position.x = app.renderer.width / 2;
+                app.stage.position.y = app.renderer.height / 2;
+            }
+        });
     }
 };
 
 const play = () => {
-    if (app instanceof PIXI.Application && !app.ticker.started) {
+    if (!app.ticker.started) {
         app.start();
     }
 };
 
-const pause = () => {
-    if (app instanceof PIXI.Application && app.ticker.started) {
-        app.stop();
-    }
-};
+const pause = () => app.stop();
 
 export {
     addElement,

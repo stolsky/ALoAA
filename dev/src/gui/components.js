@@ -1,4 +1,4 @@
-import { create } from "./utilities.js";
+import { create, selectMenuItem, selectMenuItem as selectPanel } from "./utilities.js";
 import { play as runLoop, pause as stopLoop } from "../pixi-adapter/renderer.js";
 import Simulation from "../simulation/Simulation.js";
 import Configuration from "../simulation/Configuration.js";
@@ -19,31 +19,34 @@ outputSpeedFactor.textContent = Simulation.speedFactor;
 const outputTimePassed = create("span", "TimePassed");
 outputTimePassed.textContent = "00:00:00.00";
 
-const buttonFullscreen = create("button", "Icon Fullscreen icon-enlarge");
+// const buttonFullscreen = create("button", "Icon Fullscreen icon-enlarge");
+// buttonFullscreen.addEventListener("pointerdown", () => {});
 
-buttonPlay.addEventListener("click", () => {
+buttonPlay.addEventListener("pointerdown", () => {
     buttonPlay.style.display = "none";
     buttonPause.style.display = "block";
     runLoop();
 });
-buttonPause.addEventListener("click", () => {
+buttonPause.addEventListener("pointerdown", () => {
     buttonPause.style.display = "none";
     buttonPlay.style.display = "block";
     stopLoop();
 });
 
-buttonFastForward.addEventListener("click", () => {
+buttonFastForward.addEventListener("pointerdown", () => {
     // TODO combine speed setting methods
     const speed = Simulation.speedFactor * Configuration.speedMultiplier.current;
     Simulation.speedFactor = speed;
     outputSpeedFactor.textContent = speed;
 });
 
-buttonSlowDown.addEventListener("click", () => {
+buttonSlowDown.addEventListener("pointerdown", () => {
     const speed = Simulation.speedFactor / Configuration.speedMultiplier.current;
     Simulation.speedFactor = speed;
     outputSpeedFactor.textContent = speed;
 });
+
+const buttonFinish = create("button", "Icon Finish icon-switch");
 
 const controls = create("div", "Controls Sci-Fi-Border");
 controls.append(
@@ -53,7 +56,7 @@ controls.append(
     buttonFastForward,
     outputSpeedFactor,
     outputTimePassed,
-    buttonFullscreen
+    buttonFinish
 );
 
 const visualization = create("div", "Visualization");
@@ -62,24 +65,41 @@ visualization.append(
     controls
 );
 
+const panelCharts = create("div", "Panel Active");
+const panelOptions = create("div", "Panel");
+const panelInformation = create("div", "Panel");
+
 const buttonCharts = create("button", "Icon Active icon-stats-bars");
+buttonCharts.addEventListener("pointerdown", () => {
+    selectMenuItem(buttonCharts);
+    selectPanel(panelCharts);
+});
+
 const buttonOptions = create("button", "Icon icon-equalizer");
-const buttonFinish = create("button", "Icon icon-enter");
+buttonOptions.addEventListener("pointerdown", () => {
+    selectMenuItem(buttonOptions);
+    selectPanel(panelOptions);
+});
+
+// TODO add tests
+const buttonFollow = create("button", "Icon icon-target");
+buttonFollow.addEventListener("pointerdown", () => {
+    selectMenuItem(buttonFollow);
+    selectPanel(panelInformation);
+});
 
 const menu = create("div", "Menu Sci-Fi-Border");
 menu.append(
     buttonCharts,
     buttonOptions,
-    buttonFinish
+    buttonFollow
 );
-
-const chartsPanel = create("div", "Panel Active");
-const optionsPanel = create("div", "Panel");
 
 const panels = create("div", "PanelGroup Sci-Fi-Border");
 panels.append(
-    chartsPanel,
-    optionsPanel
+    panelCharts,
+    panelOptions,
+    panelInformation
 );
 
 const evaluation = create("div", "Evaluation");
@@ -96,7 +116,7 @@ gui.append(
 
 document.body.appendChild(gui);
 
-const getChartsPanel = () => chartsPanel;
+const getChartsPanel = () => panelCharts;
 
 const getRendererContainer = () => renderer;
 

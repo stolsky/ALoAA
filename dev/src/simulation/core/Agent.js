@@ -20,7 +20,7 @@ const Agent = class extends Entity {
         // by default (foodSource is omitted) all agents are autotroph
         // use Trait instead of Bar because the food source changes only during mutation
         this.#foodSource = (foodSource instanceof Trait) ? foodSource : new Trait({
-            id: "FoodSOurce",
+            id: "FoodSource",
             value: new Value({ min: 0, now: 0, max: 100 })
         });
     }

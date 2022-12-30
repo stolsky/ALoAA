@@ -5,8 +5,9 @@ import Agent from "./core/Agent.js";
 const Simulation = new (class {
 
     #World = {
-        width: 1001, // 1024,
-        height: 591 // 768
+        width: 3000,
+        height: 2000,
+        scale: 1
     };
 
     #timePassed = 0;
@@ -53,6 +54,12 @@ const Simulation = new (class {
 
     getWorldAttributes() {
         return this.#World;
+    }
+
+    setWorldScale(scale) {
+        if (Number.isFinite(scale) && scale > 0) {
+            this.#World.scale = scale;
+        }
     }
 
     addEntity(entity) {

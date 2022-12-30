@@ -9,6 +9,20 @@ const create = (tagName, className) => {
     return component;
 };
 
+const activeClassName = "Active";
+const activate = (element) => element.classList.add(activeClassName);
+const deactivate = (element) => element.classList.remove(activeClassName);
+const deactivateSiblings = (element) => {
+    [...element.parentNode.children].filter((child) => child !== element).forEach((sibling) => deactivate(sibling));
+};
+const selectMenuItem = (element) => {
+    if (element instanceof HTMLElement && !element.classList.contains(activeClassName)) {
+        activate(element);
+        deactivateSiblings(element);
+    }
+};
+
 export {
-    create
+    create,
+    selectMenuItem
 };
