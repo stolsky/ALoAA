@@ -46,8 +46,12 @@ const Drag = class {
             this.#container.style.cursor = "grab";
             this.#dragging = true;
         } else {
-            this.#application.stage.position.x = 0;
-            this.#application.stage.position.y = 0;
+            if (this.#offscreenWidth > 0) {
+                this.#application.stage.position.x = (this.#application.renderer.width - this.#application.stage.width) / 2;
+            }
+            if (this.#offscreenHeight > 0) {
+                this.#application.stage.pivot.y = (this.#application.renderer.height - this.#application.stage.height) / 2;
+            }
         }
     };
 

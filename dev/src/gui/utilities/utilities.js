@@ -1,12 +1,23 @@
-const create = (tagName, className) => {
-    let component = null;
-    if (typeof tagName === "string") {
-        component = document.createElement(tagName);
-        if (typeof className === "string") {
-            className.split(" ").forEach((name) => component.classList.add(name));
-        }
+import addTooltip from "./tooltip.js";
+import createElement from "./create.js";
+
+/**
+ *
+ * @param {string} className
+ * @param {Function} action
+ * @param {string} tooltip
+ *
+ * @returns {HTMLButtonElement}
+ */
+const createButton = (className, action, tooltip) => {
+    const button = createElement("button", className);
+    if (action instanceof Function) {
+        button.addEventListener("pointerdown", action);
     }
-    return component;
+    if (typeof tooltip === "string" && tooltip.length > 0) {
+        addTooltip(button, tooltip);
+    }
+    return button;
 };
 
 const activeClassName = "Active";
@@ -23,6 +34,6 @@ const selectMenuItem = (element) => {
 };
 
 export {
-    create,
+    createButton,
     selectMenuItem
 };

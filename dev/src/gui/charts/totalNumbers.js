@@ -1,6 +1,6 @@
 /* globals Chart */
 
-import { create as createElement } from "../utilities.js";
+import createElement from "../utilities/create.js";
 import { hex2rgb } from "../../pixi-adapter/utils.js";
 import Configuration from "../../simulation/Configuration.js";
 import Entity from "../../simulation/core/Entity.js";

@@ -15,8 +15,11 @@ import Motion from "./simulation/abilities/Motion.js";
 import Trait from "./simulation/core/Trait.js";
 import Wander from "./simulation/abilities/Wander.js";
 
-
-// TODO create init modul and loop modul
+// disable right click context menu
+document.addEventListener("contextmenu", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+});
 
 const world = Simulation.getWorldAttributes();
 Renderer.createRenderer(getRendererContainer());

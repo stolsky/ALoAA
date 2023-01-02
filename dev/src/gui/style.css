@@ -41,6 +41,23 @@ body {
     background-color: var(--BACKGROUND);
 }
 
+.Tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: default;
+    background-color: inherit;
+    border: 1px solid var(--NEON-BLUE);
+    padding: 0.1rem 0.2rem;
+}
+.Tooltip.Visible {
+    animation: ShowTooltip 0.5s linear 1s forwards;
+}
+.Tooltip p {
+    margin: 0;
+}
+
 .Visualization, .Evaluation {
     height: 100%;
     display: grid;
@@ -80,6 +97,13 @@ body {
     align-items: center;
     justify-content: space-evenly;
     cursor: default;
+}
+.Visualization .Controls {
+    gap: 2rem;
+    padding: 0 2rem;
+}
+.Visualization .Controls .TimePassed {
+    flex-grow: 1;
 }
 
 button.Icon {
@@ -130,4 +154,9 @@ button.Icon:hover {
 }
 .Panel.Active {
     display: flex;
+}
+
+@keyframes ShowTooltip {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

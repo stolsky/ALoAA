@@ -1,14 +1,15 @@
 /* globals PIXI */
 
+import Agent from "../simulation/core/Agent.js";
 import Entity from "../simulation/core/Entity.js";
 import addDrag from "./drag.js";
 import addZoom from "./zoom.js";
 
 let app = new PIXI.Application();
-let follow = null;
-
-// TODO improve information presentation
-const logger = (message) => console.log(message);
+/**
+ * @type {{ element: Entity, graphic: PIXI.Graphics }}
+ */
+const follow = { element: null, graphic: null };
 
 /** Convenience method for adding an element to the main scene graph
  *
@@ -22,9 +23,16 @@ const addElement = (element) => {
             graphic.interactive = true;
             graphic.cursor = "pointer";
             graphic.on("pointerdown", () => {
-                // logger(JSON.stringify(element.position));
-                // TODO release dragging -> right mouse click? -> disable default right click menu
-                follow = graphic;
+                if (follow.element === element) {
+                    console.log("deselect");
+                    follow.element = null;
+                    follow.graphic = null;
+                } else {
+                    console.log("select");
+                    follow.element = element;
+                    follow.graphic = graphic;
+                    // TODO update info screen
+                }
             });
             app.stage.addChild(graphic);
         }
@@ -54,9 +62,9 @@ const loop = (method) => {
     if (app instanceof PIXI.Application && method instanceof Function) {
         app.ticker.add(() => {
             method(app.ticker.deltaMS);
-            if (follow) {
-                app.stage.pivot.x = follow.position.x;
-                app.stage.pivot.y = follow.position.y;
+            if (follow.element instanceof Agent) {
+                app.stage.pivot.x = follow.graphic.position.x;
+                app.stage.pivot.y = follow.graphic.position.y;
                 app.stage.position.x = app.renderer.width / 2;
                 app.stage.position.y = app.renderer.height / 2;
             }
