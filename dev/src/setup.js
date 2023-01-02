@@ -2,7 +2,7 @@ import Simulation from "./simulation/Simulation.js";
 
 import * as Renderer from "./pixi-adapter/renderer.js";
 import { getChartsPanel, getRendererContainer } from "./gui/components.js";
-import { create as createBarChart } from "./charts/bar.js";
+import { create as createTotalNumbersChart } from "./gui/charts/totalNumbers.js";
 
 import { mapMassToPixel } from "./utilities/math.js";
 import random from "./utilities/random.js";
@@ -15,20 +15,24 @@ import Motion from "./simulation/abilities/Motion.js";
 import Trait from "./simulation/core/Trait.js";
 import Wander from "./simulation/abilities/Wander.js";
 
-
-// TODO create init modul and loop modul
+// disable right click context menu
+document.addEventListener("contextmenu", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
+});
 
 const world = Simulation.getWorldAttributes();
-Renderer.createRenderer(getRendererContainer(), world.width, world.height);
+Renderer.createRenderer(getRendererContainer());
 
 // TODO add to configuration
-const maxNumberOfMaterial = 50;
+const maxNumberOfMaterial = 100;
 const resourceStartMass = 100;
 const resourceMargin = mapMassToPixel(resourceStartMass);
 for (let i = 0; i < maxNumberOfMaterial; i = i + 1) {
     const resource = new Resource({
-        x: random(resourceMargin, world.width - resourceMargin),
-        y: random(resourceMargin, world.height - resourceMargin),
+        // the right padding must be twice as large as the left padding because the shape's translation point is (0, 0).
+        x: random(resourceMargin, world.width - 2 * resourceMargin),
+        y: random(resourceMargin, world.height - 2 * resourceMargin),
         type: Entity.Type.ANORGANIC,
         mass: new Bar({
             id: "mass",
@@ -44,8 +48,9 @@ const agentsStartMass = 50;
 const agentsMargin = mapMassToPixel(agentsStartMass);
 for (let i = 0; i < maxNumberOfAgents; i = i + 1) {
     const agent = new Agent({
-        x: random(agentsMargin, world.width - agentsMargin),
-        y: random(agentsMargin, world.height - agentsMargin),
+        // the bottom padding must be twice as large as the top padding because the shape's translation point is (0, 0).
+        x: random(agentsMargin, world.width - 2 * agentsMargin),
+        y: random(agentsMargin, world.height - 2 * agentsMargin),
         type: Entity.Type.AUTOTROPH,
         mass: new Bar({
             id: "mass",
@@ -62,7 +67,7 @@ for (let i = 0; i < maxNumberOfAgents; i = i + 1) {
     Renderer.addElement(agent);
 }
 
-createBarChart(getChartsPanel());
+createTotalNumbersChart(getChartsPanel());
 
 // TODO call initial render
 

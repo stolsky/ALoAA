@@ -1,7 +1,19 @@
+/** Convenient method to create an html element.
+ *
+ * Note: Only valid html tags are allowed.
+ *
+ * @param {string} tagName
+ * @param {string} className
+ *
+ * @returns {HTMLElement}
+ */
 const create = (tagName, className) => {
     let component = null;
     if (typeof tagName === "string") {
         component = document.createElement(tagName);
+        if (component instanceof HTMLUnknownElement) {
+            return null;
+        }
         if (typeof className === "string") {
             className.split(" ").forEach((name) => component.classList.add(name));
         }
@@ -9,6 +21,4 @@ const create = (tagName, className) => {
     return component;
 };
 
-export {
-    create
-};
+export default create;

@@ -304,7 +304,7 @@ describe("Test methods of math module of the Pixi.js adapter", () => {
 
     });
 
-    describe.only("Test setMagnitude", () => {
+    describe("Test setMagnitude", () => {
 
         it("x != 0, y != 0", () => {
             const point = { x: 5, y: 5 };

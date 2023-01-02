@@ -2,17 +2,15 @@ import Simulation from "./simulation/Simulation.js";
 
 import { updateOutputTimePassed } from "./gui/components.js";
 import * as Renderer from "./pixi-adapter/renderer.js";
-import updateBarChart from "./charts/bar.js";
+import updateTotalNumbers from "./gui/charts/totalNumbers.js";
 
 import "./setup.js";
 
-// https://jsdoc.app/
-
-const updateTimer = (deltaTime) => {
-    let time = Simulation.timePassed;
-    time = time + Simulation.speedFactor * deltaTime;
-    Simulation.timePassed = time;
-    updateOutputTimePassed(time);
+const calculateTime = (deltaTime) => {
+    const adjustedDeltaTime = Simulation.speedFactor * deltaTime;
+    Simulation.timePassed = Simulation.timePassed + adjustedDeltaTime;
+    updateOutputTimePassed(Simulation.timePassed);
+    return adjustedDeltaTime;
 };
 
 const updateEntities = (entities) => {
@@ -27,24 +25,33 @@ const renderEntities = (entities) => {
     });
 };
 
-const updateCharts = () => {
-    updateBarChart();
+const updateCharts = (adjustedDeltaTime) => {
+    updateTotalNumbers(adjustedDeltaTime);
 };
 
+let slowDownCounter = 0;
 Renderer.loop((deltaTime) => {
 
-    updateTimer(deltaTime);
+    const speed = Simulation.speedFactor;
 
-    const resources = Simulation.getResources();
-    const agents = Simulation.getAgents();
+    if (speed < 1 && slowDownCounter < 1 / speed) {
+        slowDownCounter = slowDownCounter + 1;
+    } else {
+        const adjustedDeltaTime = calculateTime(deltaTime);
 
-    for (let i = 0; i < Simulation.speedFactor; i = i + 1) {
-        updateEntities(resources);
-        updateEntities(agents);
+        const resources = Simulation.getResources();
+        const agents = Simulation.getAgents();
+
+        for (let i = 0; i < Simulation.speedFactor; i = i + 1) {
+            updateEntities(resources);
+            updateEntities(agents);
+        }
+
+        renderEntities(resources);
+        renderEntities(agents);
+        updateCharts(adjustedDeltaTime);
+
+        slowDownCounter = 0;
     }
-
-    renderEntities(resources);
-    renderEntities(agents);
-    updateCharts();
 
 });

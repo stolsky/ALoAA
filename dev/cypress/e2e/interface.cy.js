@@ -78,28 +78,41 @@ describe("Test website functionality", () => {
                 // TODO add tests that fast forward and slow down work
             });
 
-            it("Test fullscreen button", () => {
+            it("Test finish simulation button", () => {
                 cy.get(".Controls").within(() => {
-                    cy.get("button.Icon.Fullscreen")
-                        .as("buttonFullscreen")
+                    cy.get("button.Icon.Finish")
+                        .as("buttonFinish")
                         .should("be.visible");
                 });
-
-                // TODO add tests that fullscreen works
 
             });
 
             it("Check that all menu buttons exist", () => {
                 cy.get(".Menu").within(() => {
                     cy.get("button.Icon.icon-stats-bars")
-                        .as("buttpnCharts")
+                        .as("buttonCharts")
                         .should("be.visible");
                     cy.get("button.Icon.icon-equalizer")
                         .as("buttonOptions")
                         .should("be.visible");
-                    cy.get("button.Icon.icon-enter")
-                        .as("buttonFinish")
+                    cy.get("button.Icon.icon-target")
+                        .as("buttonFollow")
                         .should("be.visible");
+                });
+            });
+
+            it("Check that all panels of menu items exist", () => {
+                cy.get(".PanelGroup").within(() => {
+                    cy.get("div.Panel").should("have.length", 3);
+                });
+            });
+
+            it("Check that all menu buttons show its corresponding panel (and hide others)", () => {
+                cy.get(".Menu").within(() => {
+                    // declare aliases of all elements used for the tests
+                    cy.get("button.Icon.icon-stats-bars").as("buttonCharts");
+                    cy.get("button.Icon.icon-equalizer").as("buttonOptions");
+                    cy.get("button.Icon.icon-target").as("buttonFollow");
                 });
             });
 

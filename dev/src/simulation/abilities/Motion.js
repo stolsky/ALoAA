@@ -10,6 +10,7 @@ import Simulation from "../Simulation.js";
 
 Ability {
     requirements - all bars, trait, abilites for this abolity to work properly
+    energy consumption
     storage - Abilities private variables
     triggers - all conditions when this ability executes
     execute - all the operations of this ability

@@ -144,7 +144,7 @@ describe("Test own wrapper of \"prng.js\"", () => {
         setSeed(phrase);
 
         let isSameResult = true;
-        const testSize = 500000;
+        const testSize = 500_000;
         for (let i = 0; i < testSize; i = i + 1) {
             const rand1 = xoshiro();
             const rand2 = random();
@@ -173,6 +173,31 @@ describe("Test own wrapper of \"prng.js\"", () => {
 
         const avg = sum / testSize;
         expect(avg).to.be.above(0.79);
+
+    });
+
+});
+
+describe("Test of the generation of numbers inside a given interval", () => {
+
+    it("Test the interval [100, 1000]", () => {
+
+        const phrase = "ALoAA";
+        setSeed(phrase);
+
+        const startInterval = 100;
+        const endInterval = 1000;
+
+        let countOutsideNumbers = 0;
+        const testSize = 500_000;
+        for (let i = 0; i < testSize; i = i + 1) {
+            const rnd = random(startInterval, endInterval);
+            if (rnd < startInterval || rnd > endInterval) {
+                countOutsideNumbers = countOutsideNumbers + 1;
+            }
+        }
+
+        expect(countOutsideNumbers).to.equal(0);
 
     });
 

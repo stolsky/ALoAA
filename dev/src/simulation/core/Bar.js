@@ -1,5 +1,6 @@
 import Value from "./Value.js";
 import Behaviour from "./Behaviour.js";
+import { round } from "../../utilities/math.js";
 
 const Bar = class extends Behaviour {
 
@@ -27,19 +28,32 @@ const Bar = class extends Behaviour {
         Object.seal(this);
     }
 
-    increase() {
-        this.#value.current = this.#value.current + this.#rate.current;
-    }
-
-    /**
-     * TODO add explanation for rate.max - rate.now as modifier
+    /** Increases the value by the passed amount in relation to the Bar's rate.
      *
      * Before setting the value, method {@link round} is used to avoid floating point inaccuracies.
      *
-     * @param {number} newValue
+     * @param {number} amount
      */
-    decrease() {
-        this.#value.current = this.#value.current - this.#rate.current;
+    increase(amount) {
+        if (Number.isFinite(amount)) {
+            this.#value.current = round(this.#value.current + amount * this.#rate.current);
+        }
+    }
+
+    /** Decreases the value by the passed amount in relation to the Bar's rate.
+     *
+     * Before setting the value, method {@link round} is used to avoid floating point inaccuracies.
+     *
+     * @param {number} amount
+     */
+    decrease(amount) {
+        if (Number.isFinite(amount)) {
+            let modifier = this.#rate.maximum - this.#rate.current;
+            if (modifier === 0) {
+                modifier = Bar.RATE_DEFAULT;
+            }
+            this.#value.current = round(this.#value.current - amount * modifier);
+        }
     }
 
     // TODO mutate value and rate
