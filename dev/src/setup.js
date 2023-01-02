@@ -2,7 +2,7 @@ import Simulation from "./simulation/Simulation.js";
 
 import * as Renderer from "./pixi-adapter/renderer.js";
 import { getChartsPanel, getRendererContainer } from "./gui/components.js";
-import { create as createBarChart } from "./charts/bar.js";
+import { create as createTotalNumbersChart } from "./gui/charts/totalNumbers.js";
 
 import { mapMassToPixel } from "./utilities/math.js";
 import random from "./utilities/random.js";
@@ -22,7 +22,7 @@ const world = Simulation.getWorldAttributes();
 Renderer.createRenderer(getRendererContainer());
 
 // TODO add to configuration
-const maxNumberOfMaterial = 50;
+const maxNumberOfMaterial = 100;
 const resourceStartMass = 100;
 const resourceMargin = mapMassToPixel(resourceStartMass);
 for (let i = 0; i < maxNumberOfMaterial; i = i + 1) {
@@ -64,7 +64,7 @@ for (let i = 0; i < maxNumberOfAgents; i = i + 1) {
     Renderer.addElement(agent);
 }
 
-createBarChart(getChartsPanel());
+createTotalNumbersChart(getChartsPanel());
 
 // TODO call initial render
 

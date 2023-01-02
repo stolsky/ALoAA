@@ -2,6 +2,9 @@
 
 ## Abstract
 
+## Code Documentation
+with [jsdoc](https://jsdoc.app/)
+
 ## Project Management
 
 Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com

@@ -33,17 +33,19 @@ buttonPause.addEventListener("pointerdown", () => {
     stopLoop();
 });
 
+const updateSpeedOutput = () => {
+    outputSpeedFactor.textContent = Simulation.speedFactor;
+};
+
 buttonFastForward.addEventListener("pointerdown", () => {
     // TODO combine speed setting methods
-    const speed = Simulation.speedFactor * Configuration.speedMultiplier.current;
-    Simulation.speedFactor = speed;
-    outputSpeedFactor.textContent = speed;
+    Simulation.speedFactor = Simulation.speedFactor * Configuration.speedMultiplier.current;
+    updateSpeedOutput();
 });
 
 buttonSlowDown.addEventListener("pointerdown", () => {
-    const speed = Simulation.speedFactor / Configuration.speedMultiplier.current;
-    Simulation.speedFactor = speed;
-    outputSpeedFactor.textContent = speed;
+    Simulation.speedFactor = Simulation.speedFactor / Configuration.speedMultiplier.current;
+    updateSpeedOutput();
 });
 
 const buttonFinish = create("button", "Icon Finish icon-switch");

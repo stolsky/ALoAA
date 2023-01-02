@@ -36,7 +36,7 @@ const Simulation = new (class {
 
     set speedFactor(value) {
         if (Number.isFinite(value)) {
-            if (value < Configuration.speedMultiplier.maximum && value > Configuration.speedMultiplier.minimum) {
+            if (value <= Configuration.speedMultiplier.maximum && value >= Configuration.speedMultiplier.minimum) {
                 this.#speedFactor = value;
             }
         }

@@ -57,7 +57,7 @@ body {
 .Sci-Fi-Border {
     background-clip: padding-box;
     outline-offset: -5px;
-    outline: rgba(38, 217, 225, 0.3) solid 1px;
+    outline: rgba(var(--NEON-BLUE-BASE) / 0.3) solid 1px;
     background-color: var(--BACKGROUND);
     border-inline-start: 5px solid;
     border-block-start: 5px solid;
@@ -65,7 +65,7 @@ body {
     border-block-end: 5px solid;
     border-image-slice: 1;
 
-    filter: drop-shadow(rgba(38, 217, 255, 0.5) 0px 0px 3px);
+    filter: drop-shadow(rgba(var(--NEON-BLUE-BASE) / 0.5) 0px 0px 3px);
 }
 .Visualization .Sci-Fi-Border {
     border-image-source: linear-gradient(165deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
