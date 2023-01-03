@@ -83,7 +83,6 @@ const setSeed = (seed = "") => {
     if (useSeed.length === 0) {
         useSeed = `${Math.random()}`;
     }
-    console.log(useSeed);
     const hash = xmur3(useSeed);
     prng = xoshiro128ss(hash(), hash(), hash(), hash());
 };

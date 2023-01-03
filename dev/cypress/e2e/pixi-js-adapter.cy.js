@@ -12,15 +12,11 @@ import {
 
 describe("Test methods of math module of the Pixi.js adapter", () => {
 
-    before("Test successful import", () => {
+    before("Test successful import and access PIXI library", () => {
         expect(add).to.be.a("function");
-    });
-
-    beforeEach(() => {
         cy.visit("dev").then((win) => {
             globalThis.PIXI = win.PIXI;
         });
-
     });
 
     describe("Test addition of two point", () => {

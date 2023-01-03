@@ -199,7 +199,7 @@ describe("Test of the generation of numbers inside a given interval", () => {
 
 describe("Test default seed initialization", () => {
 
-    it.only("By default, the seed is different every time, so the numbers should be different", () => {
+    it("By default, the seed is different every time, so the numbers should be different", () => {
         const numbers = [];
         let countDoubles = 0;
         const testSize = 100_000;
