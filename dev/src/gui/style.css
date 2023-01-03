@@ -50,6 +50,7 @@ body {
     background-color: inherit;
     border: 1px solid var(--NEON-BLUE);
     padding: 0.1rem 0.2rem;
+    box-shadow: 0 0 2px 2px rgba(var(--NEON-BLUE-BASE) / 0.5);
 }
 .Tooltip.Visible {
     animation: ShowTooltip 0.5s linear 1s forwards;

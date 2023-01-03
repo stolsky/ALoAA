@@ -78,11 +78,12 @@ const random = (from = null, to = null) => {
  *
  * @param {string} seed
  */
-const setSeed = (seed) => {
+const setSeed = (seed = "") => {
     let useSeed = `${seed}`;
     if (useSeed.length === 0) {
         useSeed = `${Math.random()}`;
     }
+    console.log(useSeed);
     const hash = xmur3(useSeed);
     prng = xoshiro128ss(hash(), hash(), hash(), hash());
 };

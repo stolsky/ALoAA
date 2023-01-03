@@ -3,8 +3,6 @@ import Entity from "../core/Entity.js";
 import { add, limit, multiplyScalar } from "../../pixi-adapter/math.js";
 import Simulation from "../Simulation.js";
 
-// research: https://pixijs.io/examples/#/demos-advanced/collision-detection.js
-
 /*
 @interface
 
@@ -38,7 +36,6 @@ const Motion = class extends Behaviour {
         }
     }
 
-    // TODO add more of those to check
     static id = "Motion";
 
     static type = Behaviour.Type.ABILITY;
@@ -53,9 +50,9 @@ const Motion = class extends Behaviour {
 
     #acceleration = { x: 0, y: 0 };
 
+    // TODO add energy drain bar or trait ??
     constructor(parent) {
         super({ id: Motion.id, type: Motion.type });
-
         this.#parent = (parent instanceof Entity) ? parent : null;
     }
 
@@ -79,7 +76,7 @@ const Motion = class extends Behaviour {
             this.#acceleration = multiplyScalar(this.#acceleration, 0);
 
             // TODO calculate influence of speed & agility -> the better the stats the greater the energy consumption
-            energy.decrease();
+            energy.decrease(1);
 
             Motion.checkCollisionWithBoundary(this.#parent);
         }

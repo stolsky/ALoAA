@@ -1,5 +1,6 @@
 import Configuration from "./Configuration.js";
 import Resource from "./core/Resource.js";
+// TODO dependency cycle is not real. only used for instanceof check -> replace with use of static symbol from class
 import Agent from "./core/Agent.js";
 
 const Simulation = new (class {
@@ -72,6 +73,10 @@ const Simulation = new (class {
 
     getAgents() {
         return this.#agents;
+    }
+
+    getEntities() {
+        return [...this.#resources, ...this.#agents];
     }
 
     getResources() {

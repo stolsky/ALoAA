@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 import {
     sfc32,
     xmur3,
@@ -35,13 +37,9 @@ describe("Test hash algorithm xmur3", () => {
             }
         }
 
-        // eslint-disable-next-line no-unused-expressions
         expect(isNumber).to.be.true;
-        // eslint-disable-next-line no-unused-expressions
         expect(isGreaterZero).to.be.true;
-        // eslint-disable-next-line no-unused-expressions
         expect(isMax32Bit).to.be.true;
-
     });
 
     it("Create very different hashes, despite the seed is almost the same", () => {
@@ -87,9 +85,7 @@ describe("Test hash algorithm xmur3", () => {
 
         });
 
-        // eslint-disable-next-line no-unused-expressions
         expect(allPhrasesAreDifferent).to.be.true;
-        // eslint-disable-next-line no-unused-expressions
         expect(allHashesDifferGreatly).to.be.true;
 
     });
@@ -154,9 +150,7 @@ describe("Test own wrapper of \"prng.js\"", () => {
             }
         }
 
-        // eslint-disable-next-line no-unused-expressions
         expect(isSameResult).to.be.true;
-
     });
 
     it("\"gauss()\" generates a normal distribution (mean = 0, standard deviation = 1)", () => {
@@ -199,6 +193,27 @@ describe("Test of the generation of numbers inside a given interval", () => {
 
         expect(countOutsideNumbers).to.equal(0);
 
+    });
+
+});
+
+describe("Test default seed initialization", () => {
+
+    it.only("By default, the seed is different every time, so the numbers should be different", () => {
+        const numbers = [];
+        let countDoubles = 0;
+        const testSize = 100_000;
+        for (let i = 0; i < testSize; i = i + 1) {
+            // resets the prng with defal seed
+            setSeed();
+            const rnd = random();
+            if (numbers.includes(rnd)) {
+                countDoubles = countDoubles + 1;
+                numbers.push(rnd);
+            }
+        }
+        expect(countDoubles).to.equal(0);
+        console.log(countDoubles);
     });
 
 });

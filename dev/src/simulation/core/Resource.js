@@ -1,6 +1,5 @@
 import Entity from "./Entity.js";
 import Bar from "./Bar.js";
-import Value from "./Value.js";
 
 const Resource = class extends Entity {
 
@@ -8,7 +7,7 @@ const Resource = class extends Entity {
 
     /**
      *
-     * @param {{ x: number, y: number, type: Resource.Type, mass: Bar}} param0
+     * @param {{ x: number, y: number, type: Symbol, mass: Bar, decomposition?: Bar}} param0
      */
     constructor({ x, y, type, mass, decomposition }) {
         super({ x, y, type, mass });
@@ -18,7 +17,7 @@ const Resource = class extends Entity {
         // as soon as it reaches 100, it changes from organic to anorganic
         this.#decomposition = (decomposition instanceof Bar) ? decomposition : new Bar({
             id: "Decomposition",
-            value: new Value({ min: 0, now: 0, max: 100 })
+            value: { min: 0, now: 0, max: 100 }
         });
     }
 
@@ -33,7 +32,8 @@ const Resource = class extends Entity {
     draw(context) {
         context.lineStyle(2, this.color, 1);
         context.beginFill();
-        context.drawRect(this.position.x, this.position.y, this.pixelSize, this.pixelSize);
+        const halfSize = this.pixelSize / 2;
+        context.drawRect(this.position.x - halfSize, this.position.y - halfSize, this.pixelSize, this.pixelSize);
         context.endFill();
     }
 

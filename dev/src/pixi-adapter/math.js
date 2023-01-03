@@ -25,6 +25,19 @@ const add = (point1, point2) => {
  */
 const heading = (point) => Math.atan2(point.y, point.x);
 
+/** Computes the magnitude of this point (Euclidean distance from 0, 0).
+ *
+ * Defined as the square root of the sum of the squares of each component.
+ *
+ * @param {{ x: number, y: number }} point
+ *
+ * @returns {number}
+ */
+const magnitude = (point) => {
+    const pixiPoint = new PIXI.Point(point.x, point.y);
+    return pixiPoint.magnitude();
+};
+
 /**
  *
  * @param {{ x: number, y: number }} point
@@ -104,6 +117,7 @@ export {
     add,
     heading,
     limit,
+    magnitude,
     multiplyScalar,
     normalize,
     setMagnitude,
