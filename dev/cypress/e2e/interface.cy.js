@@ -129,13 +129,9 @@ describe("Test website functionality", () => {
         });
 
         it("Check for PIXI library presence", () => {
-            // TODO how to check if PIXI library is ready
-            // cy.window()
-            // cy.get("@PIXI").then((PIXI) => {
-            //     expect(PIXI.VERSION).to.equal("7.0.5");
-            //     const hello = new PIXI.Renderer({ hello: true });
-            //     expect(hello).to.include("PixiJS");
-            // });
+            cy.visit("dev").then((win) => {
+                expect(win).to.have.property("PIXI");
+            });
         });
 
     });

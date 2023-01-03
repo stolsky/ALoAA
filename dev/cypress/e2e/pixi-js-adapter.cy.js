@@ -4,6 +4,7 @@ import {
     add,
     heading,
     limit,
+    magnitude,
     multiplyScalar,
     normalize,
     setMagnitude
@@ -11,15 +12,11 @@ import {
 
 describe("Test methods of math module of the Pixi.js adapter", () => {
 
-    before("Test successful import", () => {
+    before("Test successful import and access PIXI library", () => {
         expect(add).to.be.a("function");
-    });
-
-    beforeEach(() => {
         cy.visit("dev").then((win) => {
             globalThis.PIXI = win.PIXI;
         });
-
     });
 
     describe("Test addition of two point", () => {
@@ -132,8 +129,8 @@ describe("Test methods of math module of the Pixi.js adapter", () => {
             expect(result).to.have.property("y");
 
             // implementation of normalization
-            const magnitude = Math.sqrt(point.x * point.x + point.y * point.y);
-            const normalized = multiplyScalar(point, 1 / magnitude);
+            const mag = Math.sqrt(point.x * point.x + point.y * point.y);
+            const normalized = multiplyScalar(point, 1 / mag);
 
             expect(result.x).to.equal(normalized.x);
             expect(result.y).to.equal(normalized.y);
@@ -156,8 +153,8 @@ describe("Test methods of math module of the Pixi.js adapter", () => {
             expect(result).to.have.property("y");
 
             // implementation of normalization
-            const magnitude = Math.sqrt(point.x * point.x + point.y * point.y);
-            const normalized = multiplyScalar(point, 1 / magnitude);
+            const mag = Math.sqrt(point.x * point.x + point.y * point.y);
+            const normalized = multiplyScalar(point, 1 / mag);
 
             expect(result.x).to.equal(normalized.x);
             expect(result.y).to.equal(normalized.y);
@@ -170,8 +167,8 @@ describe("Test methods of math module of the Pixi.js adapter", () => {
             expect(result).to.have.property("y");
 
             // implementation of normalization
-            const magnitude = Math.sqrt(point.x * point.x + point.y * point.y);
-            const normalized = multiplyScalar(point, 1 / magnitude);
+            const mag = Math.sqrt(point.x * point.x + point.y * point.y);
+            const normalized = multiplyScalar(point, 1 / mag);
 
             expect(result.x).to.equal(normalized.x);
             expect(result.y).to.equal(normalized.y);
@@ -331,7 +328,6 @@ describe("Test methods of math module of the Pixi.js adapter", () => {
             expect(result).to.have.property("x");
             expect(result).to.have.property("y");
 
-            // calculate magnitude by hand
             const norm = normalize(point);
             const mag = multiplyScalar(norm, length);
 
@@ -341,4 +337,41 @@ describe("Test methods of math module of the Pixi.js adapter", () => {
         });
 
     });
+
+    describe("Test calculate magnitude", () => {
+
+        it("calculate normal point (5, 3) ", () => {
+            const point = { x: 5, y: 3 };
+            const result = magnitude(point);
+
+            // calculate magnitude by hand
+            const magSq = point.x * point.x + point.y * point.y;
+            const mag = Math.sqrt(magSq);
+
+            expect(result).to.equal(mag);
+        });
+
+        it("calculate normal point (0, 3) ", () => {
+            const point = { x: 0, y: 3 };
+            const result = magnitude(point);
+
+            expect(result).to.equal(3);
+        });
+
+        it("calculate normal point (5, 0) ", () => {
+            const point = { x: 5, y: 0 };
+            const result = magnitude(point);
+
+            expect(result).to.equal(5);
+        });
+
+        it("calculate normal point (0, 0) ", () => {
+            const point = { x: 0, y: 0 };
+            const result = magnitude(point);
+
+            expect(result).to.equal(0);
+        });
+
+    });
+
 });

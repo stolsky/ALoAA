@@ -7,17 +7,25 @@ import { add, setMagnitude } from "../../pixi-adapter/math.js";
 
 const Entity = class {
 
-    static Type = createEnum("NONE", "ANORGANIC", "ORGANIC", "AUTOTROPH", "HETEROTROPH");
+    // TODO necessary type?
+    static id = "Entity";
+
+    static Type = createEnum("NONE", "ANORGANIC", "ORGANIC", "AUTOTROPH", "MIXOTROPH", "HETEROTROPH");
 
     #checkRequirements = (requirements) => {
-        if (requirements instanceof Array) {
-            requirements.forEach((requirement) => {
-                // TODO add requirement checks and auto adding bars, traits, abilities, + warnings
-                console.log(requirement);
+        if (requirements instanceof Object) {
+            Object.keys(requirements).forEach((id) => {
+                if (!Object.hasOwn(this.genes, id)) {
+                    // TODO add auto adding(?) bars, traits, abilities
+                    console.warn(`The requirement ${id} is missing!`);
+                }
             });
         }
     };
 
+    /**
+     * @param {{ x: number, y: number, type: Symbol, mass: Bar}} param0
+     */
     constructor({ x, y, type, mass }) {
 
         this.type = (Entity.Type.has(type)) ? type : Entity.Type.NONE;

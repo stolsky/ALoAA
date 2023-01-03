@@ -78,7 +78,7 @@ const random = (from = null, to = null) => {
  *
  * @param {string} seed
  */
-const setSeed = (seed) => {
+const setSeed = (seed = "") => {
     let useSeed = `${seed}`;
     if (useSeed.length === 0) {
         useSeed = `${Math.random()}`;
