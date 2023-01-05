@@ -1,6 +1,6 @@
 /* globals PIXI */
 
-import Agent from "../simulation/core/Agent.js";
+import Agent from "../simulation/entities/Agent.js";
 import Entity from "../simulation/core/Entity.js";
 import addDrag from "./drag.js";
 import addZoom from "./zoom.js";
@@ -28,7 +28,6 @@ const addElement = (element) => {
                     follow.element = null;
                     follow.graphic = null;
                 } else {
-                    console.log("select");
                     follow.element = element;
                     follow.graphic = graphic;
                     // TODO update info screen
@@ -80,10 +79,20 @@ const play = () => {
 
 const pause = () => app.stop();
 
+const removeElement = (element) => {
+    if (element instanceof Entity) {
+        const { graphics } = element;
+        if (graphics instanceof PIXI.Graphics) {
+            app.stage.removeChild(graphics);
+        }
+    }
+};
+
 export {
     addElement,
     createRenderer,
     loop,
     pause,
-    play
+    play,
+    removeElement
 };

@@ -19,10 +19,5 @@
     "eslint-plugin-security": "^1.5.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"
-  },
-  "dependencies": {
-    "@pixi/math-extras": "^7.0.5",
-    "chart.js": "^4.1.1",
-    "pixi.js": "^7.0.5"
   }
 }

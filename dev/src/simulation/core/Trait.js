@@ -1,23 +1,18 @@
+import { ClassType } from "./Types.js";
 import Value from "./Value.js";
-import Behaviour from "./Behaviour.js";
+import { addInformation } from "./utilities.js";
 
-const Trait = class extends Behaviour {
+const Trait = class {
 
-    static BASE_DEFAULT = 1;
+    static ClassType = ClassType.TRAIT;
 
     #value;
 
-    #base;
-
     constructor({ id = "Trait", name, description, value = {} } = {}) {
-        super({ id, type: Behaviour.Type.TRAIT, name, description });
-
+        addInformation(this, { id, name, description });
         this.#value = new Value(value);
-
-        Object.seal(this);
+        Object.freeze(this);
     }
-
-    // TODO add getter and setter methods -> 4 values to modify/mutate: min, now, max, base
 
     getValue() {
         return this.#value.current;

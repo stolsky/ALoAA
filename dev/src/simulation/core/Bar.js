@@ -1,8 +1,11 @@
+import { ClassType } from "./Types.js";
 import Value from "./Value.js";
-import Behaviour from "./Behaviour.js";
+import { addInformation } from "./utilities.js";
 import { round } from "../../utilities/math.js";
 
-const Bar = class extends Behaviour {
+const Bar = class {
+
+    static ClassType = ClassType.BAR;
 
     static RATE_DEFAULT = 1;
 
@@ -20,12 +23,10 @@ const Bar = class extends Behaviour {
      */
 
     constructor({ id = "Bar", name, description, value, rate } = {}) {
-        super({ id, type: Behaviour.Type.BAR, name, description });
-
+        addInformation(this, { id, name, description });
         this.#value = new Value(value);
         this.#rate = new Value(rate || { min: 0, now: Bar.RATE_DEFAULT, max: Bar.RATE_DEFAULT });
-
-        Object.seal(this);
+        Object.freeze(this);
     }
 
     /** Increases the value by the passed amount in relation to the Bar's rate.
@@ -56,14 +57,16 @@ const Bar = class extends Behaviour {
         }
     }
 
-    // TODO mutate value and rate
-
-    // getRate() {
-    //     return this.#rate.current;
-    // }
-
     getValue() {
         return this.#value.current;
+    }
+
+    isEmpty() {
+        return this.#value.current === this.#value.minimum;
+    }
+
+    isFull() {
+        return this.#value.current === this.#value.maximum;
     }
 
 };

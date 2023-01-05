@@ -1,23 +1,32 @@
-import Entity from "../core/Entity.js";
-import Behaviour from "../core/Behaviour.js";
+import { ClassType } from "../core/Types.js";
 import { magnitude, substract } from "../../pixi-adapter/math.js";
+import Ability from "../core/Ability.js";
+import Entity from "../core/Entity.js";
+import Simulation from "../Simulation.js";
 
-const Vision = class extends Behaviour {
-
-    static id = "Vision";
-
-    static type = Behaviour.Type.ABILITY;
+const Vision = class extends Ability {
 
     static Requirements = Object.freeze({
-        VisionDistance: { type: Behaviour.Type.TRAIT },
-        VisionWidth: { type: Behaviour.Type.TRAIT }
+        VisionDistance: { classType: ClassType.TRAIT },
+        VisionWidth: { classType: ClassType.TRAIT }
     });
 
-    #parent;
+    static #loadTargets = (diet) => {
+        const type = Entity.Type;
+        let targets = null;
+        if (diet === type.AUTOTROPH) {
+            targets = Simulation.getResources().filter((resource) => resource.type === type.ANORGANIC);
+        } else if (diet === type.MIXOTROPH) {
+            targets = Simulation.getEntities();
+        } else if (diet === type.HETEROTROPH) {
+            targets = [...Simulation.getAgents(), ...Simulation.getResources().filter((resource) => resource.type === type.ORGANIC)];
+        }
+        return targets;
+    };
 
     constructor(parent) {
-        super({ id: Vision.id, type: Vision.type });
-        this.#parent = (parent instanceof Entity) ? parent : null;
+        super(parent, "Vision");
+        Object.freeze(this);
     }
 
     /**
@@ -25,17 +34,16 @@ const Vision = class extends Behaviour {
      *
      * @returns {}
      */
-    execute(entities) {
-
+    use(diet) {
+        const entities = Vision.#loadTargets(diet);
         let target = null;
-
-        if (entities instanceof Array) {
+        if (Array.isArray(entities)) {
 
             // the longer the distance the more narrow the width
-            const visionWidth = this.#parent.genes.VisionWidth.getValue();
+            const visionWidth = this.parent.genes.VisionWidth.getValue();
             //
-            const visionDistance = this.#parent.genes.VisionDistance.getValue();
-            const distance = this.#parent.calculateDistanceFromCurrentPosition(visionDistance);
+            const visionDistance = this.parent.genes.VisionDistance.getValue();
+            const distance = this.parent.calculateDistanceFromCurrentPosition(visionDistance);
 
             let closestDistance = visionWidth;
             entities.forEach((entity) => {
@@ -46,7 +54,6 @@ const Vision = class extends Behaviour {
                 }
             });
         }
-
         return target;
     }
 

@@ -3,7 +3,7 @@
 import createElement from "../utilities/create.js";
 import { hex2rgb } from "../../pixi-adapter/utils.js";
 import Configuration from "../../simulation/Configuration.js";
-import Entity from "../../simulation/core/Entity.js";
+import Entity from "../../simulation/entities/Entity.js";
 import Simulation from "../../simulation/Simulation.js";
 
 let chart = null;

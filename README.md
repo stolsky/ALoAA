@@ -10,16 +10,14 @@ with [jsdoc](https://jsdoc.app/)
 Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 
 ## Resources
+### Favicon
+* Icon created by Vitaly Gorbachev ([flaticon link](https://www.flaticon.com/free-icons/mitochondria))
+* used favicon.io ([favicon-converter](https://favicon.io/favicon-converter/)) to convert mitochondria.png to favicon.ico
 ### Icons
 * IcoMoon
   * [Homepage](https://icomoon.io)
   * used icons from free version, [preview](https://icomoon.io/#preview-free)
   * generated as icon font using [IcoMoon App](https://icomoon.io/app/)
-
-* Freepik (alternative)
-  * style: "Basic Straight Lineal"
-  * designed by Freepik ([Website](https://www.freepik.com))
-  * downloaded from [flaticon](https://www.flaticon.com/authors/freepik)
 
 ### Chart library
 * ChartJS

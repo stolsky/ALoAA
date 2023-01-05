@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-expressions */
+
 import { round } from "../../src/utilities/math.js";
 import createEnum from "../../src/utilities/Enum.js";
+import { isNotEmptyString } from "../../src/simulation/core/utilities.js";
 
 describe("Test method \"round\"", () => {
     it("performs directed rounding to an integer, rounding half up", () => {
@@ -53,6 +55,25 @@ describe("Test Enum class", () => {
             expect(() => createEnum("U-P", "RIGHT", "DOWN", "LEFT")).to.throw();
         });
 
+    });
+
+});
+
+describe("Test isNotEmptyString method", () => {
+
+    it("Not empty string", () => {
+        expect(isNotEmptyString("Not Empty")).to.be.true;
+    });
+
+    it("Empty string", () => {
+        expect(isNotEmptyString("")).to.be.false;
+    });
+
+    it("Parameter not of type string", () => {
+        expect(isNotEmptyString(5)).to.be.false;
+        expect(isNotEmptyString({})).to.be.false;
+        expect(isNotEmptyString([])).to.be.false;
+        expect(isNotEmptyString(true)).to.be.false;
     });
 
 });
