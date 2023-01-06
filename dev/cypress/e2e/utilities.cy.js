@@ -3,6 +3,8 @@
 import { round } from "../../src/utilities/math.js";
 import createEnum from "../../src/utilities/Enum.js";
 import { isNotEmptyString } from "../../src/simulation/core/utilities.js";
+import { ClassType } from "../../src/simulation/core/Types.js";
+import Bar from "../../src/simulation/core/Bar.js";
 
 describe("Test method \"round\"", () => {
     it("performs directed rounding to an integer, rounding half up", () => {
@@ -56,6 +58,36 @@ describe("Test Enum class", () => {
         });
 
     });
+
+});
+
+describe("Test if Symbol check has better performance than instanceof check", () => {
+    it.only("Identify Bar class", () => {
+        const bar = new Bar({ id: "Test" });
+
+        const testSize = 100_000_000;
+        const startInstanceOf = performance.now();
+        let barInstance;
+        for (let i = 0; i < testSize; i = i + 1) {
+            barInstance = bar instanceof Bar;
+        }
+        const endInstanceOf = performance.now();
+        const deltaInstanceOf = endInstanceOf - startInstanceOf;
+        expect(barInstance).to.be.true;
+
+        const startSymbol = performance.now();
+        for (let i = 0; i < testSize; i = i + 1) {
+            barInstance = bar.constructor.ClassType === ClassType.BAR;
+        }
+        const endSymbol = performance.now();
+        const deltaSymbol = endSymbol - startSymbol;
+        expect(barInstance).to.be.true;
+
+        expect(deltaInstanceOf).to.be.above(deltaSymbol);
+        const result = deltaInstanceOf - deltaSymbol;
+        cy.log(`After ${testSize} iterations ${(result >= 0) ? "Symbol comparison" : "instanceof check"} is ${result} ms faster`);
+    });
+
 
 });
 

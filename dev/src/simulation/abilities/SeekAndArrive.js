@@ -10,9 +10,8 @@ const SeekAndArrive = class extends Ability {
         Motion: { classType: ClassType.ABILITY }
     });
 
-    constructor(parent) {
-        super(parent, "SeekAndArrive");
-        Object.freeze(this);
+    constructor() {
+        super("SeekAndArrive");
     }
 
     /**

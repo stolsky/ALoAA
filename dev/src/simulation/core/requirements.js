@@ -14,7 +14,7 @@ const createDefaultProperty = (key, requirement) => {
     return defaultProperty;
 };
 
-const createProperties = (properties) => {
+const addProperties = (properties) => {
     const result = {};
     if (Array.isArray(properties)) {
         properties.forEach((property) => {
@@ -58,6 +58,6 @@ const validateProperties = (properties, requirements, onSelf = false) => {
 };
 
 export {
-    createProperties,
+    addProperties,
     validateProperties
 };

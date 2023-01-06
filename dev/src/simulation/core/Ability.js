@@ -11,10 +11,14 @@ const Ability = class {
      * @param {string} name
      * @param {string} description
      */
-    constructor(parent, id, name, description) {
-        this.parent = (ClassType.has(parent?.constructor?.ClassType)) ? parent : null;
+    constructor(id, name, description) {
         // TODO method necessary?? improve
         addInformation(this, { id, name, description });
+    }
+
+    setParent(parent) {
+        this.parent = (ClassType.has(parent?.constructor?.ClassType)) ? parent : null;
+        Object.freeze(this);
     }
 
 };

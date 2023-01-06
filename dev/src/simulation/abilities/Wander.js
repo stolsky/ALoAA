@@ -1,5 +1,5 @@
 import { ClassType } from "../core/Types.js";
-import { createProperties, validateProperties } from "../core/requirements.js";
+import { addProperties, validateProperties } from "../core/requirements.js";
 import random from "../../utilities/random.js";
 import {
     add,
@@ -21,14 +21,13 @@ const Wander = class extends Ability {
 
     #theta = Math.PI * 0.5;
 
-    constructor(parent, ...modifiers) {
-        super(parent, "Wander");
+    constructor(...modifiers) {
+        super("Wander");
         this.#modifiers = validateProperties(
-            createProperties(modifiers),
+            addProperties(modifiers),
             Wander.Requirements,
             true
         );
-        Object.freeze(this);
     }
 
     use() {

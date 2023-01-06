@@ -23,6 +23,10 @@ body {
     height: 100%;
 }
 
+.PulseEffect {
+    animation: PulseEffect 1s ease infinite alternate;
+}
+
 .GUI {
     display: grid;
     grid-auto-flow: column;
@@ -92,6 +96,27 @@ body {
     border-image-source: linear-gradient(130deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
 }
 
+.Visualization .Renderer {
+    position: relative;
+}
+.Visualization .Renderer .StartSimulationHint {
+    margin: 0%;
+    background-color: transparent;
+    position: absolute;
+    z-index: 1;
+    font-size: 2.5vw;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    white-space: nowrap;
+    cursor: default;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+.Visualization .Renderer .StartSimulationHint.Hidden {
+    opacity: 0;
+}
+
 .Visualization .Controls,
 .Evaluation .Menu {
     display: flex;
@@ -155,6 +180,11 @@ button.Icon:hover {
 }
 .Panel.Active {
     display: flex;
+}
+
+@keyframes PulseEffect {
+    from { scale: 0.8; }
+    to { scale: 1.2; }
 }
 
 @keyframes ShowTooltip {

@@ -9,6 +9,8 @@ const Bar = class {
 
     static RATE_DEFAULT = 1;
 
+    #changed = false;
+
     #value;
 
     #rate;
@@ -38,6 +40,7 @@ const Bar = class {
     increase(amount) {
         if (Number.isFinite(amount)) {
             this.#value.current = round(this.#value.current + amount * this.#rate.current);
+            this.#changed = true;
         }
     }
 
@@ -54,11 +57,22 @@ const Bar = class {
                 modifier = Bar.RATE_DEFAULT;
             }
             this.#value.current = round(this.#value.current - amount * modifier);
+            this.#changed = true;
         }
+    }
+
+    empty() {
+        this.#value.current = 0;
     }
 
     getValue() {
         return this.#value.current;
+    }
+
+    hasChanged() {
+        const changed = this.#changed;
+        this.#changed = false;
+        return changed;
     }
 
     isEmpty() {

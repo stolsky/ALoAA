@@ -1,15 +1,17 @@
 /* globals PIXI */
 
-import Agent from "../simulation/entities/Agent.js";
 import Entity from "../simulation/core/Entity.js";
 import addDrag from "./drag.js";
 import addZoom from "./zoom.js";
+import { ClassType } from "../simulation/core/Types.js";
+import { updateOberverPanel } from "../gui/components.js";
 
 let app = new PIXI.Application();
+
 /**
  * @type {{ element: Entity, graphic: PIXI.Graphics }}
  */
-const follow = { element: null, graphic: null };
+const observe = { element: null, graphic: null };
 
 /** Convenience method for adding an element to the main scene graph
  *
@@ -19,22 +21,19 @@ const addElement = (element) => {
     if (element instanceof Entity) {
         const graphic = new PIXI.Graphics();
         element.draw(graphic);
-        if (graphic instanceof PIXI.Graphics) {
-            graphic.interactive = true;
-            graphic.cursor = "pointer";
-            graphic.on("pointerdown", () => {
-                if (follow.element === element) {
-                    console.log("deselect");
-                    follow.element = null;
-                    follow.graphic = null;
-                } else {
-                    follow.element = element;
-                    follow.graphic = graphic;
-                    // TODO update info screen
-                }
-            });
-            app.stage.addChild(graphic);
-        }
+        graphic.interactive = true;
+        graphic.cursor = "pointer";
+        graphic.on("pointerdown", () => {
+            if (observe.element === element) {
+                observe.element = null;
+                observe.graphic = null;
+            } else {
+                observe.element = element;
+                observe.graphic = graphic;
+                updateOberverPanel(observe.element.type, observe.element.genes);
+            }
+        });
+        app.stage.addChild(graphic);
     }
 };
 
@@ -57,13 +56,15 @@ const createRenderer = (parentContainer) => {
 
 };
 
+const getObservedEntity = () => observe;
+
 const loop = (method) => {
     if (app instanceof PIXI.Application && method instanceof Function) {
         app.ticker.add(() => {
             method(app.ticker.deltaMS);
-            if (follow.element instanceof Agent) {
-                app.stage.pivot.x = follow.graphic.position.x;
-                app.stage.pivot.y = follow.graphic.position.y;
+            if (observe.element && observe.element.constructor.ClassType === ClassType.AGENT) {
+                app.stage.pivot.x = observe.graphic.position.x;
+                app.stage.pivot.y = observe.graphic.position.y;
                 app.stage.position.x = app.renderer.width / 2;
                 app.stage.position.y = app.renderer.height / 2;
             }
@@ -71,13 +72,17 @@ const loop = (method) => {
     }
 };
 
-const play = () => {
-    if (!app.ticker.started) {
-        app.start();
+const pause = () => {
+    if (app instanceof PIXI.Application) {
+        app.stop();
     }
 };
 
-const pause = () => app.stop();
+const play = () => {
+    if (app instanceof PIXI.Application && !app.ticker.started) {
+        app.start();
+    }
+};
 
 const removeElement = (element) => {
     if (element instanceof Entity) {
@@ -91,6 +96,7 @@ const removeElement = (element) => {
 export {
     addElement,
     createRenderer,
+    getObservedEntity,
     loop,
     pause,
     play,

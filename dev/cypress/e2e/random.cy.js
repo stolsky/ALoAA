@@ -217,3 +217,28 @@ describe("Test default seed initialization", () => {
     });
 
 });
+
+describe("The same seed produces the same numbers", () => {
+
+    it("", () => {
+        const testSize = 500_000;
+        const numbers1 = [];
+        setSeed("ALoAA");
+        for (let i = 0; i < testSize; i = i + 1) {
+            numbers1.push(random());
+        }
+        const numbers2 = [];
+        setSeed("ALoAA");
+        for (let i = 0; i < testSize; i = i + 1) {
+            numbers2.push(random());
+        }
+        let same = true;
+        for (let i = 0; i < testSize; i = i + 1) {
+            if (numbers1[`${i}`] !== numbers2[`${i}`]) {
+                same = false;
+                break;
+            }
+        }
+        expect(same).to.be.true;
+    });
+});

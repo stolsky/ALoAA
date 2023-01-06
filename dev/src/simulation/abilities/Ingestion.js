@@ -1,6 +1,6 @@
 import { ClassType } from "../core/Types.js";
 import Entity from "../core/Entity.js";
-import { createProperties, validateProperties } from "../core/requirements.js";
+import { addProperties, validateProperties } from "../core/requirements.js";
 import Ability from "../core/Ability.js";
 
 const Ingestion = class extends Ability {
@@ -27,6 +27,7 @@ const Ingestion = class extends Ability {
     };
 
     static Requirements = Object.freeze({
+        Food: { classType: ClassType.TRAIT },
         Energy: { classType: ClassType.BAR },
         Stomach: { classType: ClassType.BAR }
         // TODO add energy consumption + default
@@ -35,14 +36,13 @@ const Ingestion = class extends Ability {
 
     #modifiers;
 
-    constructor(parent, ...modifiers) {
-        super(parent, "Ingestion");
+    constructor(...modifiers) {
+        super("Ingestion");
         this.#modifiers = validateProperties(
-            createProperties(modifiers),
+            addProperties(modifiers),
             Ingestion.Requirements,
             true
         );
-        Object.freeze(this);
     }
 
     use(target) {
@@ -54,11 +54,12 @@ const Ingestion = class extends Ability {
             const energy = this.parent.genes.Energy;
 
             if (!stomach.isFull()) {
-                const mass = target.genes.Mass;
-                if (!mass.isEmpty()) {
-                    // TODO organic food is harder to eat (assume fights, etc.) and fills stomach faster
-                    mass.decrease(1);
+                const targetMass = target.genes.Mass;
+                if (!targetMass.isEmpty()) {
+                    // decrease of mass and increase of stomach must be the same -> no waste of mass
+                    targetMass.decrease(1);
                     stomach.increase(1);
+                    // TODO organic food is harder to eat (assume fights, etc.) -> more energy
                     energy.decrease(1);
                     done = false;
                 }

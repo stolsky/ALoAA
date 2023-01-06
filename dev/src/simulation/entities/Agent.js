@@ -1,9 +1,9 @@
 import Entity from "../core/Entity.js";
 import { heading } from "../../pixi-adapter/math.js";
 import { ClassType } from "../core/Types.js";
-import { checkDistanceIsZero } from "../core/utilities.js";
+import { checkDistanceIsZero, getColorFromType } from "../core/utilities.js";
 import { mapMassToPixel } from "../../utilities/math.js";
-import { createProperties, validateProperties } from "../core/requirements.js";
+import { addProperties, validateProperties } from "../core/requirements.js";
 
 const Agent = class extends Entity {
 
@@ -36,17 +36,6 @@ const Agent = class extends Entity {
         return type;
     };
 
-    #move = () => {
-        let force;
-        // move to private movement method
-        if (this.target !== null) {
-            force = this.genes.SeekAndArrive.use(this.target);
-        } else {
-            force = this.genes.Wander.use();
-        }
-        this.genes.Motion.use(force);
-    };
-
     /**
      *
      * @param {{ x: number, y: number }} param0
@@ -57,11 +46,11 @@ const Agent = class extends Entity {
 
     addProperties(...properties) {
         this.genes = validateProperties(
-            createProperties(properties),
+            addProperties(properties),
             Agent.Requirements
         );
         this.type = Agent.#getTypeFromDiet(this.genes.Food.getValue());
-        super.calculateColor();
+        this.color = getColorFromType(this.type);
     }
 
     draw(context) {
@@ -90,25 +79,34 @@ const Agent = class extends Entity {
 
     update() {
         // TODO add checks if ability is present
-        // TODO add triggers as thresholds
+        // TODO improve collision checks
 
         // TODO imptrove vision so that also threats are recognized
         const nextTarget = this.genes.Vision.use(this.type);
+
         if (this.target === null && nextTarget !== null) {
             this.target = nextTarget;
         }
 
-        this.#move();
-
-        // TODO improve collision checks
-        if (this.target) {
+        let force = null;
+        if (this.target !== null) {
             if (checkDistanceIsZero(this.position, this.target.position)) {
                 const done = this.genes.Ingestion.use(this.target);
                 if (done) {
                     this.target = null;
                 }
+            } else {
+                force = this.genes.SeekAndArrive.use(this.target);
+            }
+        } else {
+            const isDigesting = this.genes.Digestion.use();
+            if (!isDigesting) {
+                force = this.genes.Wander.use();
             }
         }
+
+        this.genes.Motion.use(force);
+        // this.genes.Growth.use();
     }
 
 };

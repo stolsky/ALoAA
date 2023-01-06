@@ -1,14 +1,15 @@
 import { mapMassToPixel } from "../../utilities/math.js";
 import Entity from "../core/Entity.js";
-import { createProperties, validateProperties } from "../core/requirements.js";
+import { addProperties, validateProperties } from "../core/requirements.js";
 import { ClassType } from "../core/Types.js";
+import { getColorFromType } from "../core/utilities.js";
 
 const Resource = class extends Entity {
 
     static ClassType = ClassType.RESOURCE;
 
     static Requirements = Object.freeze({
-        Mass: { classType: ClassType.TRAIT, default: { min: 0, now: 50, max: 100 } },
+        Mass: { classType: ClassType.BAR, default: { min: 0, now: 50, max: 100 } },
         Decomposition: { classType: ClassType.BAR, default: { min: 0, now: 0, max: 100 } }
     });
 
@@ -29,25 +30,28 @@ const Resource = class extends Entity {
 
     addProperties(...properties) {
         this.genes = validateProperties(
-            createProperties(properties),
+            addProperties(properties),
             Resource.Requirements
         );
         this.type = Resource.#getTypeFromDecomposition(this.genes.Decomposition.getValue());
-        super.calculateColor();
+        this.color = getColorFromType(this.type);
     }
 
     draw(context) {
-        this.graphics = context;
+        if (this.graphics === null) {
+            this.graphics = context;
+        }
         const pixelSize = mapMassToPixel(this.genes.Mass.getValue());
-        context.lineStyle(2, this.color, 1);
-        context.beginFill();
+        this.graphics.clear();
+        this.graphics.lineStyle(2, this.color, 1);
+        this.graphics.beginFill();
         const halfSize = pixelSize / 2;
         if (this.type === Entity.Type.ANORGANIC) {
-            context.drawRect(this.position.x - halfSize, this.position.y - halfSize, pixelSize, pixelSize);
+            this.graphics.drawRect(this.position.x - halfSize, this.position.y - halfSize, pixelSize, pixelSize);
         } else if (this.type === Entity.Type.ORGANIC) {
-            context.drawRoundedRect(this.position.x - halfSize, this.position.y - halfSize, pixelSize, pixelSize, 10);
+            this.graphics.drawRoundedRect(this.position.x - halfSize, this.position.y - halfSize, pixelSize, pixelSize, 10);
         }
-        context.endFill();
+        this.graphics.endFill();
     }
 
     getDecompositionDegree() {
@@ -55,11 +59,13 @@ const Resource = class extends Entity {
     }
 
     render() {
-
+        if (this.genes.Mass.hasChanged()) {
+            this.draw();
+        }
     }
 
     update() {
-        // TODO add decay method
+        this.genes?.Decay?.use();
     }
 
 };

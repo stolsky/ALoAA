@@ -32,34 +32,33 @@ const Motion = class extends Ability {
     #acceleration = { x: 0, y: 0 };
 
     // TODO add modifier EnergyConsumption Trait
-    constructor(parent) {
-        super(parent, "Motion");
-        Object.freeze(this);
+    constructor() {
+        super("Motion");
     }
 
     use(force) {
+        if (force !== null) {
+            /** @type {Bar} */
+            const energy = this.parent.genes.Energy;
+            /** @type {number} */
+            const speed = this.parent.genes.Speed.getValue();
 
-        /** @type {Bar} */
-        const energy = this.parent.genes.Energy;
-        /** @type {number} */
-        const speed = this.parent.genes.Speed.getValue();
+            // TODO add/improve trigger
 
-        // TODO add/improve trigger
+            this.#acceleration = add(this.#acceleration, force);
 
-        this.#acceleration = add(this.#acceleration, force);
+            this.parent.velocity = add(this.parent.velocity, this.#acceleration);
+            this.parent.velocity = limit(this.parent.velocity, speed);
 
-        this.parent.velocity = add(this.parent.velocity, this.#acceleration);
-        this.parent.velocity = limit(this.parent.velocity, speed);
+            this.parent.position = add(this.parent.position, this.parent.velocity);
 
-        this.parent.position = add(this.parent.position, this.parent.velocity);
+            this.#acceleration = multiplyScalar(this.#acceleration, 0);
 
-        this.#acceleration = multiplyScalar(this.#acceleration, 0);
+            // TODO calculate influence of speed & agility -> the better the stats the greater the energy consumption
+            energy.decrease(1);
 
-        // TODO calculate influence of speed & agility -> the better the stats the greater the energy consumption
-        energy.decrease(1);
-
-        Motion.checkCollisionWithBoundary(this.parent);
-
+            Motion.checkCollisionWithBoundary(this.parent);
+        }
     }
 
 };

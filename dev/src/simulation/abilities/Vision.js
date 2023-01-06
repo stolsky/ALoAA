@@ -24,9 +24,8 @@ const Vision = class extends Ability {
         return targets;
     };
 
-    constructor(parent) {
-        super(parent, "Vision");
-        Object.freeze(this);
+    constructor() {
+        super("Vision");
     }
 
     /**

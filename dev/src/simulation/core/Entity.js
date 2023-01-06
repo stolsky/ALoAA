@@ -1,5 +1,4 @@
 import createEnum from "../../utilities/Enum.js";
-import Configuration from "../Configuration.js";
 import { add, setMagnitude } from "../../pixi-adapter/math.js";
 
 const Entity = class {
@@ -28,28 +27,13 @@ const Entity = class {
         Object.seal(this);
     }
 
-    // TODO necessary? rename? color different things?
-    calculateColor(genes) {
-        // set base color
-        if (this.type === Entity.Type.ANORGANIC) {
-            this.color = Configuration.Colors.ANORGANIC;
-        } else if (this.type === Entity.Type.ORGANIC) {
-            this.color = Configuration.Colors.ORGANIC;
-        } else if (this.type === Entity.Type.AUTOTROPH) {
-            this.color = Configuration.Colors.AUTOTROPH;
-        } else if (this.type === Entity.Type.HETEROTROPH) {
-            this.color = Configuration.Colors.HETEROTROPH;
-        } else {
-            this.color = 0xCCCCCC;
-        }
-    }
-
     // TODO refactor to utilities or math or ability?
     calculateDistanceFromCurrentPosition(length) {
         let distance = { ...this.velocity };
         distance = setMagnitude(distance, length);
         return add(distance, this.position);
     }
+
 };
 
 export default Entity;
