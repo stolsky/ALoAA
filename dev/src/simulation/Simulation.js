@@ -6,14 +6,14 @@ const Simulation = new (class {
     #World = {
         width: 3000,
         height: 2000,
-        scale: 1
+        zoom: 1
     };
 
     #timePassed = 0;
 
     #speedFactor = 1;
 
-    #isRunning = false;
+    // #isRunning = false;
 
     #resources = [];
 
@@ -41,23 +41,23 @@ const Simulation = new (class {
         }
     }
 
-    get isRunning() {
-        return this.#isRunning;
-    }
+    // get isRunning() {
+    //     return this.#isRunning;
+    // }
 
-    set isRunning(state) {
-        if (typeof state === "boolean") {
-            this.#isRunning = state;
-        }
-    }
+    // set isRunning(state) {
+    //     if (typeof state === "boolean") {
+    //         this.#isRunning = state;
+    //     }
+    // }
 
     getWorldAttributes() {
         return this.#World;
     }
 
-    setWorldScale(scale) {
-        if (Number.isFinite(scale) && scale > 0) {
-            this.#World.scale = scale;
+    setWorldZoom(zoom) {
+        if (Number.isFinite(zoom) && zoom > 0) {
+            this.#World.zoom = zoom;
         }
     }
 

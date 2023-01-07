@@ -1,6 +1,10 @@
 import Configuration from "../../simulation/Configuration.js";
 import { hex2rgb } from "../../pixi-adapter/utils.js";
 
+const ChartSettings = {
+    lineColor: "rgba(38, 217, 255, 0.5)"
+};
+
 const Anorganic = {
     index: 0,
     label: "Anorganic",
@@ -32,6 +36,8 @@ const Mixotroph = {
 };
 
 export {
+    ChartSettings,
+
     Anorganic,
     Organic,
     Autotroph,

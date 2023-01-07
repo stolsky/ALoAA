@@ -1,12 +1,12 @@
 /* globals Chart */
 
-import { Anorganic, Organic, Autotroph, Heterotroph, Mixotroph } from "./dataTypes.js";
+import { ChartSettings, Anorganic, Organic, Autotroph, Heterotroph, Mixotroph } from "./dataTypes.js";
 import createElement from "../utilities/create.js";
 import Entity from "../../simulation/core/Entity.js";
 import Simulation from "../../simulation/Simulation.js";
 
-const SECTOR_SIZE = 30; // seconds
-const MAX_DATA_SIZE = SECTOR_SIZE * 4;
+const SECTOR_SIZE = 10; // seconds
+const MAX_DATA_SIZE = SECTOR_SIZE * 10;
 const UPDATE_DELAY = 1000;
 
 let chart = null;
@@ -63,17 +63,35 @@ const create = (parent) => {
                 grid: {
                     color: (context) => {
                         if (context.tick.label !== 0 && context.tick.label % SECTOR_SIZE === 0) {
-                            return "rgba(38, 217, 255, 0.5)";
+                            return ChartSettings.lineColor;
                         }
                         return null;
                     },
-                    tickLength: 0
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    lineWidth: 0.5,
+                    ticks: { display: false }
                 },
                 ticks: { display: false }
             },
-            y: { display: false }
+            y: {
+                grid: {
+                    color: ChartSettings.lineColor,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    lineWidth: 0.5
+                },
+                ticks: { display: false }
+            }
         },
-        plugins: { legend: { display: false } }
+        plugins: {
+            tooltip: {
+                displayColors: false
+            },
+            legend: { display: false }
+        }
     };
 
     chart = new Chart(

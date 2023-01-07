@@ -1,9 +1,10 @@
 /* globals Chart */
 
-import { Anorganic, Organic, Autotroph, Heterotroph, Mixotroph } from "./dataTypes.js";
+import { Anorganic, Organic, Autotroph, Heterotroph, Mixotroph, ChartSettings } from "./dataTypes.js";
 import createElement from "../utilities/create.js";
 import Entity from "../../simulation/core/Entity.js";
 import Simulation from "../../simulation/Simulation.js";
+import { ClassType } from "../../simulation/core/Types.js";
 
 let chart = null;
 
@@ -32,17 +33,28 @@ const create = (parent) => {
                 Autotroph.color,
                 Heterotroph.color,
                 Mixotroph.color
-            ],
-            borderWidth: 1
+            ]
         }]
     };
 
     const options = {
         scales: {
             x: { display: false },
-            y: { display: false }
+            y: {
+                grid: {
+                    color: ChartSettings.lineColor,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    lineWidth: 0.5
+                },
+                ticks: { display: false }
+            }
         },
-        plugins: { legend: { display: false } }
+        plugins: {
+            tooltip: { displayColors: false },
+            legend: { display: false }
+        }
     };
 
     chart = new Chart(
@@ -56,8 +68,15 @@ const create = (parent) => {
 };
 
 const calculateMass = (source, type) => source
-    .filter((resource) => resource.type === type)
-    .reduce((acc, next) => acc + next.genes.Mass.getValue(), 0);
+    .filter((entity) => entity.type === type)
+    .reduce((acc, entity) => {
+        const { Mass, Stomach, Rectum } = entity.genes;
+        let sum = acc + Mass.getValue();
+        if (entity.constructor.ClassType === ClassType.AGENT) {
+            sum = sum + Stomach.getValue() + Rectum.getValue();
+        }
+        return sum;
+    }, 0);
 
 let updateCounter = 1001;
 const update = (deltaTime) => {

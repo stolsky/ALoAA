@@ -39,7 +39,7 @@ const updateEntities = (entities) => {
             if (Energy && Energy.isEmpty()) {
                 remove = true;
                 organic.mass = Mass.getValue();
-                organic.decomposition = 100; // TODO 100 is appropriate
+                organic.decomposition = 100; // TODO is 100 appropriate? and not 70 or so?
             } else if (Rectum && Rectum.isFull()) {
                 organic.mass = Rectum.getValue();
                 organic.decomposition = 50;
@@ -83,6 +83,11 @@ const updateInfoBox = () => {
 
 let slowDownCounter = 0;
 Renderer.loop((deltaTime) => {
+
+    const { element } = Renderer.getObservedEntity();
+    if (element) {
+        updateOberverPanel(element.type, element.genes);
+    }
 
     const speed = Simulation.speedFactor;
 
