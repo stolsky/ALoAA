@@ -1,9 +1,10 @@
 import Simulation from "./simulation/Simulation.js";
 
-import { updateOberverPanel, updateOutputTimePassed } from "./gui/components.js";
 import * as Renderer from "./pixi-adapter/renderer.js";
 import updateTotalNumbers from "./gui/charts/totalNumbers.js";
 import updateTotalMasses from "./gui/charts/totalMasses.js";
+import { update as updateObserverPanel } from "./gui/components/ObserverPanel.js";
+import { updateOutputTimePassed } from "./gui/components/components.js";
 
 import "./setup.js";
 import Bar from "./simulation/core/Bar.js";
@@ -11,7 +12,7 @@ import { ClassType } from "./simulation/core/Types.js";
 import Decay from "./simulation/abilities/Decay.js";
 import { createResource } from "./simulation/entities/generator.js";
 
-const calculateTime = (deltaTime) => {
+const adjustTimeToSpeedFactor = (deltaTime) => {
     const adjustedDeltaTime = Simulation.speedFactor * deltaTime;
     Simulation.timePassed = Simulation.timePassed + adjustedDeltaTime;
     updateOutputTimePassed(Simulation.timePassed);
@@ -67,17 +68,16 @@ const updateEntities = (entities) => {
 
 const renderEntities = (entities) => entities.forEach((entity) => entity.render());
 
+// TODO improve performance if hidden?
+const updatePanels = (adjustedDeltaTime) => {
 
-const updateCharts = (adjustedDeltaTime) => {
     // TODO consider speedFactor
     updateTotalNumbers(adjustedDeltaTime);
     updateTotalMasses(adjustedDeltaTime);
-};
 
-const updateInfoBox = () => {
     const { element } = Renderer.getObservedEntity();
     if (element) {
-        updateOberverPanel(element.type, element.genes);
+        updateObserverPanel(element.type, element.genes);
     }
 };
 
@@ -89,7 +89,7 @@ Renderer.loop((deltaTime) => {
     if (speed < 1 && slowDownCounter < 1 / speed) {
         slowDownCounter = slowDownCounter + 1;
     } else {
-        const adjustedDeltaTime = calculateTime(deltaTime);
+        const adjustedDeltaTime = adjustTimeToSpeedFactor(deltaTime);
 
         const resources = Simulation.getResources();
         const agents = Simulation.getAgents();
@@ -102,14 +102,7 @@ Renderer.loop((deltaTime) => {
         renderEntities(resources);
         renderEntities(agents);
 
-        // TODO improve performance if hidden?
-        updateCharts(adjustedDeltaTime);
-        updateInfoBox();
-
-        const { element } = Renderer.getObservedEntity();
-        if (element) {
-            updateOberverPanel(element.type, element.genes);
-        }
+        updatePanels(adjustedDeltaTime);
 
         slowDownCounter = 0;
     }

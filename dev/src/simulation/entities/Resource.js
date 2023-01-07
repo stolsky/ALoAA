@@ -59,12 +59,14 @@ const Resource = class extends Entity {
     }
 
     render() {
-        if (this.genes.Mass.hasChanged()) {
+        if (this.genes.Mass.hasChanged() || this.genes.Decomposition.hasChanged()) {
             this.draw();
         }
     }
 
     update() {
+        // TODO get abilities from ability container and execute them if they trigger -> no optiuonal chaining
+        // containers are ordered by priority
         this.genes?.Decay?.use();
     }
 

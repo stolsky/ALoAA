@@ -4,7 +4,7 @@ import Entity from "../simulation/core/Entity.js";
 import addDrag from "./drag.js";
 import addZoom from "./zoom.js";
 import { ClassType } from "../simulation/core/Types.js";
-import { closeObserverPanel, openObserverPanel } from "../gui/utilities/utilities.js";
+import { close as closeObserverPanel, open as openObserverPanel } from "../gui/components/ObserverPanel.js";
 
 let app = new PIXI.Application();
 
@@ -20,7 +20,6 @@ const Observe = { element: null, graphic: null };
 const addElement = (element) => {
     if (element instanceof Entity) {
         const graphic = new PIXI.Graphics();
-        element.draw(graphic);
         graphic.interactive = true;
         graphic.cursor = "pointer";
         graphic.on("pointerdown", () => {
@@ -34,6 +33,7 @@ const addElement = (element) => {
                 openObserverPanel(Observe.element.type, Observe.element.genes);
             }
         });
+        element.draw(graphic);
         app.stage.addChild(graphic);
     }
 };

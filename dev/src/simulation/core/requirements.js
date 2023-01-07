@@ -14,6 +14,7 @@ const createDefaultProperty = (key, requirement) => {
     return defaultProperty;
 };
 
+// TODO divide the properties among different containers like "abilities", "bars", "traits"
 const addProperties = (properties) => {
     const result = {};
     if (Array.isArray(properties)) {

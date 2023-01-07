@@ -1,10 +1,11 @@
-import create from "./utilities/create.js";
-import { createButton, selectMenuItem, selectMenuItem as selectPanel } from "./utilities/utilities.js";
-import { create as createTooltip } from "./utilities/tooltip.js";
-import { play as runLoop, pause as stopLoop } from "../pixi-adapter/renderer.js";
-import Simulation from "../simulation/Simulation.js";
-import Configuration from "../simulation/Configuration.js";
-import { formatTime } from "../utilities/math.js";
+import create from "../utilities/create.js";
+import { createButton, selectMenuItem, selectMenuItem as selectPanel } from "../utilities/utilities.js";
+import { create as createTooltip } from "../utilities/tooltip.js";
+import { play as runLoop, pause as stopLoop } from "../../pixi-adapter/renderer.js";
+import Simulation from "../../simulation/Simulation.js";
+import Configuration from "../../simulation/Configuration.js";
+import { formatTime } from "../../utilities/math.js";
+import { getInstance } from "./ObserverPanel.js";
 
 let isBeforeStart = true;
 const startMessage = create("p", "StartSimulationHint");
@@ -91,10 +92,7 @@ visualization.append(
 
 const panelCharts = create("div", "Panel Active");
 const panelOptions = create("div", "Panel");
-const observedType = create("p", "Type");
-const observedGenes = create("div", "Genes");
-const panelObserver = create("div", "Panel");
-panelObserver.append(observedType, observedGenes);
+const panelObserver = getInstance();
 const panelHelp = create("div", "Panel");
 
 const buttonCharts = createButton(
@@ -168,12 +166,6 @@ const getChartsPanel = () => panelCharts;
 
 const getRendererContainer = () => renderer;
 
-const updateOberverPanel = (type, genes) => {
-    if (panelObserver.classList.contains("Active")) {
-        console.log(type, genes);
-    }
-};
-
 const updateOutputTimePassed = () => {
     const msec = Simulation.timePassed;
     const timeString = formatTime(msec);
@@ -183,6 +175,5 @@ const updateOutputTimePassed = () => {
 export {
     getChartsPanel,
     getRendererContainer,
-    updateOberverPanel,
     updateOutputTimePassed
 };

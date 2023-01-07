@@ -1,6 +1,6 @@
 import Simulation from "./simulation/Simulation.js";
 import * as Renderer from "./pixi-adapter/renderer.js";
-import { getChartsPanel, getRendererContainer } from "./gui/components.js";
+import { getChartsPanel, getRendererContainer } from "./gui/components/components.js";
 import { create as createTotalNumbersChart } from "./gui/charts/totalNumbers.js";
 import { create as createTotalMassesChart } from "./gui/charts/totalMasses.js";
 

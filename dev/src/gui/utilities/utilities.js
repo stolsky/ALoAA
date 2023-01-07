@@ -33,17 +33,7 @@ const selectMenuItem = (element) => {
     }
 };
 
-const openObserverPanel = (symbol, data) => {
-    console.log(symbol, data);
-};
-
-const closeObserverPanel = () => {
-    console.log("close");
-};
-
 export {
-    closeObserverPanel,
     createButton,
-    openObserverPanel,
     selectMenuItem
 };
