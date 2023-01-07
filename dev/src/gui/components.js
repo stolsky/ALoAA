@@ -168,10 +168,9 @@ const getChartsPanel = () => panelCharts;
 
 const getRendererContainer = () => renderer;
 
-// TODO move to other modul to break dependency cycle
 const updateOberverPanel = (type, genes) => {
     if (panelObserver.classList.contains("Active")) {
-        // TODO add entity information
+        console.log(type, genes);
     }
 };
 

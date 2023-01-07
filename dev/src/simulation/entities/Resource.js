@@ -41,15 +41,15 @@ const Resource = class extends Entity {
         if (this.graphics === null) {
             this.graphics = context;
         }
-        const pixelSize = mapMassToPixel(this.genes.Mass.getValue());
+        this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
         this.graphics.clear();
         this.graphics.lineStyle(2, this.color, 1);
         this.graphics.beginFill();
-        const halfSize = pixelSize / 2;
+        const halfSize = this.pixelSize / 2;
         if (this.type === Entity.Type.ANORGANIC) {
-            this.graphics.drawRect(this.position.x - halfSize, this.position.y - halfSize, pixelSize, pixelSize);
+            this.graphics.drawRect(this.position.x - halfSize, this.position.y - halfSize, this.pixelSize, this.pixelSize);
         } else if (this.type === Entity.Type.ORGANIC) {
-            this.graphics.drawRoundedRect(this.position.x - halfSize, this.position.y - halfSize, pixelSize, pixelSize, 10);
+            this.graphics.drawRoundedRect(this.position.x - halfSize, this.position.y - halfSize, this.pixelSize, this.pixelSize, 10);
         }
         this.graphics.endFill();
     }

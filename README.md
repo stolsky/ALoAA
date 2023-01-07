@@ -4,7 +4,7 @@
 * Artificial Life - [Wikipedia](https://en.wikipedia.org/wiki/Artificial_life)
 * Autonomous Agent - [Wikipedia](https://en.wikipedia.org/wiki/Autonomous_agent)
 ## Code Documentation
-with [jsdoc](https://jsdoc.app/)
+with [JSDoc](https://jsdoc.app/)
 ## Project Management
 Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 ## Resources

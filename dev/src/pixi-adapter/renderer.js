@@ -4,6 +4,7 @@ import Entity from "../simulation/core/Entity.js";
 import addDrag from "./drag.js";
 import addZoom from "./zoom.js";
 import { ClassType } from "../simulation/core/Types.js";
+import { closeObserverPanel, openObserverPanel } from "../gui/utilities/utilities.js";
 
 let app = new PIXI.Application();
 
@@ -26,9 +27,11 @@ const addElement = (element) => {
             if (Observe.element === element) {
                 Observe.element = null;
                 Observe.graphic = null;
+                closeObserverPanel();
             } else {
                 Observe.element = element;
                 Observe.graphic = graphic;
+                openObserverPanel(Observe.element.type, Observe.element.genes);
             }
         });
         app.stage.addChild(graphic);

@@ -54,24 +54,28 @@ const Agent = class extends Entity {
     }
 
     draw(context) {
-        this.graphics = context;
-
-        const pixelSize = mapMassToPixel(this.genes.Mass.getValue());
+        if (this.graphics === null) {
+            this.graphics = context;
+        }
+        this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
         // body
         context.lineStyle(2, this.color, 1);
         context.beginFill();
-        context.drawEllipse(-pixelSize, 0, pixelSize, pixelSize / 2);
+        context.drawEllipse(-this.pixelSize, 0, this.pixelSize, this.pixelSize / 2);
         context.endFill();
         // eye
         // draw a circle, set the lineStyle to zero so the circle doesn't have an outline
         context.lineStyle(0);
         context.beginFill(this.color, 1);
-        const padding = Math.ceil(pixelSize / 10);
+        const padding = Math.ceil(this.pixelSize / 10);
         context.drawCircle(-padding * 2, 0, padding);
         context.endFill();
     }
 
     render() {
+        if (this.genes.Mass.hasChanged()) {
+            this.draw();
+        }
         this.graphics.x = this.position.x;
         this.graphics.y = this.position.y;
         this.graphics.rotation = heading(this.velocity);

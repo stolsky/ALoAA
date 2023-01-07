@@ -84,11 +84,6 @@ const updateInfoBox = () => {
 let slowDownCounter = 0;
 Renderer.loop((deltaTime) => {
 
-    const { element } = Renderer.getObservedEntity();
-    if (element) {
-        updateOberverPanel(element.type, element.genes);
-    }
-
     const speed = Simulation.speedFactor;
 
     if (speed < 1 && slowDownCounter < 1 / speed) {
@@ -104,11 +99,17 @@ Renderer.loop((deltaTime) => {
             updateEntities(agents);
         }
 
+        renderEntities(resources);
+        renderEntities(agents);
+
+        // TODO improve performance if hidden?
         updateCharts(adjustedDeltaTime);
         updateInfoBox();
 
-        renderEntities(resources);
-        renderEntities(agents);
+        const { element } = Renderer.getObservedEntity();
+        if (element) {
+            updateOberverPanel(element.type, element.genes);
+        }
 
         slowDownCounter = 0;
     }

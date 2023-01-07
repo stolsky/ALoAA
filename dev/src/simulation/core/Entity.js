@@ -21,6 +21,7 @@ const Entity = class {
         this.target = null;
         this.threat = null;
 
+        this.pixelSize = 0;
         this.graphics = null;
         this.color = null;
 
