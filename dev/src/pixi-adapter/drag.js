@@ -35,10 +35,10 @@ const Drag = class {
     #offscreenHeight = 0;
 
     #begin = (event) => {
-        const { width, height, scale } = Simulation.getWorldAttributes();
+        const { width, height, zoom } = Simulation.getWorldAttributes();
         const bounds = this.#container.getBoundingClientRect();
-        this.#offscreenWidth = bounds.width - width * scale;
-        this.#offscreenHeight = bounds.height - height * scale;
+        this.#offscreenWidth = bounds.width - width * zoom;
+        this.#offscreenHeight = bounds.height - height * zoom;
         this.#startX = event.clientX - this.#offsetX - this.#application.stage.position.x;
         this.#startY = event.clientY - this.#offsetY - this.#application.stage.position.y;
 

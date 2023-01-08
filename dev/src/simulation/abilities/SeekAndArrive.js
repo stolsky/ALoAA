@@ -1,24 +1,17 @@
-import Entity from "../core/Entity.js";
-import Behaviour from "../core/Behaviour.js";
+import { ClassType } from "../core/Types.js";
 import { limit, magnitude, setMagnitude, substract } from "../../pixi-adapter/math.js";
 import { remap } from "../../utilities/math.js";
+import Ability from "../core/Ability.js";
 
-const SeekAndArrive = class extends Behaviour {
-
-    static id = "SeekAndArrive";
-
-    static type = Behaviour.Type.ABILITY;
+const SeekAndArrive = class extends Ability {
 
     static Requirements = Object.freeze({
-        Vision: { type: Behaviour.Type.ABILITY },
-        Motion: { type: Behaviour.Type.ABILITY }
+        Vision: { classType: ClassType.ABILITY },
+        Motion: { classType: ClassType.ABILITY }
     });
 
-    #parent;
-
-    constructor(parent) {
-        super({ id: SeekAndArrive.id, type: SeekAndArrive.type });
-        this.#parent = (parent instanceof Entity) ? parent : null;
+    constructor() {
+        super("SeekAndArrive");
     }
 
     /**
@@ -26,12 +19,12 @@ const SeekAndArrive = class extends Behaviour {
      *
      * @returns {{ x: number, y: number }}
      */
-    execute(target) {
-        const speed = this.#parent.genes.Speed.getValue();
-        const agility = this.#parent.genes.Agility.getValue();
-        const viewWidth = this.#parent.genes.VisionWidth.getValue();
+    use(target) {
+        const speed = this.parent.genes.Speed.getValue();
+        const agility = this.parent.genes.Agility.getValue();
+        const viewWidth = this.parent.genes.VisionWidth.getValue();
 
-        let force = substract(target.position, this.#parent.position) || { x: 0, y: 0 };
+        let force = substract(target.position, this.parent.position) || { x: 0, y: 0 };
 
         // arrival behaviour
         const distance = magnitude(force);
@@ -41,7 +34,7 @@ const SeekAndArrive = class extends Behaviour {
         }
 
         force = setMagnitude(force, desiredSpeed);
-        force = substract(force, this.#parent.velocity);
+        force = substract(force, this.parent.velocity);
         return limit(force, agility);
     }
 };

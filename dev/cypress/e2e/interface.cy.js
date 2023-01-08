@@ -78,7 +78,8 @@ describe("Test website functionality", () => {
                 // TODO add tests that fast forward and slow down work
             });
 
-            it("Test finish simulation button", () => {
+            // disabled in this version
+            it.skip("Test finish simulation button", () => {
                 cy.get(".Controls").within(() => {
                     cy.get("button.Icon.Finish")
                         .as("buttonFinish")
@@ -92,16 +93,16 @@ describe("Test website functionality", () => {
                     cy.get("button.Icon.icon-stats-bars")
                         .as("buttonCharts")
                         .should("be.visible");
-                    cy.get("button.Icon.icon-equalizer")
-                        .as("buttonOptions")
-                        .should("be.visible");
+                    // cy.get("button.Icon.icon-equalizer")
+                    //     .as("buttonOptions")
+                    //     .should("be.visible");
                     cy.get("button.Icon.icon-target")
                         .as("buttonFollow")
                         .should("be.visible");
                 });
             });
 
-            it("Check that all panels of menu items exist", () => {
+            it("Check that all panels (4) of menu items exist", () => {
                 cy.get(".PanelGroup").within(() => {
                     cy.get("div.Panel").should("have.length", 3);
                 });
@@ -111,9 +112,24 @@ describe("Test website functionality", () => {
                 cy.get(".Menu").within(() => {
                     // declare aliases of all elements used for the tests
                     cy.get("button.Icon.icon-stats-bars").as("buttonCharts");
-                    cy.get("button.Icon.icon-equalizer").as("buttonOptions");
                     cy.get("button.Icon.icon-target").as("buttonFollow");
+                    // cy.get("button.Icon.icon-equalizer").as("buttonOptions");
+                    cy.get("button.Icon.icon-info").as("buttonHelp");
                 });
+            });
+
+            it("Check that menu button options opens its panel and behaves correctly", () => {
+                cy.get(".Menu").within(() => {
+                    // initial state
+                    cy.get("button.Icon.icon-stats-bars").as("buttonCharts")
+                        .should("have.class", "Active");
+                    cy.get("button.Icon.icon-target").as("buttonObserver")
+                        .should("not.have.class", "Active");
+                });
+
+                cy.get("@buttonObserver").click().should("have.class", "Active");
+                // TODO how to check active panels switched -> different classes
+                cy.get("@buttonCharts").should("not.have.class", "Active");
             });
 
         });

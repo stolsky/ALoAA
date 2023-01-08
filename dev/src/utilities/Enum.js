@@ -15,7 +15,7 @@ const createEnum = (...symbols) => {
     const pattern = /^\w+$/;
 
     const props = {};
-    if (symbols instanceof Array) {
+    if (Array.isArray(symbols)) {
         symbols.forEach((key) => {
             if (pattern.test(`${key}`)) {
                 props[`${key}`] = Symbol(`${key}`);

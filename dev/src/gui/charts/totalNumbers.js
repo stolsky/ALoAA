@@ -1,17 +1,15 @@
 /* globals Chart */
 
+import { ChartSettings, Anorganic, Organic, Autotroph, Heterotroph, Mixotroph } from "./dataTypes.js";
 import createElement from "../utilities/create.js";
-import { hex2rgb } from "../../pixi-adapter/utils.js";
-import Configuration from "../../simulation/Configuration.js";
 import Entity from "../../simulation/core/Entity.js";
 import Simulation from "../../simulation/Simulation.js";
 
-let chart = null;
+const SECTOR_SIZE = 10; // seconds
+const MAX_DATA_SIZE = SECTOR_SIZE * 10;
+const UPDATE_DELAY = 1000;
 
-const INDEX_ANORGANIC = 0;
-const INDEX_ORGANIC = 1;
-const INDEX_AUTOTROPH = 2;
-const INDEX_HETEROTROPH = 3;
+let chart = null;
 
 const create = (parent) => {
     const canvas = createElement("canvas");
@@ -21,55 +19,79 @@ const create = (parent) => {
         labels: [],
         datasets: [
             {
-                label: "anorganic",
+                label: Anorganic.label,
                 data: [],
-                borderColor: `rgb(${hex2rgb(Configuration.Colors.ANORGANIC)})`,
+                borderColor: Anorganic.color,
                 fill: false,
                 pointStyle: false
             },
             {
-                label: "organic",
+                label: Organic.label,
                 data: [],
-                borderColor: `rgb(${hex2rgb(Configuration.Colors.ORGANIC)})`,
+                borderColor: Organic.color,
                 fill: false,
                 pointStyle: false
             },
             {
-                label: "autotroph",
+                label: Autotroph.label,
                 data: [],
-                borderColor: `rgb(${hex2rgb(Configuration.Colors.AUTOTROPH)})`,
+                borderColor: Autotroph.color,
                 fill: false,
-                pointStyle: false,
-                tension: 0.4 // TODO test
+                pointStyle: false
             },
             {
-                label: "heterotroph",
+                label: Heterotroph.label,
                 data: [],
-                borderColor: `rgb(${hex2rgb(Configuration.Colors.HETEROTROPH)})`,
+                borderColor: Heterotroph.color,
                 fill: false,
-                pointStyle: false,
-                tension: 0.4 // TODO test
+                pointStyle: false
+            },
+            {
+                label: Mixotroph.label,
+                data: [],
+                borderColor: Mixotroph.color,
+                fill: false,
+                pointStyle: false
             }
         ]
     };
 
     const options = {
+        responsive: true,
         scales: {
             x: {
                 grid: {
                     color: (context) => {
-                        if (context.index % 10 === 0) {
-                            return "rgba(38, 217, 255, 0.5)";
+                        if (context.tick.label !== 0 && context.tick.label % SECTOR_SIZE === 0) {
+                            return ChartSettings.lineColor;
                         }
                         return null;
                     },
-                    tickLength: 0
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    lineWidth: 0.5,
+                    ticks: { display: false }
                 },
                 ticks: { display: false }
             },
-            y: { display: false }
+            y: {
+                grid: {
+                    color: ChartSettings.lineColor,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    lineWidth: 0.5
+                },
+                ticks: { display: false }
+            }
         },
-        plugins: { legend: { display: false } }
+        plugins: {
+            tooltip: {
+                displayColors: false
+            },
+            legend: { display: false }
+        }
     };
 
     chart = new Chart(
@@ -82,18 +104,28 @@ const create = (parent) => {
     );
 };
 
-let updateCounter = 1001;
+let updateCounter = UPDATE_DELAY + 1;
 const update = (deltaTime) => {
 
-    if (updateCounter > 1000) {
+    if (updateCounter > UPDATE_DELAY) {
 
-        chart.data.labels.push(chart.data.datasets[INDEX_ANORGANIC].data.length);
-        chart.data.datasets[INDEX_ANORGANIC].data.push(Simulation.getResources().filter((resource) => resource.type === Entity.Type.ANORGANIC).length);
-        chart.data.datasets[INDEX_ORGANIC].data.push(Simulation.getResources().filter((resource) => resource.type === Entity.Type.ORGANIC).length);
-        chart.data.datasets[INDEX_AUTOTROPH].data.push(Simulation.getAgents().filter((agent) => agent.type === Entity.Type.AUTOTROPH).length);
-        chart.data.datasets[INDEX_HETEROTROPH].data.push(Simulation.getAgents().filter((agent) => agent.type === Entity.Type.HETEROTROPH).length);
+        const counter = (chart.data.labels.at(-1) || 0) + 1;
+        chart.data.labels.push(counter);
+        chart.data.datasets[Anorganic.index].data.push(Simulation.getResources().filter((resource) => resource.type === Entity.Type.ANORGANIC).length);
+        chart.data.datasets[Organic.index].data.push(Simulation.getResources().filter((resource) => resource.type === Entity.Type.ORGANIC).length);
+        chart.data.datasets[Autotroph.index].data.push(Simulation.getAgents().filter((agent) => agent.type === Entity.Type.AUTOTROPH).length);
+        chart.data.datasets[Heterotroph.index].data.push(Simulation.getAgents().filter((agent) => agent.type === Entity.Type.HETEROTROPH).length);
+        chart.data.datasets[Mixotroph.index].data.push(Simulation.getAgents().filter((agent) => agent.type === Entity.Type.MIXOTROPH).length);
 
-        chart.update();
+        if (chart.data.labels.length > MAX_DATA_SIZE) {
+            // shift is faster than splice and slice
+            chart.data.labels.shift();
+            chart.data.datasets.forEach((dataset) => {
+                dataset.data.shift();
+            });
+        }
+
+        chart.update("none");
         updateCounter = 0;
     }
 

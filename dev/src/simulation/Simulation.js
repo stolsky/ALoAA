@@ -1,21 +1,19 @@
 import Configuration from "./Configuration.js";
-import Resource from "./core/Resource.js";
-// TODO dependency cycle is not real. only used for instanceof check -> replace with use of static symbol from class
-import Agent from "./core/Agent.js";
+import { ClassType } from "./core/Types.js";
 
 const Simulation = new (class {
 
     #World = {
         width: 3000,
         height: 2000,
-        scale: 1
+        zoom: 1
     };
 
     #timePassed = 0;
 
     #speedFactor = 1;
 
-    #isRunning = false;
+    // #isRunning = false;
 
     #resources = [];
 
@@ -43,30 +41,31 @@ const Simulation = new (class {
         }
     }
 
-    get isRunning() {
-        return this.#isRunning;
-    }
+    // get isRunning() {
+    //     return this.#isRunning;
+    // }
 
-    set isRunning(state) {
-        if (typeof state === "boolean") {
-            this.#isRunning = state;
-        }
-    }
+    // set isRunning(state) {
+    //     if (typeof state === "boolean") {
+    //         this.#isRunning = state;
+    //     }
+    // }
 
     getWorldAttributes() {
         return this.#World;
     }
 
-    setWorldScale(scale) {
-        if (Number.isFinite(scale) && scale > 0) {
-            this.#World.scale = scale;
+    setWorldZoom(zoom) {
+        if (Number.isFinite(zoom) && zoom > 0) {
+            this.#World.zoom = zoom;
         }
     }
 
     addEntity(entity) {
-        if (entity instanceof Resource) {
+        const classType = entity.constructor.ClassType;
+        if (classType === ClassType.RESOURCE) {
             this.#resources.push(entity);
-        } else if (entity instanceof Agent) {
+        } else if (classType === ClassType.AGENT) {
             this.#agents.push(entity);
         }
     }

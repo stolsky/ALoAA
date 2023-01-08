@@ -1,12 +1,17 @@
-import create from "./utilities/create.js";
-import { createButton, selectMenuItem, selectMenuItem as selectPanel } from "./utilities/utilities.js";
-import { create as createTooltip } from "./utilities/tooltip.js";
-import { play as runLoop, pause as stopLoop } from "../pixi-adapter/renderer.js";
-import Simulation from "../simulation/Simulation.js";
-import Configuration from "../simulation/Configuration.js";
-import { formatTime } from "../utilities/math.js";
+import create from "../utilities/create.js";
+import { createButton, selectMenuItem, selectMenuItem as selectPanel } from "../utilities/utilities.js";
+import { create as createTooltip } from "../utilities/tooltip.js";
+import { play as runLoop, pause as stopLoop } from "../../pixi-adapter/renderer.js";
+import Simulation from "../../simulation/Simulation.js";
+import Configuration from "../../simulation/Configuration.js";
+import { formatTime } from "../../utilities/math.js";
+import { getButton as getObserverButton, getPanel as getObserverPanel } from "./ObserverPanel.js";
 
+let isBeforeStart = true;
+const startMessage = create("p", "StartSimulationHint");
+startMessage.textContent = "To start the simulation click the \"Play\" button.";
 const renderer = create("div", "Renderer Sci-Fi-Border");
+renderer.appendChild(startMessage);
 
 const outputSpeedFactor = create("span", "SpeedFactor");
 outputSpeedFactor.textContent = Simulation.speedFactor;
@@ -36,8 +41,13 @@ outputTimePassed.textContent = "00:00:00.00";
 
 let buttonPause = null;
 const buttonPlay = createButton(
-    "Icon Play icon-play3",
+    "Icon Play icon-play3 PulseEffect",
     () => {
+        if (isBeforeStart) {
+            isBeforeStart = false;
+            startMessage.classList.add("Hidden");
+            buttonPlay.classList.remove("PulseEffect");
+        }
         buttonPlay.style.display = "none";
         buttonPause.style.display = "block";
         runLoop();
@@ -55,13 +65,13 @@ buttonPause = createButton(
 );
 buttonPause.style.display = "none";
 
-const buttonFinish = createButton(
-    "Icon Finish icon-switch",
-    () => {
+// const buttonFinish = createButton(
+//     "Icon Finish icon-switch",
+//     () => {
 
-    },
-    "Finish Simulation"
-);
+//     },
+//     "Finish Simulation"
+// );
 
 const controls = create("div", "Controls Sci-Fi-Border");
 controls.append(
@@ -70,8 +80,8 @@ controls.append(
     buttonPause,
     buttonSpeedUp,
     outputSpeedFactor,
-    outputTimePassed,
-    buttonFinish
+    outputTimePassed
+    // buttonFinish
 );
 
 const visualization = create("div", "Visualization");
@@ -81,8 +91,9 @@ visualization.append(
 );
 
 const panelCharts = create("div", "Panel Active");
-const panelOptions = create("div", "Panel");
-const panelInformation = create("div", "Panel");
+// const panelOptions = create("div", "Panel");
+const panelObserver = getObserverPanel();
+const panelHelp = create("div", "Panel");
 
 const buttonCharts = createButton(
     "Icon Active icon-stats-bars",
@@ -93,21 +104,22 @@ const buttonCharts = createButton(
     "Show Charts"
 );
 
-const buttonOptions = createButton(
-    "Icon icon-equalizer",
-    () => {
-        selectMenuItem(buttonOptions);
-        selectPanel(panelOptions);
-    },
-    "Show Options"
-);
+// const buttonOptions = createButton(
+//     "Icon icon-equalizer",
+//     () => {
+//         selectMenuItem(buttonOptions);
+//         selectPanel(panelOptions);
+//     },
+//     "Show Options"
+// );
 
-// TODO add tests
-const buttonFollow = createButton(
-    "Icon icon-target",
+const buttonObserver = getObserverButton();
+
+const buttonHelp = createButton(
+    "Icon icon-info",
     () => {
-        selectMenuItem(buttonFollow);
-        selectPanel(panelInformation);
+        selectMenuItem(buttonHelp);
+        selectPanel(panelHelp);
     },
     "Show Individual Information"
 );
@@ -115,15 +127,17 @@ const buttonFollow = createButton(
 const menu = create("div", "Menu Sci-Fi-Border");
 menu.append(
     buttonCharts,
-    buttonOptions,
-    buttonFollow
+    buttonObserver,
+    // buttonOptions,
+    buttonHelp
 );
 
 const panels = create("div", "PanelGroup Sci-Fi-Border");
 panels.append(
     panelCharts,
-    panelOptions,
-    panelInformation
+    panelObserver,
+    // panelOptions,
+    panelHelp
 );
 
 const evaluation = create("div", "Evaluation");

@@ -1,22 +1,9 @@
-import Behaviour from "../core/Behaviour.js";
-import Entity from "../core/Entity.js";
+import { ClassType } from "../core/Types.js";
 import { add, limit, multiplyScalar } from "../../pixi-adapter/math.js";
 import Simulation from "../Simulation.js";
+import Ability from "../core/Ability.js";
 
-/*
-@interface
-
-Ability {
-    requirements - all bars, trait, abilites for this abolity to work properly
-    energy consumption
-    storage - Abilities private variables
-    triggers - all conditions when this ability executes
-    execute - all the operations of this ability
-        checks inside execute
-}
-*/
-
-const Motion = class extends Behaviour {
+const Motion = class extends Ability {
 
     static checkCollisionWithBoundary(object) {
         const { width, height } = Simulation.getWorldAttributes();
@@ -36,51 +23,42 @@ const Motion = class extends Behaviour {
         }
     }
 
-    static id = "Motion";
-
-    static type = Behaviour.Type.ABILITY;
-
     static Requirements = Object.freeze({
-        Energy: { type: Behaviour.Type.BAR },
-        Speed: { type: Behaviour.Type.TRAIT },
-        Agility: { type: Behaviour.Type.TRAIT }
+        Energy: { classType: ClassType.BAR },
+        Speed: { classType: ClassType.TRAIT },
+        Agility: { classType: ClassType.TRAIT }
     });
-
-    #parent;
 
     #acceleration = { x: 0, y: 0 };
 
-    // TODO add energy drain bar or trait ??
-    constructor(parent) {
-        super({ id: Motion.id, type: Motion.type });
-        this.#parent = (parent instanceof Entity) ? parent : null;
+    // TODO add modifier EnergyConsumption Trait
+    constructor() {
+        super("Motion");
     }
 
-    execute(force) {
+    use(force) {
+        if (force !== null) {
+            /** @type {Bar} */
+            const energy = this.parent.genes.Energy;
+            /** @type {number} */
+            const speed = this.parent.genes.Speed.getValue();
 
-        /** @type {Bar} */
-        const energy = this.#parent.genes.Energy;
-        /** @type {number} */
-        const speed = this.#parent.genes.Speed.getValue();
-
-        // TODO add/improve trigger
-        if (energy.getValue() > 0) {
+            // TODO add/improve trigger
 
             this.#acceleration = add(this.#acceleration, force);
 
-            this.#parent.velocity = add(this.#parent.velocity, this.#acceleration);
-            this.#parent.velocity = limit(this.#parent.velocity, speed);
+            this.parent.velocity = add(this.parent.velocity, this.#acceleration);
+            this.parent.velocity = limit(this.parent.velocity, speed);
 
-            this.#parent.position = add(this.#parent.position, this.#parent.velocity);
+            this.parent.position = add(this.parent.position, this.parent.velocity);
 
             this.#acceleration = multiplyScalar(this.#acceleration, 0);
 
             // TODO calculate influence of speed & agility -> the better the stats the greater the energy consumption
             energy.decrease(1);
 
-            Motion.checkCollisionWithBoundary(this.#parent);
+            Motion.checkCollisionWithBoundary(this.parent);
         }
-
     }
 
 };

@@ -1,88 +1,40 @@
-import Bar from "./Bar.js";
 import createEnum from "../../utilities/Enum.js";
-import Behaviour from "./Behaviour.js";
-import Configuration from "../Configuration.js";
-import { mapMassToPixel } from "../../utilities/math.js";
 import { add, setMagnitude } from "../../pixi-adapter/math.js";
 
 const Entity = class {
 
-    // TODO necessary type?
-    static id = "Entity";
-
     static Type = createEnum("NONE", "ANORGANIC", "ORGANIC", "AUTOTROPH", "MIXOTROPH", "HETEROTROPH");
 
-    #checkRequirements = (requirements) => {
-        if (requirements instanceof Object) {
-            Object.keys(requirements).forEach((id) => {
-                if (!Object.hasOwn(this.genes, id)) {
-                    // TODO add auto adding(?) bars, traits, abilities
-                    console.warn(`The requirement ${id} is missing!`);
-                }
-            });
-        }
-    };
-
     /**
-     * @param {{ x: number, y: number, type: Symbol, mass: Bar}} param0
+     * @param {{ x: number, y: number }} param0
      */
-    constructor({ x, y, type, mass }) {
+    constructor({ x, y }) {
 
-        this.type = (Entity.Type.has(type)) ? type : Entity.Type.NONE;
+        this.type = Entity.Type.NONE;
 
         this.position = (Number.isFinite(x) && Number.isFinite(y)) ? { x, y } : { x: 0, y: 0 };
-        this.velocity = { x: 0, y: 0 }; // TODO check if really: current speed & orientation
+        this.velocity = { x: 0, y: 0 }; // TODO check what this variable influences -> current speed AND orientation??
 
         // pool for all abilities, bars and traits, identified by unique id
-        // TODO mutate: Bar.rate (min, max, now), Trait (min, max,now), Ability.triggers (conditions: Traits, Bars)
         this.genes = {};
-
-        // mass is required
-        this.genes.mass = (mass instanceof Bar) ? mass : new Bar({ id: "mass", value: { min: 0, now: 50, max: 100 } });
-        this.pixelSize = mapMassToPixel(this.genes.mass.getValue());
 
         this.target = null;
         this.threat = null;
 
+        this.pixelSize = 0;
         this.graphics = null;
         this.color = null;
 
         Object.seal(this);
     }
 
-    addProperty(gene) {
-        if (gene instanceof Behaviour) {
-            const { id } = gene;
-            if (!Object.hasOwn(this.genes, id)) {
-                if (Object.hasOwn(gene.constructor, "Requirements")) {
-                    this.#checkRequirements(gene.constructor.Requirements);
-                }
-                this.genes[`${id}`] = gene;
-            }
-        }
-    }
-
-    calculateColor(genes) {
-        // set base color
-        if (this.type === Entity.Type.ANORGANIC) {
-            this.color = Configuration.Colors.ANORGANIC;
-        } else if (this.type === Entity.Type.ORGANIC) {
-            this.color = Configuration.Colors.ORGANIC;
-        } else if (this.type === Entity.Type.AUTOTROPH) {
-            this.color = Configuration.Colors.AUTOTROPH;
-        } else if (this.type === Entity.Type.HETEROTROPH) {
-            this.color = Configuration.Colors.HETEROTROPH;
-        } else {
-            this.color = 0xCCCCCC;
-        }
-        // TODO adjust base color by genes
-    }
-
+    // TODO refactor to utilities or math or ability?
     calculateDistanceFromCurrentPosition(length) {
         let distance = { ...this.velocity };
         distance = setMagnitude(distance, length);
         return add(distance, this.position);
     }
+
 };
 
 export default Entity;

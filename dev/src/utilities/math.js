@@ -34,20 +34,21 @@ const formatTime = (msec) => {
     return `${hoursString}:${minutesString}:${secondsString}`;
 };
 
-// research: https://www.desmos.com/calculator
 // TODO TEST
 // TODO get min pixel size and max pixel size from Configuration
 const mapMassToPixel = (mass) => {
     if (mass === 0) {
         return 0;
     }
-    let result = round(mass * 0.25 + 10); // round(Math.sqrt(mass) * 2 + 5);
+    // prefer simple formula, avoid division, square root, etc...
+    let result = round(mass * 0.25 + 10);
     if (result > 30) {
         result = 30;
     }
     return result;
 };
 
+// TODO rename method to better name??
 /** Re-maps a number from one range to another.
  *
  * Taken from the implementation of p5.js

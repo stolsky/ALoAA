@@ -11,17 +11,17 @@ const Zoom = class {
     #scale;
 
     #zoomIn = () => {
-        const newScale = Simulation.getWorldAttributes().scale + Zoom.#Step;
-        Simulation.setWorldScale(newScale);
+        const newScale = Simulation.getWorldAttributes().zoom + Zoom.#Step;
+        Simulation.setWorldZoom(newScale);
         this.#scale.x = newScale;
         this.#scale.y = newScale;
     };
 
     #zoomOut = () => {
-        const { width, height, scale } = Simulation.getWorldAttributes();
+        const { width, height, zoom } = Simulation.getWorldAttributes();
         if (width > this.#container.width || height > this.#container.height) {
-            const newScale = scale - Zoom.#Step;
-            Simulation.setWorldScale(newScale);
+            const newScale = zoom - Zoom.#Step;
+            Simulation.setWorldZoom(newScale);
             this.#scale.x = newScale;
             this.#scale.y = newScale;
         }
