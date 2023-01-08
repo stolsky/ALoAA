@@ -132,6 +132,12 @@ body {
     flex-grow: 1;
 }
 
+.Evaluation .Panel.Observer .Type,
+.Evaluation .Panel.Observer .Content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+}
+
 button.Icon {
     border: none;
     background-color: transparent;
@@ -172,7 +178,7 @@ button.Icon:hover {
     left: 0;
     top: 0;
     width: calc(100% - 2 * var(--GAP));
-    height: 100%;
+    height: calc(100% - 2 * var(--GAP));
     display: none;
     flex-flow: column;
     gap: var(--GAP);

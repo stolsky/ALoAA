@@ -5,7 +5,7 @@ import { play as runLoop, pause as stopLoop } from "../../pixi-adapter/renderer.
 import Simulation from "../../simulation/Simulation.js";
 import Configuration from "../../simulation/Configuration.js";
 import { formatTime } from "../../utilities/math.js";
-import { getInstance } from "./ObserverPanel.js";
+import { getButton as getObserverButton, getPanel as getObserverPanel } from "./ObserverPanel.js";
 
 let isBeforeStart = true;
 const startMessage = create("p", "StartSimulationHint");
@@ -91,8 +91,8 @@ visualization.append(
 );
 
 const panelCharts = create("div", "Panel Active");
-const panelOptions = create("div", "Panel");
-const panelObserver = getInstance();
+// const panelOptions = create("div", "Panel");
+const panelObserver = getObserverPanel();
 const panelHelp = create("div", "Panel");
 
 const buttonCharts = createButton(
@@ -104,23 +104,16 @@ const buttonCharts = createButton(
     "Show Charts"
 );
 
-const buttonOptions = createButton(
-    "Icon icon-equalizer",
-    () => {
-        selectMenuItem(buttonOptions);
-        selectPanel(panelOptions);
-    },
-    "Show Options"
-);
+// const buttonOptions = createButton(
+//     "Icon icon-equalizer",
+//     () => {
+//         selectMenuItem(buttonOptions);
+//         selectPanel(panelOptions);
+//     },
+//     "Show Options"
+// );
 
-const buttonFollow = createButton(
-    "Icon icon-target",
-    () => {
-        selectMenuItem(buttonFollow);
-        selectPanel(panelObserver);
-    },
-    "Show Individual Information"
-);
+const buttonObserver = getObserverButton();
 
 const buttonHelp = createButton(
     "Icon icon-info",
@@ -134,8 +127,8 @@ const buttonHelp = createButton(
 const menu = create("div", "Menu Sci-Fi-Border");
 menu.append(
     buttonCharts,
-    buttonFollow,
-    buttonOptions,
+    buttonObserver,
+    // buttonOptions,
     buttonHelp
 );
 
@@ -143,7 +136,7 @@ const panels = create("div", "PanelGroup Sci-Fi-Border");
 panels.append(
     panelCharts,
     panelObserver,
-    panelOptions,
+    // panelOptions,
     panelHelp
 );
 

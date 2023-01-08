@@ -11,3 +11,5 @@
 * [Simulate Natural Systems](https://www.youtube.com/watch?v=6vX8wT1G798&list=PLRqwX-V7Uu6aFlwukCmDf0-1-uSR7mklK)
 * [Boids by Craig Reynolds](https://www.red3d.com/cwr/boids/)
   * [exmple youtube](https://www.youtube.com/watch?v=rkQB4zEJggE)
+* [Evolutionary Computation](https://www.red3d.com/cwr/evolve.html)
+* [Game AI Pro](https://www.gameaipro.com/)

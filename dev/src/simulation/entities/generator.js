@@ -68,32 +68,32 @@ const createAgent = (position, ...properties) => {
         entity,
         properties,
         [
-            new Bar({ id: "Mass", value: { min: 0, now: agentsDefaultMaxMass / 2, max: agentsDefaultMaxMass } }),
-            new Trait({ id: "Food", value: { min: 0, now: 0, max: 100 } }),
+            new Bar({ id: "Mass", name: "Mass", value: { min: 0, now: agentsDefaultMaxMass / 2, max: agentsDefaultMaxMass } }),
+            new Trait({ id: "Food", name: "Food", value: { min: 0, now: 0, max: 100 } }),
 
-            new Bar({ id: "Energy", value: { min: 0, now: 1000, max: 1000 } }),
+            new Bar({ id: "Energy", name: "Energy", value: { min: 0, now: 1000, max: 1000 } }),
 
-            new Trait({ id: "Speed", value: { min: 0, now: 5, max: 10 } }),
-            new Trait({ id: "Agility", value: { min: 0, now: 1, max: 1 } }),
+            new Trait({ id: "Speed", name: "Speed", value: { min: 0, now: 5, max: 10 } }),
+            new Trait({ id: "Agility", name: "Agility", value: { min: 0, now: 1, max: 1 } }),
             new Motion(),
 
             new Wander(
-                new Trait({ id: "WanderDistance", value: { min: 0, now: 75, max: 150 } }),
-                new Trait({ id: "WanderWidth", value: { min: 0, now: 50, max: 100 } })
+                new Trait({ id: "WanderDistance", name: "Wander Distance", value: { min: 0, now: 75, max: 150 } }),
+                new Trait({ id: "WanderWidth", name: "Wander Width", value: { min: 0, now: 50, max: 100 } })
             ),
 
-            new Trait({ id: "VisionDistance", value: { min: 0, now: 150, max: 300 } }),
-            new Trait({ id: "VisionWidth", value: { min: 0, now: 100, max: 200 } }),
+            new Trait({ id: "VisionDistance", name: "Vision Distance", value: { min: 0, now: 150, max: 300 } }),
+            new Trait({ id: "VisionWidth", name: "Vision Width", value: { min: 0, now: 100, max: 200 } }),
             new Vision(),
 
             new SeekAndArrive(),
 
-            new Bar({ id: "Stomach", value: { min: 0, now: 0, max: 100 } }),
+            new Bar({ id: "Stomach", name: "Stomach", value: { min: 0, now: 0, max: 100 } }),
             new Ingestion(
                 // const { foodPerTurn, energyConsumption } = modifier;
                 // this.#foodPerTurn = (foodPerTurn instanceof Trait) ? foodPerTurn : 1;
             ),
-            new Bar({ id: "Rectum", value: { min: 0, now: 0, max: 100 } }),
+            new Bar({ id: "Rectum", name: "Rectum", value: { min: 0, now: 0, max: 100 } }),
             new Digestion()
             // new Growth()
         ]
@@ -112,8 +112,8 @@ const createResource = (position, ...properties) => {
         entity,
         properties,
         [
-            new Bar({ id: "Mass", value: { min: 0, now: resourceDefaultMass, max: 100 } }),
-            new Bar({ id: "Decomposition", value: { min: 0, now: 0, max: 100 } })
+            new Bar({ id: "Mass", name: "Mass", value: { min: 0, now: resourceDefaultMass, max: 100 } }),
+            new Bar({ id: "Decomposition", name: "Decomposition", value: { min: 0, now: 0, max: 100 } })
         ]
     ));
     return entity;

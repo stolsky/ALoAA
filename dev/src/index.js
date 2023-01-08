@@ -56,8 +56,9 @@ const updateEntities = (entities) => {
         if (organic.mass > 0) {
             const resource = createResource(
                 entity.position,
-                new Bar({ id: "Mass", value: { min: 0, now: organic.mass, max: organic.mass } }),
-                new Bar({ id: "Decomposition", value: { min: 0, now: organic.decomposition, max: organic.decomposition } }),
+                // TODO add helper methods to avoid setting trivial data like name, min, description -> DefaultBar(id, now, max)
+                new Bar({ id: "Mass", name: "Mass", value: { min: 0, now: organic.mass, max: organic.mass } }),
+                new Bar({ id: "Decomposition", name: "Decomposition", value: { min: 0, now: organic.decomposition, max: organic.decomposition } }),
                 new Decay()
             );
             Simulation.addEntity(resource);
@@ -77,7 +78,7 @@ const updatePanels = (adjustedDeltaTime) => {
 
     const { element } = Renderer.getObservedEntity();
     if (element) {
-        updateObserverPanel(element.type, element.genes);
+        updateObserverPanel(element.genes);
     }
 };
 

@@ -93,9 +93,9 @@ describe("Test website functionality", () => {
                     cy.get("button.Icon.icon-stats-bars")
                         .as("buttonCharts")
                         .should("be.visible");
-                    cy.get("button.Icon.icon-equalizer")
-                        .as("buttonOptions")
-                        .should("be.visible");
+                    // cy.get("button.Icon.icon-equalizer")
+                    //     .as("buttonOptions")
+                    //     .should("be.visible");
                     cy.get("button.Icon.icon-target")
                         .as("buttonFollow")
                         .should("be.visible");
@@ -104,7 +104,7 @@ describe("Test website functionality", () => {
 
             it("Check that all panels (4) of menu items exist", () => {
                 cy.get(".PanelGroup").within(() => {
-                    cy.get("div.Panel").should("have.length", 4);
+                    cy.get("div.Panel").should("have.length", 3);
                 });
             });
 
@@ -113,7 +113,7 @@ describe("Test website functionality", () => {
                     // declare aliases of all elements used for the tests
                     cy.get("button.Icon.icon-stats-bars").as("buttonCharts");
                     cy.get("button.Icon.icon-target").as("buttonFollow");
-                    cy.get("button.Icon.icon-equalizer").as("buttonOptions");
+                    // cy.get("button.Icon.icon-equalizer").as("buttonOptions");
                     cy.get("button.Icon.icon-info").as("buttonHelp");
                 });
             });
@@ -123,11 +123,11 @@ describe("Test website functionality", () => {
                     // initial state
                     cy.get("button.Icon.icon-stats-bars").as("buttonCharts")
                         .should("have.class", "Active");
-                    cy.get("button.Icon.icon-equalizer").as("buttonOptions")
+                    cy.get("button.Icon.icon-target").as("buttonObserver")
                         .should("not.have.class", "Active");
                 });
 
-                cy.get("@buttonOptions").click().should("have.class", "Active");
+                cy.get("@buttonObserver").click().should("have.class", "Active");
                 // TODO how to check active panels switched -> different classes
                 cy.get("@buttonCharts").should("not.have.class", "Active");
             });

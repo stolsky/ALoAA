@@ -1,5 +1,5 @@
 import Configuration from "../../simulation/Configuration.js";
-import { hex2rgb } from "../../pixi-adapter/utils.js";
+import { hexToRGB } from "../../pixi-adapter/utils.js";
 
 const ChartSettings = {
     lineColor: "rgba(38, 217, 255, 0.5)"
@@ -8,31 +8,31 @@ const ChartSettings = {
 const Anorganic = {
     index: 0,
     label: "Anorganic",
-    color: `rgb(${hex2rgb(Configuration.Colors.ANORGANIC)})`
+    color: `rgb(${hexToRGB(Configuration.Colors.ANORGANIC)})`
 };
 
 const Organic = {
     index: 1,
     label: "Organic",
-    color: `rgb(${hex2rgb(Configuration.Colors.ORGANIC)})`
+    color: `rgb(${hexToRGB(Configuration.Colors.ORGANIC)})`
 };
 
 const Autotroph = {
     index: 2,
     label: "Autotroph",
-    color: `rgb(${hex2rgb(Configuration.Colors.AUTOTROPH)})`
+    color: `rgb(${hexToRGB(Configuration.Colors.AUTOTROPH)})`
 };
 
 const Heterotroph = {
     index: 3,
     label: "Heterotroph",
-    color: `rgb(${hex2rgb(Configuration.Colors.HETEROTROPH)})`
+    color: `rgb(${hexToRGB(Configuration.Colors.HETEROTROPH)})`
 };
 
 const Mixotroph = {
     index: 4,
     label: "Mixotroph",
-    color: `rgb(${hex2rgb(Configuration.Colors.MIXOTROPH)})`
+    color: `rgb(${hexToRGB(Configuration.Colors.MIXOTROPH)})`
 };
 
 export {

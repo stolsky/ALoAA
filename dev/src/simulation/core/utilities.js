@@ -1,4 +1,5 @@
 import { magnitude, substract } from "../../pixi-adapter/math.js";
+import { hexToRGB } from "../../pixi-adapter/utils.js";
 import Configuration from "../Configuration.js";
 import Entity from "./Entity.js";
 import { ClassType } from "./Types.js";
@@ -36,7 +37,7 @@ const addInformation = (target, information = {}) => {
     }
 };
 
-const getColorFromType = (type) => {
+const getColorFromType = (type, toRGBString = false) => {
     let color = 0xCCCCCC;
     if (type === Entity.Type.ANORGANIC) {
         color = Configuration.Colors.ANORGANIC;
@@ -46,6 +47,9 @@ const getColorFromType = (type) => {
         color = Configuration.Colors.AUTOTROPH;
     } else if (type === Entity.Type.HETEROTROPH) {
         color = Configuration.Colors.HETEROTROPH;
+    }
+    if (toRGBString) {
+        color = hexToRGB(color);
     }
     return color;
 };
