@@ -1,5 +1,6 @@
 /* globals PIXI */
 
+import Configuration from "../simulation/Configuration.js";
 import Simulation from "../simulation/Simulation.js";
 
 const Drag = class {
@@ -35,10 +36,10 @@ const Drag = class {
     #offscreenHeight = 0;
 
     #begin = (event) => {
-        const { width, height, zoom } = Simulation.getWorldAttributes();
+        const { width, height } = Configuration.World;
         const bounds = this.#container.getBoundingClientRect();
-        this.#offscreenWidth = bounds.width - width * zoom;
-        this.#offscreenHeight = bounds.height - height * zoom;
+        this.#offscreenWidth = bounds.width - width * Simulation.worldZoom;
+        this.#offscreenHeight = bounds.height - height * Simulation.worldZoom;
         this.#startX = event.clientX - this.#offsetX - this.#application.stage.position.x;
         this.#startY = event.clientY - this.#offsetY - this.#application.stage.position.y;
 
@@ -83,15 +84,16 @@ const Drag = class {
     #end = () => {
         if (this.#dragging) {
             this.#dragging = false;
-            this.#startX = 0;
-            this.#startY = 0;
-            this.#offscreenWidth = -1;
-            this.#offscreenHeight = -1;
+            // this.#startX = 0;
+            // this.#startY = 0;
+            // this.#offscreenWidth = -1;
+            // this.#offscreenHeight = -1;
             this.#container.style.cursor = "default";
         }
     };
 
     constructor(application) {
+        // TODO how to avoid instanceof here?
         if (application instanceof PIXI.Application) {
 
             this.#application = application;

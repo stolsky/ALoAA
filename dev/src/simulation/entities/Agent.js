@@ -45,37 +45,45 @@ const Agent = class extends Entity {
     }
 
     addProperties(...properties) {
+        // TODO refactor
         this.genes = validateProperties(
             addProperties(properties),
             Agent.Requirements
         );
+        // initialize appearance related properties
+        this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
         this.type = Agent.#getTypeFromDiet(this.genes.Food.getValue());
         this.color = getColorFromType(this.type);
     }
 
-    draw(context) {
+    draw(context = null) {
         if (this.graphics === null) {
             this.graphics = context;
         }
-        this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
         // body
-        context.lineStyle(2, this.color, 1);
-        context.beginFill();
-        context.drawEllipse(-this.pixelSize, 0, this.pixelSize, this.pixelSize / 2);
-        context.endFill();
+        this.graphics.lineStyle(2, this.color, 1);
+        this.graphics.beginFill();
+        this.graphics.drawEllipse(-this.pixelSize, 0, this.pixelSize, this.pixelSize / 2);
+        this.graphics.endFill();
         // eye
         // draw a circle, set the lineStyle to zero so the circle doesn't have an outline
-        context.lineStyle(0);
-        context.beginFill(this.color, 1);
+        this.graphics.lineStyle(0);
+        this.graphics.beginFill(this.color, 1);
         const padding = Math.ceil(this.pixelSize / 10);
-        context.drawCircle(-padding * 2, 0, padding);
-        context.endFill();
+        this.graphics.drawCircle(-padding * 2, 0, padding);
+        this.graphics.endFill();
     }
 
     render() {
+        let mustDraw = false;
         if (this.genes.Mass.hasChanged()) {
+            this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
+            mustDraw = true;
+        }
+        if (mustDraw) {
             this.draw();
         }
+
         this.graphics.x = this.position.x;
         this.graphics.y = this.position.y;
         this.graphics.rotation = heading(this.velocity);
@@ -92,25 +100,24 @@ const Agent = class extends Entity {
             this.target = nextTarget;
         }
 
-        let force = null;
-        if (this.target !== null) {
-            if (checkDistanceIsZero(this.position, this.target.position)) {
-                const done = this.genes.Ingestion.use(this.target);
-                if (done) {
-                    this.target = null;
+        // start with digestion, returns boolean if used or not
+        if (!this.genes.Digestion.use()) {
+            let force = null;
+            if (this.target !== null) {
+                if (checkDistanceIsZero(this.position, this.target.position)) {
+                    const done = this.genes.Ingestion.use(this.target);
+                    if (done) {
+                        this.target = null;
+                    }
+                } else {
+                    force = this.genes.SeekAndArrive.use(this.target);
                 }
             } else {
-                force = this.genes.SeekAndArrive.use(this.target);
-            }
-        } else {
-            const isDigesting = this.genes.Digestion.use();
-            if (!isDigesting) {
                 force = this.genes.Wander.use();
             }
+            this.genes.Motion.use(force);
         }
-
-        this.genes.Motion.use(force);
-        // this.genes.Growth.use();
+        this.genes.Growth.use();
     }
 
 };

@@ -1,6 +1,7 @@
 
 # Agiles Vorgehensmodell
 * Scrum variant with CI/CD and selected Extreme programming rules ([link](http://www.extremeprogramming.org/))
+  * für größtmögliche Flexibilität aber auch Absicherung
 * Ausgewählte Regeln ([link](http://www.extremeprogramming.org/rules.html))
   * Planning
     * User stories are written.

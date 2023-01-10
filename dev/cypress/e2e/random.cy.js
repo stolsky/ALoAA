@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-expressions */
 
 import {
+    mulberry32,
     sfc32,
     xmur3,
     xoshiro128ss
@@ -241,4 +242,48 @@ describe("The same seed produces the same numbers", () => {
         }
         expect(same).to.be.true;
     });
+});
+
+describe("Compare performance of mulberry32, sfc32 and xoshiro128ss", () => {
+
+    it("Test diversity and speed", () => {
+
+        // Note: 10_000_000 takes ~14sec
+        const testSize = 1_000_000;
+        function test(randomMethod, name) {
+            const diversity = new Set();
+            const timestamp = performance.now();
+            for (let i = 0; i < testSize; i = i + 1) {
+                diversity.add(randomMethod());
+            }
+            return {
+                name,
+                deltaTime: performance.now() - timestamp,
+                diversity: diversity.size
+            };
+        }
+
+        const seed = xmur3("apples");
+
+        const rand1 = mulberry32(seed());
+        const rand2 = sfc32(seed(), seed(), seed(), seed());
+        const rand3 = xoshiro128ss(seed(), seed(), seed(), seed());
+
+        const resultMulberry32 = test(rand1, "Mulberry32");
+        const resultSFC32 = test(rand2, "SFC32");
+        const resultXoshiro128ss = test(rand3, "Xoshiro128ss");
+
+        expect(resultMulberry32).to.have.property("deltaTime");
+        expect(resultMulberry32).to.have.property("diversity");
+        expect(resultSFC32).to.have.property("deltaTime");
+        expect(resultSFC32).to.have.property("diversity");
+        expect(resultXoshiro128ss).to.have.property("deltaTime");
+        expect(resultXoshiro128ss).to.have.property("diversity");
+
+        const results = [resultMulberry32, resultSFC32, resultXoshiro128ss];
+
+        cy.log("Speed", [...results].sort((a, b) => a.deltaTime - b.deltaTime).map((algo) => `${algo.name}:${algo.deltaTime} ms`));
+        cy.log("Diversity", [...results].sort((a, b) => b.diversity - a.diversity).map((algo) => `${algo.name}:${algo.diversity} numbers`));
+    });
+
 });

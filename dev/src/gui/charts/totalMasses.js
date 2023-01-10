@@ -1,24 +1,45 @@
 /* globals Chart */
 
-import { Anorganic, Organic, Autotroph, Heterotroph, Mixotroph, ChartSettings } from "./dataTypes.js";
+import Configuration from "../../simulation/Configuration.js";
+import { ChartSettings } from "./dataTypes.js";
 import createElement from "../utilities/create.js";
 import Entity from "../../simulation/core/Entity.js";
 import Simulation from "../../simulation/Simulation.js";
 import { ClassType } from "../../simulation/core/Types.js";
+import { hexToRGB } from "../../pixi-adapter/utils.js";
 
+// TODO make a class
 let chart = null;
 
 const create = (parent) => {
+    /* ONLY FOR ALPHA VERSION */
+    const title = createElement("p", "Title");
+    title.textContent = "Masses of entities";
     const canvas = createElement("canvas");
-    parent.appendChild(canvas);
+    const container = createElement("div");
+    container.append(
+        title,
+        canvas
+    );
+    parent.append(container);
 
+    // TODO create from loop of available entities
+    const { Anorganic, Organic, Autotroph, Heterotroph, Mixotroph } = Configuration.Entities;
     const initialData = [
         { label: "Total Mass", value: 0 },
-        { label: Anorganic.label, value: 0 },
-        { label: Organic.label, value: 0 },
-        { label: Autotroph.label, value: 0 },
-        { label: Heterotroph.label, value: 0 },
-        { label: Mixotroph.label, value: 0 }
+        { label: Anorganic.name, value: 0 },
+        { label: Organic.name, value: 0 },
+        { label: Autotroph.name, value: 0 },
+        { label: Heterotroph.name, value: 0 },
+        { label: Mixotroph.name, value: 0 }
+    ];
+    const backgroundColors = [
+        "#FFFFFF",
+        `rgb(${hexToRGB(Anorganic.color)})`,
+        `rgb(${hexToRGB(Organic.color)})`,
+        `rgb(${hexToRGB(Autotroph.color)})`,
+        `rgb(${hexToRGB(Heterotroph.color)})`,
+        `rgb(${hexToRGB(Mixotroph.color)})`
     ];
 
     const data = {
@@ -26,14 +47,7 @@ const create = (parent) => {
         datasets: [{
             label: null,
             data: initialData.map((row) => row.value),
-            backgroundColor: [
-                "#FFFFFF",
-                Anorganic.color,
-                Organic.color,
-                Autotroph.color,
-                Heterotroph.color,
-                Mixotroph.color
-            ]
+            backgroundColor: backgroundColors
         }]
     };
 
@@ -88,13 +102,13 @@ const update = (deltaTime) => {
         const resources = Simulation.getResources();
         const agents = Simulation.getAgents();
 
+        // TODO create from loop of available entities
         const anorganicMass = calculateMass(resources, ANORGANIC);
         const organicMass = calculateMass(resources, ORGANIC);
         const autotrophMass = calculateMass(agents, AUTOTROPH);
         const heterotrophMass = calculateMass(agents, HETEROTROPH);
         const mixotrophMass = calculateMass(agents, MIXOTROPH);
         const totalMass = anorganicMass + organicMass + autotrophMass + heterotrophMass + mixotrophMass;
-
         const source = [
             totalMass,
             anorganicMass,

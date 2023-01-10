@@ -3,6 +3,7 @@ import { add, setMagnitude } from "../../pixi-adapter/math.js";
 
 const Entity = class {
 
+    // TODO move to Configuration?
     static Type = createEnum("NONE", "ANORGANIC", "ORGANIC", "AUTOTROPH", "MIXOTROPH", "HETEROTROPH");
 
     /**
@@ -20,6 +21,7 @@ const Entity = class {
 
         this.target = null;
         this.threat = null;
+        this.activity = null;
 
         this.pixelSize = 0;
         this.graphics = null;
@@ -33,6 +35,16 @@ const Entity = class {
         let distance = { ...this.velocity };
         distance = setMagnitude(distance, length);
         return add(distance, this.position);
+    }
+
+    mutate() {
+        const mutatedValues = [];
+        Object.values(this.genes).forEach((gene) => {
+            if (gene.id === "Speed" || gene.id === "Food") {
+                mutatedValues.push(gene.mutate());
+            }
+        });
+        return mutatedValues;
     }
 
 };

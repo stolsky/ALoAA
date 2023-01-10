@@ -3,17 +3,11 @@ import { ClassType } from "./core/Types.js";
 
 const Simulation = new (class {
 
-    #World = {
-        width: 3000,
-        height: 2000,
-        zoom: 1
-    };
+    #worldZoom = 1;
 
     #timePassed = 0;
 
     #speedFactor = 1;
-
-    // #isRunning = false;
 
     #resources = [];
 
@@ -41,23 +35,13 @@ const Simulation = new (class {
         }
     }
 
-    // get isRunning() {
-    //     return this.#isRunning;
-    // }
-
-    // set isRunning(state) {
-    //     if (typeof state === "boolean") {
-    //         this.#isRunning = state;
-    //     }
-    // }
-
-    getWorldAttributes() {
-        return this.#World;
+    get worldZoom() {
+        return this.#worldZoom;
     }
 
-    setWorldZoom(zoom) {
+    set worldZoom(zoom) {
         if (Number.isFinite(zoom) && zoom > 0) {
-            this.#World.zoom = zoom;
+            this.#worldZoom = zoom;
         }
     }
 

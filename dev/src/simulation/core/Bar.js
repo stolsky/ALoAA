@@ -1,7 +1,6 @@
 import { ClassType } from "./Types.js";
 import Value from "./Value.js";
 import { addInformation } from "./utilities.js";
-import { round } from "../../utilities/math.js";
 
 const Bar = class {
 
@@ -39,7 +38,7 @@ const Bar = class {
      */
     increase(amount) {
         if (Number.isFinite(amount)) {
-            this.#value.current = round(this.#value.current + amount * this.#rate.current);
+            this.#value.current = this.#value.current + amount * this.#rate.current;
             this.#changed = true;
         }
     }
@@ -56,7 +55,7 @@ const Bar = class {
             if (modifier === 0) {
                 modifier = Bar.RATE_DEFAULT;
             }
-            this.#value.current = round(this.#value.current - amount * modifier);
+            this.#value.current = this.#value.current - amount * modifier;
             this.#changed = true;
         }
     }

@@ -3,8 +3,12 @@
 ### Sources
 * Artificial Life - [Wikipedia](https://en.wikipedia.org/wiki/Artificial_life)
 * Autonomous Agent - [Wikipedia](https://en.wikipedia.org/wiki/Autonomous_agent)
-## Code Documentation
-with [JSDoc](https://jsdoc.app/)
+## Documentation
+### Code
++ JSDoc - [Homepage](https://jsdoc.app/)
+### UML Diagrams
+* Online tool "diagrams.net" ([Homepage](https://app.diagrams.net/))
+* UML 2.5.1 specification ([Homepage](https://www.omg.org/spec/UML/2.5.1))
 ## Project Management
 Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 ## Resources
@@ -16,6 +20,9 @@ Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 * [Homepage](https://icomoon.io)
 * used icons from free version, [preview](https://icomoon.io/#preview-free)
 * generated as icon font using [IcoMoon App](https://icomoon.io/app/)
+### Colors
+* [PICO-8 Palette](https://lospec.com/palette-list/pico-8)
+* [Derezzed Palette](https://lospec.com/palette-list/derezzed)
 ### Soundtrack
 * Tracks "Wanderer" & "Cold Journey" from the album "Nomadic Travels" written by Alexander Nakarada.
   * [Website (Player/Download)](https://www.serpentsoundstudios.com/14-nomadic-travels)

@@ -1,8 +1,7 @@
 import createElement from "./create.js";
 
-const container = createElement("div", "Tooltip");
-const text = createElement("p", "Text");
-container.appendChild(text);
+let container = null;
+let textContainer = null;
 
 const hide = () => {
     container.classList.remove("Visible");
@@ -13,7 +12,7 @@ const hide = () => {
  * @param {string} message
  */
 const show = (targetBounds, message) => {
-    text.textContent = message;
+    textContainer.textContent = message;
     container.classList.add("Visible");
     const containerBounds = container.getBoundingClientRect();
     let x = targetBounds.x + targetBounds.width;
@@ -29,13 +28,31 @@ const show = (targetBounds, message) => {
 };
 
 const add = (target, message) => {
+    // TODO how to avoid instanceof here?
     if (target instanceof HTMLElement) {
         target.addEventListener("pointerenter", () => show(target.getBoundingClientRect(), message));
         target.addEventListener("pointerleave", hide);
     }
 };
 
-const create = () => container;
+/** Creates the tooltip container.
+ *
+ * @returns {HTMLDivElement}
+ */
+const create = () => {
+    container = createElement("div", "Tooltip");
+    textContainer = createElement("p", "Text");
+    container.appendChild(textContainer);
+    return container;
+};
+
+const remove = () => {
+    container.remove();
+    container = null;
+};
 
 export default add;
-export { create };
+export {
+    create,
+    remove
+};
