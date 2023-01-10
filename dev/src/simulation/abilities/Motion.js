@@ -1,12 +1,12 @@
 import { ClassType } from "../core/Types.js";
 import { add, limit, multiplyScalar } from "../../pixi-adapter/math.js";
-import Simulation from "../Simulation.js";
 import Ability from "../core/Ability.js";
+import Configuration from "../Configuration.js";
 
 const Motion = class extends Ability {
 
     static checkCollisionWithBoundary(object) {
-        const { width, height } = Simulation.getWorldAttributes();
+        const { width, height } = Configuration.World;
         const { position, velocity, pixelSize } = object;
         if (position.x > width - pixelSize) {
             position.x = width - pixelSize;

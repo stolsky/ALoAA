@@ -29,10 +29,13 @@ const Resource = class extends Entity {
     }
 
     addProperties(...properties) {
+        // TODO refactor
         this.genes = validateProperties(
             addProperties(properties),
             Resource.Requirements
         );
+        // initialize appearance related properties
+        this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
         this.type = Resource.#getTypeFromDecomposition(this.genes.Decomposition.getValue());
         this.color = getColorFromType(this.type);
     }
@@ -41,7 +44,6 @@ const Resource = class extends Entity {
         if (this.graphics === null) {
             this.graphics = context;
         }
-        this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
         this.graphics.clear();
         this.graphics.lineStyle(2, this.color, 1);
         this.graphics.beginFill();
@@ -59,7 +61,17 @@ const Resource = class extends Entity {
     }
 
     render() {
-        if (this.genes.Mass.hasChanged() || this.genes.Decomposition.hasChanged()) {
+        let mustDraw = false;
+        if (this.genes.Mass.hasChanged()) {
+            this.pixelSize = mapMassToPixel(this.genes.Mass.getValue());
+            mustDraw = true;
+        }
+        if (this.genes.Decomposition.hasChanged() && this.genes.Decomposition.isEmpty()) {
+            this.type = Resource.#getTypeFromDecomposition(this.genes.Decomposition.getValue());
+            this.color = getColorFromType(this.type);
+            mustDraw = true;
+        }
+        if (mustDraw) {
             this.draw();
         }
     }

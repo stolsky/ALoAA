@@ -4,6 +4,152 @@ import Bar from "../../src/simulation/core/Bar.js";
 import Trait from "../../src/simulation/core/Trait.js";
 import { round } from "../../src/utilities/math.js";
 
+describe.only("Test Value class", () => {
+
+    describe("Test instantiation", () => {
+        it("With correct parameters", () => {
+            const value = new Value({ min: 10, now: 40, max: 90 });
+            expect(value).to.have.property("minimum");
+            expect(value).to.have.property("current");
+            expect(value).to.have.property("maximum");
+            expect(value.minimum).to.be.a("number");
+            expect(value.current).to.be.a("number");
+            expect(value.maximum).to.be.a("number");
+            expect(value.minimum).to.equal(10);
+            expect(value.current).to.equal(40);
+            expect(value.maximum).to.equal(90);
+        });
+
+        it("With no parameters, expect defaults to be used", () => {
+            const value = new Value({});
+            expect(value).to.have.property("minimum");
+            expect(value).to.have.property("current");
+            expect(value).to.have.property("maximum");
+            expect(value.minimum).to.be.a("number");
+            expect(value.current).to.be.a("number");
+            expect(value.maximum).to.be.a("number");
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+        });
+
+        it("With wrong parameters, expect defaults to be used", () => {
+            const value = new Value({ min: "0", now: { now: 500 }, max: [1000] });
+            expect(value).to.have.property("minimum");
+            expect(value).to.have.property("current");
+            expect(value).to.have.property("maximum");
+            expect(value.minimum).to.be.a("number");
+            expect(value.current).to.be.a("number");
+            expect(value.maximum).to.be.a("number");
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+        });
+
+    });
+
+    describe("Chaning the Value", () => {
+
+        it("Setting current Value inside borders", () => {
+            const value = new Value();
+            value.current = 50;
+            expect(value.current).to.equal(50);
+        });
+
+        it("Setting current Value to MAX", () => {
+            const value = new Value();
+            const digit = Value.MAX;
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+            expect(digit).to.equal(Value.MAX);
+            value.current = digit;
+            expect(value.current).to.equal(digit);
+            expect(value.maximum).to.equal(Value.MAX);
+        });
+
+        it("Setting current Value to MIN", () => {
+            const value = new Value();
+            const digit = Value.MIN;
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+            expect(digit).to.equal(Value.MIN);
+            value.current = digit;
+            expect(value.current).to.equal(digit);
+            expect(value.minimum).to.equal(Value.MIN);
+        });
+
+        it("Setting current Value greater current maximum", () => {
+            const maximum = 1000;
+            const value = new Value({ max: maximum });
+            const digit = 1010;
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(maximum);
+            expect(value.maximum).to.equal(maximum);
+            expect(digit).to.be.above(value.maximum);
+            value.current = digit;
+            expect(value.current).to.equal(maximum);
+        });
+
+        it("Setting current Value lower current minimum", () => {
+            const minimum = 100;
+            const value = new Value({ min: minimum });
+            const digit = 10;
+            expect(value.minimum).to.equal(minimum);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+            expect(digit).to.be.below(value.minimum);
+            value.current = digit;
+            expect(value.current).to.equal(minimum);
+        });
+
+        it("Setting current Value greater `Value.MAX`", () => {
+            const value = new Value();
+            const digit = Value.MAX + 1000;
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+            expect(digit).to.be.above(value.maximum);
+            value.current = digit;
+            expect(value.current).to.equal(Value.MAX);
+        });
+
+        it("Setting current Value lower `Value.MIN`", () => {
+            const value = new Value();
+            const digit = Value.MIN - 1000;
+            expect(value.minimum).to.equal(Value.MIN);
+            expect(value.current).to.equal(Value.MAX);
+            expect(value.maximum).to.equal(Value.MAX);
+            expect(digit).to.be.below(value.minimum);
+            value.current = digit;
+            expect(value.current).to.equal(Value.MIN);
+        });
+
+    });
+
+    describe("Test mutation", () => {
+
+        it("With default standard distribution (sd=1)", () => {
+            const current = 50;
+            const value = new Value({ min: 0, now: current, max: 100 });
+
+            expect(value).to.have.property("mutate");
+            const mutated = new Value(value.mutate());
+            expect(mutated).to.have.property("minimum");
+            expect(mutated).to.have.property("current");
+            expect(mutated).to.have.property("maximum");
+            expect(mutated).to.have.property("mutate");
+
+            const stdDev = 1;
+            expect(mutated.current).to.be.within(value.current - 5 * stdDev, value.current + 5 * stdDev);
+            expect(mutated.current % 1).to.equal(0, "check for whole number with modulo 1");
+        });
+
+    });
+
+});
+
 describe("Test Trait class", () => {
 
     describe("Test instantiation", () => {
@@ -141,6 +287,10 @@ describe("Test Bar class", () => {
             expect(bar.description).to.equal("");
             expect(bar.getValue()).to.equal(Value.MAX);
         });
+
+    });
+
+    describe("Test changing the value of the bar", () => {
 
         it("Test increase bar with default rate of 1", () => {
             const bar = new Bar({ id: "age", value: { now: 0 } });

@@ -18,7 +18,7 @@ const Ability = class {
 
     setParent(parent) {
         this.parent = (ClassType.has(parent?.constructor?.ClassType)) ? parent : null;
-        Object.freeze(this);
+        // Object.freeze(this);
     }
 
 };

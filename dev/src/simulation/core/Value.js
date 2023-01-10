@@ -1,3 +1,6 @@
+import { round } from "../../utilities/math.js";
+import { gauss } from "../../utilities/random.js";
+
 /** A storage class for a number as the current value.
  *
  * A minimum and a maximum can also be defined.
@@ -63,7 +66,7 @@ const Value = class {
      */
     set current(now) {
         if (Number.isFinite(now)) {
-            this.#now = now;
+            this.#now = round(now);
             this.#checkNowAgainstMax();
             this.#checkNowAgainstMin();
         }
@@ -85,7 +88,7 @@ const Value = class {
      */
     set maximum(max) {
         if (Number.isFinite(max) && max > this.#min && max <= Value.MAX) {
-            this.#max = max;
+            this.#max = round(max);
             this.#checkNowAgainstMax();
         }
     }
@@ -106,11 +109,26 @@ const Value = class {
      */
     set minimum(min) {
         if (Number.isFinite(min) && min < this.#max && min >= Value.MIN) {
-            this.#min = min;
+            this.#min = round(min);
             this.#checkNowAgainstMin();
         }
     }
 
+    /** 
+     *
+     * @param {number} sd standard deviation
+     *
+     * @returns {Value}
+     */
+    mutate(sd = 1) {
+        const mean = (this.#max - this.#min) / 2;
+        const mutatedValue = gauss(mean, sd);
+        return {
+            min: this.#min,
+            now: this.#now + mean - mutatedValue,
+            max: this.#max
+        };
+    }
 };
 
 export default Value;

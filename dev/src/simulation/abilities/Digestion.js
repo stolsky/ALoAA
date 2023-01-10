@@ -3,6 +3,8 @@ import Ability from "../core/Ability.js";
 
 const Digestion = class extends Ability {
 
+    static Id = Symbol("Digestion");
+
     static Requirements = Object.freeze({
         Food: { classType: ClassType.TRAIT },
         Energy: { classType: ClassType.BAR },
@@ -18,12 +20,14 @@ const Digestion = class extends Ability {
         const stomach = this.parent.genes.Stomach;
         const energy = this.parent.genes.Energy;
         const rectum = this.parent.genes.Rectum;
-        if (!stomach.isEmpty() && !energy.isFull() && !rectum.isFull()) {
+        if (stomach.isFull() && !energy.isFull() && !rectum.isFull()) {
+            // this.parent.activity = Digestion.Id;
+            // TODO move these values to modifier
             // decrease of stomach and increase of rectum must be the same -> no waste of mass
             stomach.decrease(1);
             rectum.increase(1);
             // TODO organic food give more energy
-            energy.increase(1);
+            energy.increase(2);
             return true;
         }
         return false;

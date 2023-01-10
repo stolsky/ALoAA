@@ -1,0 +1,7 @@
+
+generator.js -> names of entities
+index.js -> names of entities
+totalNumbers.js -> "Total Mass"
+totalMasses.js -> "Total Mass"
+ObserverPanel.js -> Tooltip
+components.js -> startMessage, Tooltips

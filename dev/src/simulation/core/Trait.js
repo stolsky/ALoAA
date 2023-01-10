@@ -18,6 +18,15 @@ const Trait = class {
         return this.#value.current;
     }
 
+    mutate() {
+        return new Trait({
+            id: this.id,
+            name: this.name,
+            description: this.description,
+            value: this.#value.mutate()
+        });
+    }
+
 };
 
 export default Trait;

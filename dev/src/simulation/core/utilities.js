@@ -39,14 +39,17 @@ const addInformation = (target, information = {}) => {
 
 const getColorFromType = (type, toRGBString = false) => {
     let color = 0xCCCCCC;
+    // TODO improve by using loop from availablle entities
     if (type === Entity.Type.ANORGANIC) {
-        color = Configuration.Colors.ANORGANIC;
+        color = Configuration.Entities.Anorganic.color;
     } else if (type === Entity.Type.ORGANIC) {
-        color = Configuration.Colors.ORGANIC;
+        color = Configuration.Entities.Organic.color;
     } else if (type === Entity.Type.AUTOTROPH) {
-        color = Configuration.Colors.AUTOTROPH;
+        color = Configuration.Entities.Autotroph.color;
     } else if (type === Entity.Type.HETEROTROPH) {
-        color = Configuration.Colors.HETEROTROPH;
+        color = Configuration.Entities.Heterotroph.color;
+    } else if (type === Entity.Type.MIXOTROPH) {
+        color = Configuration.Entities.Mixotroph.color;
     }
     if (toRGBString) {
         color = hexToRGB(color);

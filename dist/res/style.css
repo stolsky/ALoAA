@@ -1,0 +1,271 @@
+@import url("./icons/icomoon-v1.0/style.css");
+
+:root {
+    --NEON-BLUE-BASE: 38 217 225;
+
+    --BACKGROUND: rgb(4, 6, 13);
+    --NEON-BLUE: rgb(var(--NEON-BLUE-BASE));
+    --NEON-ORANGE: rgb(233 126 32);
+
+    --NEON-GREEN: #07F985;
+    --NEON-RED: #FC5E01;
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.Maximize {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.PulseEffect {
+    animation: PulseEffect 1s ease infinite alternate;
+}
+
+.Page {
+    display: grid;
+    overflow: hidden;
+
+    color: var(--NEON-BLUE);
+    font-variant: small-caps;
+    text-transform: capitalize;
+    font-size: 100%;
+    font-family: Verdana, sans-serif;
+
+    background-color: var(--BACKGROUND);
+}
+.Page.Configuration {
+    grid-auto-columns: 98vw;
+    justify-content: center;
+}
+.Page.Simulation {
+    grid-auto-flow: column;
+    grid-auto-columns: 74vw 24vw;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.Page.Configuration .Welcome {
+    text-align: center;
+}
+.Page.Configuration .Welcome .Description {
+    text-align: justify;
+    padding: 1vh 4vw;
+}
+.Page.Configuration .Welcome .Description span {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.Page.Configuration .InputPanel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(50%, 1fr));
+}
+.Page.Configuration .InputPanel .InputGroup div {
+    display: grid;
+    grid-auto-columns: 40% 30%;
+    grid-auto-flow: column;
+    gap: 1rem;
+    margin: 0.5rem 0;
+}
+.Page.Configuration .InputPanel .InputGroup .Title {
+    text-align: center;
+}
+.Page.Configuration .InputPanel .InputGroup label {
+    text-align: right;
+}
+.Page.Configuration .InputPanel .InputGroup input {
+    border: 1px solid var(--NEON-BLUE);
+    background-color: transparent;
+    font-size: 1rem;
+}
+.Page.Configuration .InputPanel .InputGroup input:valid {
+    color: var(--NEON-GREEN);
+}
+.Page.Configuration .InputPanel .InputGroup input:invalid {
+    color: var(--NEON-RED);
+}
+
+.Tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: default;
+    background-color: inherit;
+    border: 1px solid var(--NEON-BLUE);
+    padding: 0.1rem 0.2rem;
+    box-shadow: 0 0 2px 2px rgba(var(--NEON-BLUE-BASE) / 0.5);
+}
+.Tooltip.Visible {
+    animation: ShowTooltip 0.5s linear 1s forwards;
+}
+.Tooltip p {
+    margin: 0;
+}
+
+.LeftContainer, .RightContainer {
+    height: 100vh;
+    display: grid;
+    grid-auto-flow: row;
+    align-content: space-evenly;
+}
+.LeftContainer {
+    grid-auto-rows: 88vh 8vh;
+}
+.RightContainer {
+    grid-auto-rows: 8vh 88vh;
+}
+
+.Sci-Fi-Border {
+    background-clip: padding-box;
+    outline-offset: -5px;
+    outline: rgba(var(--NEON-BLUE-BASE) / 0.3) solid 1px;
+    background-color: var(--BACKGROUND);
+    border-inline-start: 5px solid;
+    border-block-start: 5px solid;
+    border-inline-end: 5px solid;
+    border-block-end: 5px solid;
+    border-image-slice: 1;
+
+    filter: drop-shadow(rgba(var(--NEON-BLUE-BASE) / 0.5) 0px 0px 3px);
+}
+.LeftContainer .Sci-Fi-Border {
+    border-image-source: linear-gradient(165deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
+}
+.RightContainer .Sci-Fi-Border {
+    border-image-source: linear-gradient(130deg, var(--NEON-BLUE), transparent 10%, transparent 90%, var(--NEON-BLUE) 100%);
+}
+
+.LeftContainer .Content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-color: var(--NEON-BLUE) transparent;
+    padding-bottom: 1rem;
+}
+
+.LeftContainer .Renderer {
+    position: relative;
+    overflow: hidden;
+}
+.LeftContainer .Renderer .StartSimulationHint {
+    margin: 0%;
+    background-color: transparent;
+    position: absolute;
+    z-index: 1;
+    font-size: 2.5vw;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    white-space: nowrap;
+    cursor: default;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+.LeftContainer .Renderer .StartSimulationHint.Hidden {
+    opacity: 0;
+    display: none;
+}
+
+.LeftContainer .Controls,
+.RightContainer .Menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: default;
+}
+.LeftContainer .Controls {
+    gap: 2rem;
+    padding: 0 2rem;
+}
+.LeftContainer .Controls .TimePassed {
+    flex-grow: 1;
+}
+
+/* ONLY FOR ALPHA VERSION */
+.RightContainer .Panel.Charts {
+    justify-content: space-around;
+}
+
+.RightContainer .Panel.Observer .Type,
+.RightContainer .Panel.Observer .ContentHeader,
+.RightContainer .Panel.Observer .Content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50%, 1fr));
+}
+.RightContainer .Panel.Observer .ContentHeader {
+    margin: 0;
+}
+
+button.Icon {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    font-size: 2rem;
+    color: var(--NEON-BLUE);
+    cursor: pointer;
+}
+button.Icon.Active {
+    color: var(--NEON-ORANGE);
+}
+button.Icon:hover {
+    color: var(--NEON-ORANGE);
+}
+
+.Icon.Reset {
+    scale: -1 1;
+}
+.Icon.Play {
+    font-size: 2.4rem;
+}
+.Icon.Finish {
+    font-size: 1.8rem;
+}
+
+.Controls span {
+    font-size: 1.5rem;
+    text-transform: lowercase;
+}
+.Controls .SpeedFactor::before {
+    content: "x";
+}
+
+/* TODO must be veritcal scrollable, NOT horizontal */
+.PanelGroup {
+    position: relative;
+}
+.Panel {
+    --GAP: 1rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(100% - 2 * var(--GAP));
+    height: calc(100% - 2 * var(--GAP));
+    display: none;
+    flex-flow: column;
+    gap: var(--GAP);
+    padding: var(--GAP);
+}
+.Panel.Active {
+    display: flex;
+}
+
+
+@keyframes PulseEffect {
+    from { scale: 0.8; }
+    to { scale: 1.2; }
+}
+
+@keyframes ShowTooltip {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

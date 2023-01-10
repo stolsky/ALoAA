@@ -15,7 +15,7 @@ const Growth = class extends Ability {
 
     use() {
         const { Energy, Mass, Stomach } = this.parent.genes;
-        if (!Stomach.isEmpty() && !Energy.isEmpty()) {
+        if (!Stomach.isEmpty() && !Energy.isEmpty() && !Mass.isFull()) {
             Mass.increase(1);
             Stomach.decrease(1);
             Energy.decrease(1);

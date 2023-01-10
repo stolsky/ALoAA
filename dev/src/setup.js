@@ -1,35 +1,38 @@
 import Simulation from "./simulation/Simulation.js";
 import * as Renderer from "./pixi-adapter/renderer.js";
-import { getChartsPanel, getRendererContainer } from "./gui/components/components.js";
+import { getChartsPanel, getRendererContainer } from "./gui/components/simulation.js";
 import { create as createTotalNumbersChart } from "./gui/charts/totalNumbers.js";
 import { create as createTotalMassesChart } from "./gui/charts/totalMasses.js";
+import { createEntity } from "./simulation/entities/generator.js";
 
-import { createAgent, createResource } from "./simulation/entities/generator.js";
+import startSimulation from "./loop.js";
+import { setSeed } from "./utilities/random.js";
+import Configuration from "./simulation/Configuration.js";
 
+const init = () => {
 // disable right click context menu
-document.addEventListener("contextmenu", (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-});
+    document.addEventListener("contextmenu", (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+    });
 
-Renderer.createRenderer(getRendererContainer());
+    Renderer.createRenderer(getRendererContainer());
 
-// TODO add to configuration
-const maxNumberOfMaterial = 100;
-for (let i = 0; i < maxNumberOfMaterial; i = i + 1) {
-    const resource = createResource();
-    Simulation.addEntity(resource);
-    Renderer.addElement(resource);
-}
+    setSeed(Configuration.seed);
 
-// TODO add to configuration
-const maxNumberOfAgents = 10;
-for (let i = 0; i < maxNumberOfAgents; i = i + 1) {
-    const agent = createAgent();
-    Simulation.addEntity(agent);
-    Renderer.addElement(agent);
-}
+    Object.values(Configuration.Entities).forEach((config) => {
+        for (let i = 0; i < config.quantity; i = i + 1) {
+            const entity = createEntity(config.symbol, config.defaults);
+            Simulation.addEntity(entity);
+            Renderer.addElement(entity);
+        }
+    });
 
-const chartsPanel = getChartsPanel();
-createTotalNumbersChart(chartsPanel);
-createTotalMassesChart(chartsPanel);
+    const chartsPanel = getChartsPanel();
+    createTotalNumbersChart(chartsPanel);
+    createTotalMassesChart(chartsPanel);
+
+    startSimulation();
+};
+
+export default init;

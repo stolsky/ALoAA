@@ -10,6 +10,7 @@ let prng = null;
  * @throws Error
  */
 const checkPRNGInstance = () => {
+    // TODO how to avoid instanceof here?
     if (!(prng instanceof Function)) {
         throw new Error("Random number generator not initiated");
     }
@@ -42,11 +43,10 @@ const boxMullerTransform = () => {
 let samples = [];
 /** Wrapper of the `boxMullerTransform()` for generating normal distributed pseudorandom numbers.
  *
- * `m` is the mean (default = 0)
+ * @param {number} m the mean (default = 0)
+ * @param {number} sd the standard deviation (default = 1)
  *
- * `sd` is the standard deviation (default = 1)
- *
- * @returns {(m:number, sd:number) => number}
+ * @returns {number} random number
  */
 const gauss = (m, sd) => {
     if (samples.length === 0) {
