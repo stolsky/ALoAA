@@ -75,6 +75,24 @@ const createInput = ({ label, type, pattern, max, placeholder }) => {
     return container;
 };
 
+/**
+ *
+ * @param {string} tag
+ * @param {string} text
+ *
+ * @returns {HTMLElement}
+ */
+const createText = (tag, text) => {
+    let textContainer = null;
+    if (tag === "p" || tag === "span" || tag === "h2" || tag === "h3") {
+        textContainer = createElement(tag);
+        if (isNotEmptyString(text)) {
+            textContainer.textContent = text;
+        }
+    }
+    return textContainer;
+};
+
 const activeClassName = "Active";
 const activate = (element) => element.classList.add(activeClassName);
 const deactivate = (element) => element.classList.remove(activeClassName);
@@ -92,6 +110,7 @@ const selectMenuItem = (element) => {
 export {
     createButton,
     createInput,
+    createText,
     isFormValid,
     resetFormValidity,
     selectMenuItem

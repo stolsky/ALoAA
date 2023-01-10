@@ -1,5 +1,5 @@
 import create from "../utilities/create.js";
-import { createButton, selectMenuItem, selectMenuItem as selectPanel } from "../utilities/utilities.js";
+import { createButton, createText, selectMenuItem, selectMenuItem as selectPanel } from "../utilities/utilities.js";
 import { create as createTooltip } from "../utilities/tooltip.js";
 import { formatTime } from "../../utilities/math.js";
 import { getButton as getObserverButton, getPanel as getObserverPanel } from "./ObserverPanel.js";
@@ -102,6 +102,12 @@ const init = () => {
     // const panelOptions = create("div", "Panel");
     const panelObserver = getObserverPanel();
     const panelHelp = create("div", "Panel");
+    panelHelp.append(
+        createText("h2", "Experimental Features"),
+        createText("p", "Drag: You can drag the map by clicking the mouse in the map, holding the mouse button down and moving the mouse."),
+        createText("p", "Zoom: You can zoom the map when the mouse pointer is over the map and the mouse wheel is turned."),
+        createText("p", "Observe: To observe an Entity more closely, you can click on them. Then their information will be displayed on the right. If an Entity is too fast, just pause the simulation. To leave the observation, click on the Entity again.")
+    );
 
     const buttonCharts = createButton(
         "Icon Active icon-stats-bars",
@@ -129,7 +135,7 @@ const init = () => {
             selectMenuItem(buttonHelp);
             selectPanel(panelHelp);
         },
-        "Show Individual Information"
+        "Show Feature Information"
     );
 
     const menu = create("div", "Menu Sci-Fi-Border");
