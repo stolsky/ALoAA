@@ -1,5 +1,5 @@
 import create from "../utilities/create.js";
-import { createButton, createInput, isFormValid, resetFormValidity } from "../utilities/utilities.js";
+import { createButton, createInput, createText, isFormValid, resetFormValidity } from "../utilities/utilities.js";
 import { create as createTooltip, remove as removeTooltip } from "../utilities/tooltip.js";
 import { init as initSimulationPage } from "./simulation.js";
 import applySetup from "../../setup.js";
@@ -9,8 +9,8 @@ import Configuration from "../../simulation/Configuration.js";
 const APP_TITLE = "ALoAA";
 const APP_SUBTITLE = "Artificial Life of Autonomous Agents";
 const APP_DESCRIPTION = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam consectetur varius lorem, sit amet sodales nisl ornare id. Aenean vulputate nisi neque, vitae porta arcu interdum non. Integer vitae metus fringilla, aliquam massa id, semper dolor.",
-    "Suspendisse placerat ex ac ligula bibendum, ac aliquam nulla egestas. Nunc euismod nisi quis."
+    "ALoAA simulates self-controlling units, the so-called agents, their behavior and their evolution. For this purpose, random changes in the properties of the agents occur as they multiply.",
+    "ALoAA gives you the possibility not only to observe this evolution, but also to control it directly with the input fields below."
 ];
 
 const configurationPage = create("div", "Page Configuration Maximize");
@@ -53,11 +53,7 @@ appTitle.textContent = APP_TITLE;
 const appSubtitle = create("h2", "Subtitle");
 appSubtitle.textContent = APP_SUBTITLE;
 const appDescription = create("p", "Description");
-APP_DESCRIPTION.forEach((descriptionPart) => {
-    const textBlock = create("span");
-    textBlock.textContent = descriptionPart;
-    appDescription.appendChild(textBlock);
-});
+APP_DESCRIPTION.forEach((descriptionPart) => appDescription.appendChild(createText("span", descriptionPart)));
 const welcome = create("div", "Welcome");
 welcome.append(
     appTitle,
