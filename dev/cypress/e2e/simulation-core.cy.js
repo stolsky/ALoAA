@@ -4,7 +4,7 @@ import Bar from "../../src/simulation/core/Bar.js";
 import Trait from "../../src/simulation/core/Trait.js";
 import { round } from "../../src/utilities/math.js";
 
-describe.only("Test Value class", () => {
+describe("Test Value class", () => {
 
     describe("Test instantiation", () => {
         it("With correct parameters", () => {
@@ -48,7 +48,7 @@ describe.only("Test Value class", () => {
 
     });
 
-    describe("Chaning the Value", () => {
+    describe("Changing the Value", () => {
 
         it("Setting current Value inside borders", () => {
             const value = new Value();
