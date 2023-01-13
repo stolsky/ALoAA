@@ -1,4 +1,4 @@
-@import url("./icons/icomoon-v1.0/style.css");
+@import url("../res/icons/icomoon-v1.0/style.css");
 
 :root {
     --NEON-BLUE-BASE: 38 217 225;
@@ -41,6 +41,10 @@ body {
     font-family: Verdana, sans-serif;
 
     background-color: var(--BACKGROUND);
+
+    scroll-behavior: smooth;
+    scrollbar-color: var(--NEON-BLUE) transparent;
+    scrollbar-width: thin;
 }
 .Page.Configuration {
     grid-auto-columns: 98vw;
@@ -148,8 +152,6 @@ body {
 .LeftContainer .Content {
     overflow-y: auto;
     overflow-x: hidden;
-    scroll-behavior: smooth;
-    scrollbar-color: var(--NEON-BLUE) transparent;
     padding-bottom: 1rem;
 }
 
