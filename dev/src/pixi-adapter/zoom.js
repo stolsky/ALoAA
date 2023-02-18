@@ -1,6 +1,6 @@
 /* globals PIXI */
 
-import Configuration from "../simulation/Configuration.js";
+// import Configuration from "../simulation/Configuration.js";
 import Simulation from "../simulation/Simulation.js";
 
 const Zoom = class {
@@ -8,6 +8,8 @@ const Zoom = class {
     static #Step = 0.2;
 
     #container;
+
+    #stage;
 
     #scale;
 
@@ -19,8 +21,7 @@ const Zoom = class {
     };
 
     #zoomOut = () => {
-        const { width, height } = Configuration.World;
-        if (width > this.#container.width || height > this.#container.height) {
+        if (this.#container.width < this.#stage.width || this.#container.height < this.#stage.height) {
             const newScale = Simulation.worldZoom - Zoom.#Step;
             Simulation.worldZoom = newScale;
             this.#scale.x = newScale;
@@ -32,8 +33,9 @@ const Zoom = class {
         // TODO how to avoid instanceof here?
         if (application instanceof PIXI.Application) {
 
-            this.#scale = application.stage.scale;
             this.#container = application.view;
+            this.#stage = application.stage;
+            this.#scale = this.#stage.scale;
 
             this.#container.addEventListener("wheel", (event) => {
                 if (event.deltaY > 0) {

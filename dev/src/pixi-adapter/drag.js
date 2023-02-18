@@ -7,11 +7,13 @@ const Drag = class {
 
     #dragging = false;
 
+    /** @type {PIXI.Container} */
+    #application = null;
+
     /** @type {HTMLCanvasElement} */
     #container = null;
 
-    /** @type {PIXI.Container} */
-    #application = null;
+    #stage;
 
     #offsetX = 0;
 
@@ -38,20 +40,23 @@ const Drag = class {
     #begin = (event) => {
         const { width, height } = Configuration.World;
         const bounds = this.#container.getBoundingClientRect();
+
+        console.log(this.#stage.position, this.#stage.pivot);
+
         this.#offscreenWidth = bounds.width - width * Simulation.worldZoom;
         this.#offscreenHeight = bounds.height - height * Simulation.worldZoom;
-        this.#startX = event.clientX - this.#offsetX - this.#application.stage.position.x;
-        this.#startY = event.clientY - this.#offsetY - this.#application.stage.position.y;
+        this.#startX = event.clientX - this.#offsetX - this.#stage.position.x;
+        this.#startY = event.clientY - this.#offsetY - this.#stage.position.y;
 
         if (this.#offscreenWidth < 0 && this.#offscreenHeight < 0) {
             this.#container.style.cursor = "grab";
             this.#dragging = true;
         } else {
             if (this.#offscreenWidth > 0) {
-                this.#application.stage.position.x = (this.#application.renderer.width - this.#application.stage.width) / 2;
+                this.#stage.position.x = (this.#application.renderer.width - this.#stage.width) / 2;
             }
             if (this.#offscreenHeight > 0) {
-                this.#application.stage.pivot.y = (this.#application.renderer.height - this.#application.stage.height) / 2;
+                this.#stage.pivot.y = (this.#application.renderer.height - this.#stage.height) / 2;
             }
         }
     };
@@ -65,7 +70,7 @@ const Drag = class {
             } else if (x < this.#offscreenWidth) {
                 x = this.#offscreenWidth;
             }
-            this.#application.stage.position.x = x;
+            this.#stage.position.x = x;
 
             let y = (event.clientY - this.#offsetY) - this.#startY;
             if (y > 0) {
@@ -73,7 +78,7 @@ const Drag = class {
             } else if (y < this.#offscreenHeight) {
                 y = this.#offscreenHeight;
             }
-            this.#application.stage.position.y = y;
+            this.#stage.position.y = y;
 
             if (!this.#application.ticker.started) {
                 this.#application.render();
@@ -98,6 +103,7 @@ const Drag = class {
 
             this.#application = application;
             this.#container = application.view;
+            this.#stage = this.#application.stage;
 
             this.#container.addEventListener("pointerdown", this.#begin);
             this.#container.addEventListener("pointermove", this.#move);

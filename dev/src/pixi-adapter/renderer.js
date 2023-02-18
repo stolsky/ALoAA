@@ -36,7 +36,8 @@ const addElement = (element) => {
             } else {
                 Observe.element = element;
                 Observe.graphic = graphic;
-                openObserverPanel(Observe.element.type, Observe.element.genes);
+                const { id, type, genes } = Observe.element;
+                openObserverPanel({ id, type, genes });
             }
         });
         element.draw(graphic);
@@ -67,6 +68,9 @@ const loop = (method) => {
     // TODO how to avoid instanceof here?
     if (app instanceof PIXI.Application && method instanceof Function) {
         app.ticker.add(() => {
+            // console.log("pivot", app.stage.pivot.x, app.stage.pivot.y);
+            // console.log("position", app.stage.position.x, app.stage.position.y);
+
             method(app.ticker.deltaMS);
             if (Observe.element && Observe.element.constructor.ClassType === ClassType.AGENT) {
                 app.stage.pivot.x = Observe.graphic.position.x;

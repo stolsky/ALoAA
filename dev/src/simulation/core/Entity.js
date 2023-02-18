@@ -1,6 +1,11 @@
 import createEnum from "../../utilities/Enum.js";
 import { add, setMagnitude } from "../../pixi-adapter/math.js";
-import { createUniqueId } from "./utilities.js";
+
+let uniqueID = -1;
+const createUniqueId = () => {
+    uniqueID = uniqueID + 1;
+    return uniqueID;
+};
 
 const Entity = class {
 
