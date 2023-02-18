@@ -7,7 +7,7 @@ import {
     selectMenuItem as selectPanel
 } from "../utilities/utilities.js";
 
-const createPropertyContent = (type) => {
+const createInformationContainer = (type) => {
     const label = createElement("span");
     label.textContent = type;
     const value = createElement("span");
@@ -24,32 +24,24 @@ const createPropertyContent = (type) => {
     };
 };
 
-const updatePropertyType = (parent, value) => {
+const updateInformation = (parent, key, value) => {
     const keyText = createElement("span", "Key");
-    keyText.textContent = value.name;
+    keyText.textContent = key;
     const valueText = createElement("span", "Value");
-    valueText.id = value.id;
-    valueText.textContent = value.getValue();
+    valueText.id = key;
+    valueText.textContent = value;
     parent.append(keyText, valueText);
 };
 
-const name = createElement("p", "Name");
-const typeLabel = createElement("span");
-typeLabel.textContent = "Type:";
-const typeText = createElement("span");
-const typeContainer = createElement("p", "Type");
-typeContainer.append(
-    typeLabel,
-    typeText
-);
-
-const bars = createPropertyContent("Bar");
-const traits = createPropertyContent("Trait");
+const about = createInformationContainer("About");
+const bars = createInformationContainer("Bar");
+const traits = createInformationContainer("Trait");
 
 const panelObserver = createElement("div", "Panel Observer");
+// TODO improve code
 panelObserver.append(
-    name,
-    typeContainer,
+    about.header,
+    about.content,
     bars.header,
     bars.content,
     traits.header,
@@ -66,48 +58,53 @@ const buttonObserver = createButton(
 );
 
 const close = () => {
-    typeText.textContent = "";
+    about.content.textContent = "";
     bars.content.textContent = "";
     traits.content.textContent = "";
 };
-
-const getButton = () => buttonObserver;
-
-const getPanel = () => panelObserver;
 
 /**
  *
  * @param {Symbol} symbol
  * @param {Object} data
  */
-const open = (symbol, data) => {
+const open = ({ id, type, genes }) => {
     // open correct panel and set correct button state
     selectMenuItem(buttonObserver);
     selectPanel(panelObserver);
 
-    typeText.textContent = symbol.description;
-    typeText.style.color = `rgb(${getColorFromType(symbol, true)}`;
-
+    about.content.textContent = "";
     bars.content.textContent = "";
     traits.content.textContent = "";
-    Object.values(data).forEach((value) => {
-        if (value.constructor.ClassType === ClassType.BAR) {
-            updatePropertyType(bars.content, value);
-        } else if (value.constructor.ClassType === ClassType.TRAIT) {
-            updatePropertyType(traits.content, value);
+
+    const color = `rgb(${getColorFromType(type, true)}`;
+    about.content.style.color = color;
+    updateInformation(about.content, "ID", id);
+    updateInformation(about.content, "Type", type.description);
+    // updatePropertyType(about.content, "Name");
+
+    Object.values(genes).forEach((gene) => {
+        if (gene.constructor.ClassType === ClassType.BAR) {
+            updateInformation(bars.content, gene.name, gene.getValue());
+        } else if (gene.constructor.ClassType === ClassType.TRAIT) {
+            updateInformation(traits.content, gene.name, gene.getValue());
         }
     });
 };
 
-const update = (data) => {
+const update = (genes) => {
     if (panelObserver.classList.contains("Active")) {
-        Object.values(data).forEach((value) => {
-            if (value.constructor.ClassType === ClassType.BAR) {
-                document.getElementById(value.id).textContent = value.getValue();
+        Object.values(genes).forEach((gene) => {
+            if (gene.constructor.ClassType === ClassType.BAR) {
+                document.getElementById(gene.name).textContent = gene.getValue();
             }
         });
     }
 };
+
+const getButton = () => buttonObserver;
+
+const getPanel = () => panelObserver;
 
 export {
     close,

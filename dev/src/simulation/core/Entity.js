@@ -1,6 +1,12 @@
 import createEnum from "../../utilities/Enum.js";
 import { add, setMagnitude } from "../../pixi-adapter/math.js";
 
+let uniqueID = -1;
+const createUniqueId = () => {
+    uniqueID = uniqueID + 1;
+    return uniqueID;
+};
+
 const Entity = class {
 
     // TODO move to Configuration?
@@ -10,6 +16,8 @@ const Entity = class {
      * @param {{ x: number, y: number }} param0
      */
     constructor({ x, y }) {
+
+        this.id = createUniqueId();
 
         this.type = Entity.Type.NONE;
 
