@@ -3,8 +3,6 @@
 ### Sources
 * Artificial Life - [Wikipedia](https://en.wikipedia.org/wiki/Artificial_life)
 * Autonomous Agent - [Wikipedia](https://en.wikipedia.org/wiki/Autonomous_agent)
-## Demo
-[Live Demo](https://w0lf3n.github.io/ALoAA/dev/)
 ## Documentation
 ### Code
 + JSDoc - [Homepage](https://jsdoc.app/)
@@ -69,3 +67,5 @@ Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 Autonomous Steering Agents ([Website](https://thecodingtrain.com/tracks/the-nature-of-code-2))
 ### AI Evolution by davidrandallmiller
 [Youtube Video](https://www.youtube.com/watch?v=N3tRFayqVtk)
+### Artificial Life Simulation - CS 4701 - Fall 2015
+[Youtube Video](https://www.youtube.com/watch?v=Ux_zoMqT5mc)

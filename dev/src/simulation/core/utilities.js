@@ -13,6 +13,10 @@ import { ClassType } from "./Types.js";
  */
 const checkDistanceIsZero = (point1, point2) => Math.floor(magnitude(substract(point1, point2))) === 0;
 
+const createUniqueId = () => {
+
+};
+
 /**
  *
  * @param {string} str the string to test
@@ -67,6 +71,7 @@ const mutate = (target) => {
 export {
     addInformation,
     checkDistanceIsZero,
+    createUniqueId,
     getColorFromType,
     isNotEmptyString,
     mutate
