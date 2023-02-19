@@ -19,6 +19,7 @@ const Vision = class extends Ability {
         } else if (diet === type.MIXOTROPH) {
             targets = Simulation.getEntities();
         } else if (diet === type.HETEROTROPH) {
+            // TODO how to prevent canibalism if necessary
             targets = [...Simulation.getAgents(), ...Simulation.getResources().filter((resource) => resource.type === type.ORGANIC)];
         }
         return targets;
@@ -46,10 +47,12 @@ const Vision = class extends Ability {
 
             let closestDistance = visionWidth;
             entities.forEach((entity) => {
-                const distanceToEntity = magnitude(substract(distance, entity.position));
-                if (distanceToEntity < closestDistance && distanceToEntity < visionWidth) {
-                    target = entity;
-                    closestDistance = distanceToEntity;
+                if (entity.id !== this.parent.id) {
+                    const distanceToEntity = magnitude(substract(distance, entity.position));
+                    if (distanceToEntity < closestDistance && distanceToEntity < visionWidth) {
+                        target = entity;
+                        closestDistance = distanceToEntity;
+                    }
                 }
             });
         }

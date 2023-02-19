@@ -114,7 +114,7 @@ const Value = class {
         }
     }
 
-    /** 
+    /**
      *
      * @param {number} sd standard deviation
      *
@@ -123,6 +123,7 @@ const Value = class {
     mutate(sd = 1) {
         const mean = (this.#max - this.#min) / 2;
         const mutatedValue = gauss(mean, sd);
+        // console.log(mean, mutatedValue);
         return {
             min: this.#min,
             now: this.#now + mean - mutatedValue,

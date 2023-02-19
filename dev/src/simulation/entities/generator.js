@@ -177,11 +177,11 @@ const createEntity = (type) => {
     } else if (type === Configuration.Entities.Autotroph.symbol) {
         entity = createDefaultAgent();
     } else if (type === Configuration.Entities.Heterotroph.symbol) {
-        entity = createDefaultAgent([
+        entity = createDefaultAgent({}, [
             new Trait({ id: "Food", name: "Food", value: { min: Min.Food, now: Max.Food, max: Max.Food } })
         ]);
     } else if (type === Configuration.Entities.Mixotroph.symbol) {
-        entity = createDefaultAgent([
+        entity = createDefaultAgent({}, [
             new Trait({ id: "Food", name: "Food", value: { min: Min.Food, now: round(Max.Food / 2), max: Max.Food } })
         ]);
     }
