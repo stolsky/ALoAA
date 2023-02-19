@@ -10,7 +10,7 @@ import { setSeed } from "./utilities/random.js";
 import Configuration from "./simulation/Configuration.js";
 
 const init = () => {
-// disable right click context menu
+    // disable right click context menu
     document.addEventListener("contextmenu", (event) => {
         event.stopPropagation();
         event.preventDefault();
@@ -22,7 +22,7 @@ const init = () => {
 
     Object.values(Configuration.Entities).forEach((config) => {
         for (let i = 0; i < config.quantity; i = i + 1) {
-            const entity = createEntity(config.symbol, config.defaults);
+            const entity = createEntity(config.symbol);
             Simulation.addEntity(entity);
             Renderer.addElement(entity);
         }

@@ -49,9 +49,11 @@ const Entity = class {
         const mutatedValues = [];
         Object.values(this.genes).forEach((gene) => {
             if (gene.id === "Speed" || gene.id === "Food") {
+                // console.log(gene);
                 mutatedValues.push(gene.mutate());
             }
         });
+        // console.log(mutatedValues);
         return mutatedValues;
     }
 

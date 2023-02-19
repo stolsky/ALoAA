@@ -70,6 +70,18 @@ const buttonReset = createButton(
     "reset to default values"
 );
 
+const getValueFromInput = (id, defaultValue) => {
+    let result = defaultValue;
+    const elem = document.getElementById(id);
+    if (elem && elem.value) {
+        const inputValue = Number.parseInt(document.getElementById(id).value, 10);
+        if (!Number.isNaN(inputValue)) {
+            result = inputValue;
+        }
+    }
+    return result;
+};
+
 const buttonConfirm = createButton(
     "Icon icon-checkmark",
     () => {
@@ -86,15 +98,15 @@ const buttonConfirm = createButton(
             //         value = input.placeholder;
             //     }
             // }));
-            Configuration.World.width = Number.parseInt(document.getElementById("width").value, 10) || 3000;
-            Configuration.World.height = Number.parseInt(document.getElementById("height").value, 10) || 2000;
-            Configuration.Entities.Anorganic.quantity = Number.parseInt(document.getElementById("anorganic resource").value, 10) || 100;
-            Configuration.Entities.Organic.quantity = Number.parseInt(document.getElementById("organic resource").value, 10) || 0;
-            Configuration.Entities.Autotroph.quantity = Number.parseInt(document.getElementById("autotroph agent").value, 10) || 10;
-            Configuration.Entities.Heterotroph.quantity = Number.parseInt(document.getElementById("heterotroph agent").value, 10) || 0;
-            Configuration.Entities.Mixotroph.quantity = Number.parseInt(document.getElementById("mixotroph agent").value, 10) || 0;
-            Configuration.mutationRate = Number.parseInt(document.getElementById("frequency").value, 10) || 1;
-            Configuration.seed = document.getElementById("seed").value || "ALoAA";
+            Configuration.World.width = getValueFromInput("width", 3000);
+            Configuration.World.height = getValueFromInput("height", 2000);
+            Configuration.Entities.Anorganic.quantity = getValueFromInput("anorganic resource", 100);
+            Configuration.Entities.Organic.quantity = getValueFromInput("organic resource", 0);
+            Configuration.Entities.Autotroph.quantity = getValueFromInput("autotroph agent", 10);
+            Configuration.Entities.Heterotroph.quantity = getValueFromInput("heterotroph agent", 0);
+            Configuration.Entities.Mixotroph.quantity = getValueFromInput("mixotroph agent", 0);
+            Configuration.mutationRate = getValueFromInput("frequency", 1);
+            Configuration.seed = document.getElementById("seed", "ALoAA");
             Configuration.assign();
 
             removeTooltip();

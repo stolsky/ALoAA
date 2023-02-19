@@ -29,7 +29,7 @@ const Configuration = new (class {
                 symbol: Symbol("Autotroph"),
                 name: "Autotroph",
                 color: 0x07F985, // 0x34FE4F
-                quantity: 1
+                quantity: 10
             },
             Heterotroph: {
                 index: 3,
@@ -64,7 +64,7 @@ const Configuration = new (class {
             },
             Max: {
                 AgentMass: 100,
-                Decomposition: 1000,
+                Decomposition: 500,
                 Energy: 1000,
                 Food: 100,
                 ResourceMass: 100

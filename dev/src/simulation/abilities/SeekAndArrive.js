@@ -24,7 +24,7 @@ const SeekAndArrive = class extends Ability {
         const agility = this.parent.genes.Agility.getValue();
         const viewWidth = this.parent.genes.VisionWidth.getValue();
 
-        let force = substract(target.position, this.parent.position) || { x: 0, y: 0 };
+        let force = substract(target.position, this.parent.position) ?? { x: 0, y: 0 };
 
         // arrival behaviour
         const distance = magnitude(force);
