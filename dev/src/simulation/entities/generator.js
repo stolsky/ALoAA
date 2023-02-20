@@ -166,7 +166,7 @@ const createEntity = (type) => {
     if (type === Configuration.Entities.Anorganic.symbol) {
         entity = createDefaultResource();
     } else if (type === Configuration.Entities.Organic.symbol) {
-        entity = createDefaultResource([
+        entity = createDefaultResource({}, [
             new Bar({
                 id: "Decomposition",
                 name: "Decomposition",
