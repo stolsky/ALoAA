@@ -21,28 +21,28 @@ const Configuration = new (class {
                 index: 1,
                 symbol: Symbol("Organic"),
                 name: "Organic",
-                color: 0xFF901B, // 0xFAB23F
+                color: 0xFF901B,
                 quantity: 0
             },
             Autotroph: {
                 index: 2,
                 symbol: Symbol("Autotroph"),
                 name: "Autotroph",
-                color: 0x07F985, // 0x34FE4F
+                color: 0x07F985,
                 quantity: 10
             },
             Heterotroph: {
                 index: 3,
                 symbol: Symbol("Heterotroph"),
                 name: "Heterotroph",
-                color: 0xFF00FA, // 0xFF1F4F
+                color: 0xFC5E01,
                 quantity: 0
             },
             Mixotroph: {
                 index: 4,
                 symbol: Symbol("Mixotroph"),
                 name: "Mixotroph",
-                color: 0xFC5E01, // ??
+                color: 0xFF00FA,
                 quantity: 0
             }
         };
