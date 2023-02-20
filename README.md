@@ -1,5 +1,11 @@
 # ALoAA - Artificial Life of Autonomous Agents
 ## Abstract
+### Presentation
+[German](https://w0lf3n.github.io/ALoAA/docs/presentations/)
+### Demo
+[Latest](https://w0lf3n.github.io/ALoAA/dev/)
+
+[Stable](https://w0lf3n.github.io/ALoAA/dist/)
 ### Sources
 * Artificial Life - [Wikipedia](https://en.wikipedia.org/wiki/Artificial_life)
 * Autonomous Agent - [Wikipedia](https://en.wikipedia.org/wiki/Autonomous_agent)
