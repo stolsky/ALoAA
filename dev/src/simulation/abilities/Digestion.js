@@ -27,7 +27,7 @@ const Digestion = class extends Ability {
             stomach.decrease(1);
             rectum.increase(1);
             // TODO organic food give more energy
-            energy.increase(2);
+            energy.increase(4);
             return true;
         }
         return false;

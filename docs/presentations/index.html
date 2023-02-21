@@ -90,7 +90,7 @@
 						<li>Projektidee</li>
 						<li>Einführung</li>
 						<li>Demonstration</li>
-						<li>Durchführung</li>
+						<li>Softwaredesign</li>
 						<li>Fazit & Ausblick</li>
 					</ul>
 				</section>
@@ -98,14 +98,14 @@
 					<h2>Projektidee</h2>
 					<ul>
 						<li>Simulation einer Evolution</li>
-						<ul>
+						<!-- <ul>
 							<li>Mutation von Eigenschaften</li>
 							<li>Wechselwirkungen zwischen Entitäten</li>
-						</ul>
+						</ul> -->
 						<li>Maximal konfigurierbar</li>
 						<li>Analyse <span style="text-decoration: underline;">während</span> der Simulation</li>
 						<li class="EmptyListItem">_</li>
-						<li>Ziel: </li>
+						<li>Ziel: Strategien austesten</li>
 					</ul>
 				</section>
 				<section>
@@ -132,25 +132,29 @@
 				</section>
 				<section>
 					<h2>Abgrenzung</h2>
-					<ul class="MyImageList">
-						<li>Vollständiger Kreislauf</li>
-						<li>Keine neuronalen Netze</li>
-						<li>Autonome Einheiten</li>
-						<div class="MyScreenshot" style="scale: 0.7; width: 604px; height: 435px; right: -5rem; top: -2rem; background-image: url(./res/stoffkreislauf.gif);"></div>
-						<span style="font-size: 1.3rem; position: absolute; top: 21rem; right: -2rem;">https://hypersoil.uni-muenster.de/0/05/img/14-1.gif</span>
-					</ul>
+					<h3>Keine neuronalen Netze</h3>
+					<h3>Vollständiger Stoffkreislauf</h3>
+					<div class="MyScreenshot" style="width: 604px; height: 435px; margin-inline: auto; background-image: url(./res/stoffkreislauf.gif);"></div>
+					<span style="font-size: 1.3rem;">https://hypersoil.uni-muenster.de/0/05/img/14-1.gif</span>
 				</section>
 
 				<section>
 					<h2>Entitäten</h2>
 					<ul class="MyImageList">
 						<li>Ressourcen</li>
-						<ul><li>Anorganische, Organische</li></ul>
+						<ul><li>
+							<span style="color: #FDE802;">Anorganische</span>, 
+							<span style="color: #FF901B;">Organische</span>
+						</li></ul>
 						<div class="MyScreenshot" style="width: 164px; height: 86px; right: 25rem; top: 3rem; background-image: url(./res/resources.png);"></div>
 					</ul>
 					<ul class="MyImageList">
 						<li>Agenten</li>
-						<ul><li>Autotrophe, Heterotrophe, Mixotrophe</li></ul>
+						<ul><li>
+							<span style="color: #07F985;">Autotrophe</span>, 
+							<span style="color: #FC5E01;">Heterotrophe</span>, 
+							<span style="color: #FF00FA;">Mixotrophe</span>
+						</li></ul>
 						<div class="MyScreenshot" style="width: 192px; height: 136px; right: 15rem; top: 3rem; background-image: url(./res/agents.png);"></div>
 					</ul>
 				</section>
@@ -164,8 +168,8 @@
 						<ul><li>Geschwindigkeit, Nahrungsquelle</li></ul>
 						<li>Fähigkeiten (Abilities)</li>
 						<ul><li>Sehen, Bewegung</li></ul>
-						<li class="EmptyListItem">_</li>
-						<li>Voraussetzungen</li>
+						<!-- <li class="EmptyListItem">_</li> -->
+						<!-- <li>Voraussetzungen</li> -->
 						<div class="MyScreenshot" style="right: 10rem; top: 3rem; width: 273px; height: 397px; background-image: url(./res/bars-traits-screenshot.png);"></div>
 					</ul>
 				</section>
@@ -176,12 +180,12 @@
 				</section>
 
 				<section>
-					<h2>Architektur</h2>
-					<h3>3 Schichten Modell</h3>
+					<h2>Softwaredesign</h2>
 					<ul>
-						<li>Präsentation</li>
-						<li>Logik</li>
-						<li>Datenhaltung</li>
+						<li>3-Schichten-Architektur</li>
+						<li class="EmptyListItem">_</li>
+						<li>Game Loop Pattern</li>
+						<li>Singleton Pattern</li>
 					</ul>
 				</section>
 
@@ -219,25 +223,28 @@
 
 				<section>
 					<h2>Vorgehensmodell</h2>
-					<img src="./res/process_model.svg" />
+					<img src="./res/process_model.svg" style="scale: 1.2;" />
 				</section>
 
 				<section>
 					<h2>Fazit</h2>
 					<ul>
+						<li>Unit Tests</li>
+						<ul>
+							<li>T(est)DD, B(ehaviour)DD</li>
+						</ul>
+						<li>Modularisierung</li>
+						<li class="EmptyListItem">_</li>
 						<li style="color: #FC5E01;">Zu komplexes Vorgehensmodell</li>
 						<li style="color: #FC5E01;">Abschätzung von Teilaufgaben</li>
 						<li style="color: #FC5E01;">Zeit besser planen</li>
 						<ul>
 							<li style="color: #FC5E01;">Bugfixing, Refactoring, Testen</li>
 						</ul>
-						<li class="EmptyListItem">_</li>
-						<li>Unit Tests</li>
-						<ul>
-							<li>T(est)DD, B(ehaviour)DD</li>
-						</ul>
-						<li>Modularisierung</li>
 					</ul>
+				</section>
+				<section>
+					<h3 style="color: #FC5E01;">Niemals die Dokumentation am letzten Abend neu formatieren!</h3>
 				</section>
 				<section>
 					<h2>Ausblick</h2>

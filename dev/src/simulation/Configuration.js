@@ -14,7 +14,7 @@ const Configuration = new (class {
                 index: 0,
                 symbol: Symbol("Anorganic"),
                 name: "Anorganic",
-                color: 0xFDE802, // 0xD1FE49
+                color: 0xFDE802,
                 quantity: 100
             },
             Organic: {
@@ -63,8 +63,8 @@ const Configuration = new (class {
                 ResourceMass: 0
             },
             Max: {
-                AgentMass: 100,
-                Decomposition: 500,
+                AgentMass: 500,
+                Decomposition: 200,
                 Energy: 1000,
                 Food: 100,
                 ResourceMass: 100
