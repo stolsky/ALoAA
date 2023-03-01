@@ -46,10 +46,14 @@ Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 * [Documentation](https://pixijs.download/dev/docs/index.html)
 * [Examples](https://pixijs.io/examples/#/graphics/simple.js)
 * [Tutorial](https://www.pixijselementals.com/)
-### howler.js
-* easy and reliable audio library
-* [Homepage](https://howlerjs.com/)
-* [Documentation](https://github.com/goldfire/howler.js#documentation)
+### Sound
+* howler.js
+  * easy and reliable audio library
+  * [Homepage](https://howlerjs.com/)
+  * [Documentation](https://github.com/goldfire/howler.js#documentation)
+* PixiJS Sound
+  * [Repository](https://github.com/pixijs/sound)
+  * [Demo](https://pixijs.io/sound/examples/demo.html)
 ## Testing
 ### Cypress
 * Front end testing tool for unit tests and end-to-end tests
