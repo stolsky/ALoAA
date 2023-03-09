@@ -114,6 +114,7 @@ const Value = class {
         }
     }
 
+    // TODO add mean -> different for Bar and Trait
     /**
      *
      * @param {number} sd standard deviation

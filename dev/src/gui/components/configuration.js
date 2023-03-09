@@ -6,6 +6,8 @@ import applySetup from "../../setup.js";
 
 import Configuration from "../../simulation/Configuration.js";
 
+// import { addMusic, playMusic } from "../../pixi-adapter/sound.js";
+
 const APP_TITLE = "ALoAA";
 const APP_SUBTITLE = "Artificial Life of Autonomous Agents";
 const APP_DESCRIPTION = [
@@ -150,4 +152,13 @@ configurationPage.append(
     mainContainer,
     createTooltip()
 );
+
+// TODO find good place or better variant to init and play sound
+// addMusic("coldJourney", "../dev/res/music/Cold Journey - 320bit.mp3");
+// configurationPage.addEventListener(
+//     "click",
+//     () => playMusic("coldJourney"),
+//     { once: true }
+// );
+
 document.body.appendChild(configurationPage);

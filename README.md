@@ -46,14 +46,16 @@ Via [Youtrack](https://w0lf3n.youtrack.cloud) von jetbrains.com
 * [Documentation](https://pixijs.download/dev/docs/index.html)
 * [Examples](https://pixijs.io/examples/#/graphics/simple.js)
 * [Tutorial](https://www.pixijselementals.com/)
-### Sound
-* howler.js
+
+<!-- * howler.js
   * easy and reliable audio library
   * [Homepage](https://howlerjs.com/)
-  * [Documentation](https://github.com/goldfire/howler.js#documentation)
-* PixiJS Sound
-  * [Repository](https://github.com/pixijs/sound)
-  * [Demo](https://pixijs.io/sound/examples/demo.html)
+  * [Documentation](https://github.com/goldfire/howler.js#documentation) -->
+### PixiJS Sound
+* WebAudio API playback library, with filters. Modern audio playback for modern browsers.
+* Open source
+* [Repository](https://github.com/pixijs/sound)
+* [Demo](https://pixijs.io/sound/examples/demo.html)
 ## Testing
 ### Cypress
 * Front end testing tool for unit tests and end-to-end tests
