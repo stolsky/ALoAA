@@ -1,7 +1,5 @@
-/* globals PIXI */
-
-// import * as PIXI from "pixi.js";
-// import "@pixi/math-extras";
+import { Point } from "pixi.js";
+import "@pixi/math-extras";
 
 /**
  *
@@ -11,8 +9,8 @@
  * @returns {{ x: number, y: number }}
  */
 const add = (point1, point2) => {
-    const pixiPoint1 = new PIXI.Point(point1.x, point1.y);
-    const pixiPoint2 = new PIXI.Point(point2.x, point2.y);
+    const pixiPoint1 = new Point(point1.x, point1.y);
+    const pixiPoint2 = new Point(point2.x, point2.y);
     const { x, y } = pixiPoint1.add(pixiPoint2);
     return { x, y };
 };
@@ -34,7 +32,7 @@ const heading = (point) => Math.atan2(point.y, point.x);
  * @returns {number}
  */
 const magnitude = (point) => {
-    const pixiPoint = new PIXI.Point(point.x, point.y);
+    const pixiPoint = new Point(point.x, point.y);
     return pixiPoint.magnitude();
 };
 
@@ -46,7 +44,7 @@ const magnitude = (point) => {
  * @returns {{ x: number, y: number }}
  */
 const multiplyScalar = (point, scalar) => {
-    const pixiPoint = new PIXI.Point(point.x, point.y);
+    const pixiPoint = new Point(point.x, point.y);
     const { x, y } = pixiPoint.multiplyScalar(scalar);
     return { x, y };
 };
@@ -61,7 +59,7 @@ const normalize = (point) => {
     if (point.x === 0 && point.y === 0) {
         return { x: 0, y: 0 };
     }
-    const pixiPoint = new PIXI.Point(point.x, point.y);
+    const pixiPoint = new Point(point.x, point.y);
     const { x, y } = pixiPoint.normalize();
     return { x, y };
 };
@@ -74,7 +72,7 @@ const normalize = (point) => {
  * @returns {{ x: number, y: number }}
  */
 const limit = (point, maximum) => {
-    let pixiPoint = new PIXI.Point(point.x, point.y);
+    let pixiPoint = new Point(point.x, point.y);
     const magnitudeSquared = pixiPoint.magnitudeSquared();
     if (magnitudeSquared > maximum * maximum) {
         pixiPoint = pixiPoint.multiplyScalar(1 / Math.sqrt(magnitudeSquared)) // normalize it
@@ -95,7 +93,7 @@ const setMagnitude = (point, length) => {
     if (point.x === 0 && point.y === 0) {
         return { x: 0, y: 0 };
     }
-    const pixiPoint = new PIXI.Point(point.x, point.y);
+    const pixiPoint = new Point(point.x, point.y);
     const { x, y } = pixiPoint.normalize().multiplyScalar(length);
     return { x, y };
 };
@@ -108,8 +106,8 @@ const setMagnitude = (point, length) => {
  * @returns {{ x: number, y: number}}
  */
 const substract = (point1, point2) => {
-    const pixiPoint = new PIXI.Point(point1.x, point1.y);
-    const { x, y } = pixiPoint.subtract(new PIXI.Point(point2.x, point2.y));
+    const pixiPoint = new Point(point1.x, point1.y);
+    const { x, y } = pixiPoint.subtract(new Point(point2.x, point2.y));
     return { x, y };
 };
 

@@ -1,4 +1,4 @@
-/* globals PIXI */
+import { Application, Graphics } from "pixi.js";
 
 import Entity from "../simulation/core/Entity.js";
 import addDrag from "./drag.js";
@@ -6,7 +6,7 @@ import addZoom from "./zoom.js";
 import { ClassType } from "../simulation/core/Types.js";
 import { close as closeObserverPanel, open as openObserverPanel } from "../gui/components/ObserverPanel.js";
 
-let app = new PIXI.Application();
+let app = new Application();
 
 /**
  * @type {{ element: Entity, graphic: PIXI.Graphics }}
@@ -20,7 +20,7 @@ const Observe = { element: null, graphic: null };
 const addElement = (element) => {
     // TODO how to avoid instanceof here?
     if (element instanceof Entity) {
-        const graphic = new PIXI.Graphics();
+        const graphic = new Graphics();
         graphic.interactive = true;
         graphic.cursor = "pointer";
         graphic.on("pointerdown", (event) => {
@@ -54,7 +54,7 @@ const addElement = (element) => {
 const createRenderer = (parentContainer) => {
     // TODO how to avoid instanceof here?
     if (parentContainer instanceof HTMLDivElement) {
-        app = new PIXI.Application({ resizeTo: parentContainer, autoResize: true, resolution: devicePixelRatio, autoStart: false });
+        app = new Application({ resizeTo: parentContainer, autoResize: true, resolution: devicePixelRatio, autoStart: false });
         parentContainer.appendChild(app.view);
         // TODO store drag object and prevent dragging if following
         addDrag(app);
@@ -66,7 +66,7 @@ const getObservedEntity = () => Observe;
 
 const loop = (method) => {
     // TODO how to avoid instanceof here?
-    if (app instanceof PIXI.Application && method instanceof Function) {
+    if (app instanceof Application && method instanceof Function) {
         app.ticker.add(() => {
             // console.log("pivot", app.stage.pivot.x, app.stage.pivot.y);
             // console.log("position", app.stage.position.x, app.stage.position.y);
@@ -84,14 +84,14 @@ const loop = (method) => {
 
 const pause = () => {
     // TODO how to avoid instanceof here?
-    if (app instanceof PIXI.Application) {
+    if (app instanceof Application) {
         app.stop();
     }
 };
 
 const play = () => {
     // TODO how to avoid instanceof here?
-    if (app instanceof PIXI.Application && !app.ticker.started) {
+    if (app instanceof Application && !app.ticker.started) {
         app.start();
     }
 };
@@ -101,7 +101,7 @@ const removeElement = (element) => {
     if (element instanceof Entity) {
         const { graphics } = element;
         // TODO how to avoid instanceof here?
-        if (graphics instanceof PIXI.Graphics) {
+        if (graphics instanceof Graphics) {
             graphics.clear();
             app.stage.removeChild(graphics);
         }

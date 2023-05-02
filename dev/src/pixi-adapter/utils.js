@@ -1,4 +1,4 @@
-/* globals PIXI */
+import { Color } from "pixi.js";
 
 /** Converts a hexadecimal number to a rgb color string.
  *
@@ -11,7 +11,7 @@
  *
  * @returns {string} rgb string, like "255,100,0"
  */
-const hexToRGB = (hex) => PIXI.utils.hex2rgb(hex).map((part) => part * 255).join(",");
+const hexToRGB = (hex) => new Color(hex).toRgbArray().map((part) => part * 255).join(",");
 
 export {
     hexToRGB

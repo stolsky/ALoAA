@@ -1,8 +1,8 @@
-/* globals PIXI */
+import { sound } from "@pixi/sound";
 
-const addMusic = (id, file) => PIXI.sound.add(id, file);
+const addMusic = (id, file) => sound.add(id, file);
 
-const playMusic = (id) => PIXI.sound.play(id);
+const playMusic = (id) => sound.play(id);
 
 export {
     addMusic,

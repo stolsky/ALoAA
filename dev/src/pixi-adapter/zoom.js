@@ -1,4 +1,4 @@
-/* globals PIXI */
+import { Application } from "pixi.js";
 
 // import Configuration from "../simulation/Configuration.js";
 import Simulation from "../simulation/Simulation.js";
@@ -31,7 +31,7 @@ const Zoom = class {
 
     constructor(application) {
         // TODO how to avoid instanceof here?
-        if (application instanceof PIXI.Application) {
+        if (application instanceof Application) {
 
             this.#container = application.view;
             this.#stage = application.stage;

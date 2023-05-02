@@ -1,4 +1,4 @@
-/* globals PIXI */
+import { Application, Container } from "pixi.js";
 
 import Configuration from "../simulation/Configuration.js";
 import Simulation from "../simulation/Simulation.js";
@@ -7,7 +7,7 @@ const Drag = class {
 
     #dragging = false;
 
-    /** @type {PIXI.Container} */
+    /** @type {Container} */
     #application = null;
 
     /** @type {HTMLCanvasElement} */
@@ -99,7 +99,7 @@ const Drag = class {
 
     constructor(application) {
         // TODO how to avoid instanceof here?
-        if (application instanceof PIXI.Application) {
+        if (application instanceof Application) {
 
             this.#application = application;
             this.#container = application.view;
