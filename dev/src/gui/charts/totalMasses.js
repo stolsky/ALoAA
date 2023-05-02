@@ -1,4 +1,4 @@
-/* globals Chart */
+import { BarController, BarElement, Chart } from "chart.js";
 
 import Configuration from "../../simulation/Configuration.js";
 import { ChartSettings } from "./dataTypes.js";
@@ -71,6 +71,7 @@ const create = (parent) => {
         }
     };
 
+    Chart.register(BarController, BarElement);
     chart = new Chart(
         canvas,
         {

@@ -1,4 +1,6 @@
 import path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const DIRNAME = path.dirname(new URL(import.meta.url).pathname);
 
@@ -10,6 +12,10 @@ export default () => ({
                 test: /\.ts?$/,
                 use: "ts-loader",
                 exclude: /node-modules/
+            },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
             }
         ]
     },
@@ -25,5 +31,11 @@ export default () => ({
         static: path.join(DIRNAME, "../", "dist"),
         compress: true,
         port: 4000
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: "ALoAA"
+        }),
+        new MiniCssExtractPlugin()
+    ]
 });

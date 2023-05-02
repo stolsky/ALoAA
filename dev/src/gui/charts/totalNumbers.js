@@ -1,4 +1,4 @@
-/* globals Chart */
+import { Chart, CategoryScale, LinearScale, LineController, LineElement, PointElement } from "chart.js";
 
 import { ChartSettings } from "./dataTypes.js";
 import createElement from "../utilities/create.js";
@@ -107,6 +107,7 @@ const create = (parent) => {
         }
     };
 
+    Chart.register(CategoryScale, LinearScale, LineController, LineElement, PointElement);
     chart = new Chart(
         canvas,
         {
