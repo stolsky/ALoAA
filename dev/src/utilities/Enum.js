@@ -9,7 +9,7 @@
  *
  * @returns the Enum-like object with the method `has(name:string) -> boolean` to check if a parameter is a member of that object
  */
-const createEnum = (...symbols) => {
+const create = (...symbols) => {
 
     // matches if the whole word consists only of latin alphabet (a-z, A-Z, 0-9) and underscore
     const pattern = /^\w+$/;
@@ -36,4 +36,4 @@ const createEnum = (...symbols) => {
     return Object.freeze({ ...props });
 };
 
-export default createEnum;
+export default create;
